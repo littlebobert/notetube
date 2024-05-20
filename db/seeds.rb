@@ -7,6 +7,11 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+require 'google/apis/youtube_v3'
+
+Note.destroy_all
+User.destroy_all
+
 user = User.create!(email: "test@gmail.com", password: "password")
 Note.create!(
   title: "sean's video",
@@ -44,3 +49,26 @@ Note.create!(
 )
 
 puts "created #{User.count} users and #{Note.count} notes"
+
+# Replace with your API key
+API_KEY = ENV["YOUTUBE_API_KEY"]
+puts API_KEY
+
+# Initialize the YouTube API client
+youtube = Google::Apis::YoutubeV3::YouTubeService.new
+youtube.key = API_KEY
+
+# Replace with the video ID for which you want to get captions
+VIDEO_ID = '3gb-ZkVRemQ'
+
+# List the caption tracks
+begin
+  response = youtube.list_captions('id,snippet', VIDEO_ID)
+
+  response.items.each do |caption|
+    puts "Caption ID: #{caption.id}, Language: #{caption.snippet.language}, Name: #{caption.snippet.name}"
+    puts caption.snippet.text
+  end
+rescue Google::Apis::Error => e
+  puts "An error occurred: #{e}"
+end
