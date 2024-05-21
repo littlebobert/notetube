@@ -5,6 +5,7 @@ class NotesController < ApplicationController
   def create
     video_url = params[:v]
     note = Note.where(video_url: video_url).first
+    puts TranscriptGenerator.new(video_url).call
     if note.nil?
       note = Note.new(video_url: video_url, user: current_user)
       transcript = TranscriptGenerator.new(video_url).call

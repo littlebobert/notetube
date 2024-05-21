@@ -21,4 +21,4 @@ puts "created #{User.count} users and #{Note.count} notes"
 
 # download_captions(video_url)
 
-NoteGenerator.new("https://www.youtube.com/watch?v=3LPJfIKxwWc").call
+# NoteGenerator.new("https://www.youtube.com/watch?v=3LPJfIKxwWc").call

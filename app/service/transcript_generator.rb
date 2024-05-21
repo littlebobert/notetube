@@ -10,11 +10,12 @@ class TranscriptGenerator
 
   def call
     video = YoutubeCaptions::Video.new(id: @url)
-    # captions = video.captions(lang: "en")
+    p video.info
     captions = video.captions(lang: "en")
+    p video.captions
     result = ""
     captions.each do |caption|
-      result = result + caption["__content__"] unless caption["__content__"].nil?
+      result = result + " " + caption["__content__"] unless caption["__content__"].nil?
     end
     return result
   end
