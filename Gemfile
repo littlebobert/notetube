@@ -77,3 +77,7 @@ group :test do
 end
 
 gem "google-api-client"
+gem "http"
+gem "github-markup"
+gem "redcarpet"
+gem "youtube-captions", :git => "git@github.com:littlebobert/youtube-captions.git", branch: "main"
