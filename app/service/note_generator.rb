@@ -10,7 +10,7 @@ def fetch_notes(transcript)
     'Authorization' => "Bearer #{api_key}"
   }
 
-  prompt = "We're building a website for generating lecture notes from a YouTube lecture video transcript. Please generate lecture notes from the following transcript: #{transcript}"
+  prompt = "We're building a website for generating lecture notes from a YouTube lecture video transcript. Please generate lecture notes from the following transcript. Use brackets, e.g. [] around any formulas. Here is the transcript: #{transcript}"
 
   # puts "OpenAI prompt: #{prompt}"
 
