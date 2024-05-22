@@ -1,6 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-6">
+      <div class="mt-3"><h2><%= @note.title %></h3></div>
       <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= @video_id %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       <div>
         <% if @note.is_bookmarked? %>
@@ -15,7 +16,6 @@
           <% end %>
         <% end %>
       </div>
-      <div class="mt-3"><%= @note.title %></div>
 
     </div>
     <div class="col-6">
