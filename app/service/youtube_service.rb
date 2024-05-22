@@ -16,7 +16,8 @@ class YoutubeService
       if video
         {
           title: video.snippet.title,
-          thumbnail: video.snippet.thumbnails.default.url
+          description: video.snippet.description,
+          thumbnail: video.snippet.thumbnails.high.url
         }
       else
         nil
