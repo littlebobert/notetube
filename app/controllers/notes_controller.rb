@@ -13,22 +13,25 @@ def extract_video_id(url)
 end
 
 def transform_bracketed_text(markdown)
-  # Define a regex pattern to match text not inside brackets
-  pattern = /([^\[]+)(?:\[[^\]]*?\])*/m
-  # Use gsub to find and transform all non-bracketed text
-  markdown = markdown.gsub(pattern) do |match|
-    GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, match)
+  # Define a regex pattern to match text not inside brackets (first group) and text inside brackets (second group):
+  pattern = /([^\[]+)(\[[^\]]*?\])*/m
+  matches = markdown.scan(pattern)
+  result = ""
+  matches.each do |match|
+    regular_markdown = match[0]
+    # Hack to get rid of the \ that ChatGPT is adding before all opening brackets for formulas:
+    regular_markdown = regular_markdown.gsub("\\", "")
+    html = GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, regular_markdown)
+    result << html
+    formula_with_brackets = match[1]
+    if formula_with_brackets
+      formula = formula_with_brackets[1..-2]
+      formula_with_math_jax_directives = "$$\\begin{gather}" + formula + "\\\\ \\notag \\end{gather}$$"
+      result << formula_with_math_jax_directives
+    end
   end
 
-  # Now iterate over all bracketed text
-  pattern = /\[(.*?)\]/m
-  markdown = markdown.gsub(pattern) do |match|
-    inner_text = match[1..-2]
-    transformed_text = "$$\\begin{gather}" + inner_text + "\\\\ \\notag \\end{gather}$$"
-    transformed_text
-  end
-
-  return markdown
+  return result
 end
 
 class NotesController < ApplicationController
