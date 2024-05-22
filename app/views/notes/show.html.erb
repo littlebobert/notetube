@@ -13,7 +13,7 @@
         </li>
       </ul>
       <div>
-        <%= raw(@memo) %>
+        <%= params[:show] == "notes" ? raw(@memo) : @note.transcript %>
       </div>
     </div>
   </div>
