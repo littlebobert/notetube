@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   resources :notes, only: [:index, :show, :create, :update]
+
+
 end

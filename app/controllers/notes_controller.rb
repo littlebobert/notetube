@@ -53,4 +53,17 @@ class NotesController < ApplicationController
     @video_id = extract_video_id(@note.video_url)
     @memo = transform_bracketed_text(@note.memo)
   end
+
+  def update
+    @note = Note.find(params[:id])
+    @note.update(note_params)
+    @note.save
+    redirect_to note_path(@note)
+  end
+
+  private
+
+  def note_params
+    params.require(:note).permit(:is_bookmarked)
+  end
 end
