@@ -37,7 +37,7 @@ a {
   right: 0px;
   width: 50%;
   height: 100%;
-  background: $green;
+  background: linear-gradient(to right, #ffe47a, #3d7eaa);;
   -webkit-clip-path: polygon(52% 0, 100% 0, 100% 100%, 0% 100%);
 clip-path: polygon(52% 0, 100% 0, 100% 100%, 0% 100%);
   z-index: -1;
@@ -168,6 +168,7 @@ h2 {
 .search-form-control {
   position: absolute;
   width: 800px;
+  border-radius: 96px;
 }
 
 .search-form-control .btn {
