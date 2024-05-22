@@ -1,0 +1,14 @@
+<p>This is bookmark page</p>
+
+<div class="bookmark-list">
+<% @notes.each do |note| %>
+  <div class="video-card">
+    <div class="video-container">
+      <img src=<%= note.thumbnail_url %> alt="Thumbnail of the video">
+    </div>
+    <div class="video-info">
+      <h3><%= note.title %></h3>
+    </div>
+  </div>
+<% end %>
+</div>
