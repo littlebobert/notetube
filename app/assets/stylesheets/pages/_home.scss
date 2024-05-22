@@ -26,7 +26,7 @@ a {
 #container1{
   height: 600px;
   width: 900px;
-  margin: 15% auto;
+  margin: 5% auto;
   position: relative;
   box-shadow: 4px 10px 20px rgba($onyx, .4)
 }
@@ -42,44 +42,6 @@ a {
 clip-path: polygon(52% 0, 100% 0, 100% 100%, 0% 100%);
   z-index: -1;
   transition: all .8s ease;
-}
-
-/* navigation */
-nav {
-  display: block;
-  float: right;
-  margin: 1em;
-  margin-top: 2.4em;
-  font-family: $regular;
-  font-size: 11px;
-}
-
-.navbar a {
-  padding: 10px;
-  margin-left: 10px;
-  border-radius: 25px;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: $onyx;
-  &:hover {
-    background: $yellow;
-    padding: 10px;
-    border-radius: 25px;
-    transition: all .5s ease;
-  }
-}
-
-.navbar a:last-child {
-  background: $onyx;
-  color: $yellow;
-  padding: 10px;
-  border-radius: 25px;
-  &:hover {
-    color: $onyx;
-    background: $yellow;
-    transition: all .5s ease;
-  }
 }
 
 /* sections */
