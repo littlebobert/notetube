@@ -16,12 +16,12 @@
           <% end %>
         <% end %>
       </div>
-      <div data-controller="read-more" data-read-more-more-text-value="Read more" data-read-more-less-text-value="Read less">
+      <div class="mt-3" data-controller="read-more" data-read-more-more-text-value="Read more" data-read-more-less-text-value="Read less">
         <p class="my-content" data-read-more-target="content">
           <%= @note.video_description %>
         </p>
 
-        <button data-action="read-more#toggle">Read more</button>
+        <button data-action="read-more#toggle" class="btn btn-light">Read more</button>
       </div>
 
     </div>
