@@ -45,7 +45,7 @@ class NotesController < ApplicationController
       # fix me: use save here, not save!
       note.save!
     end
-    redirect_to note_path(note)
+    redirect_to note_path(note, show: "notes")
   end
 
   def show
