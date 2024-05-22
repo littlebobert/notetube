@@ -4,7 +4,17 @@
       <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= @video_id %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
     <div class="col-6">
-      <%= raw(@memo) %>
+      <ul class="list-inline tabs-underlined mt-3">
+        <li>
+          <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" ? "active" : ""}" %>
+        </li>
+        <li>
+          <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}" %>
+        </li>
+      </ul>
+      <div>
+        <%= raw(@memo) %>
+      </div>
     </div>
   </div>
 </div>
