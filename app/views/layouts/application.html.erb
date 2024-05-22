@@ -9,6 +9,11 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
+    <script>
+      window.document.addEventListener("turbo:render", (event) => {
+        MathJax.typeset();
+      });
+    </script>
   </head>
 
   <body><%= render "shared/navbar" %>
