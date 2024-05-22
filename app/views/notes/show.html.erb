@@ -14,10 +14,7 @@ end %>
       <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= extract_video_id(@note.video_url) %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
     <div class="col-6">
-      <div class="math display">
-        <% html = @note.memo %>
-        <%= render html: raw(html) %>
-      </div>
+      <%= raw(@note.memo) %>
     </div>
   </div>
 </div>
