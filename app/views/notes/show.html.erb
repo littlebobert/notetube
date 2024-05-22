@@ -1,20 +1,28 @@
 <div class="container">
   <div class="row">
     <div class="col-6">
+      <div class="mt-3"><h2><%= @note.title %></h3></div>
       <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= @video_id %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-      <% if @note.is_bookmarked? %>
-        <%= simple_form_for @note do |f| %>
-          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false } %>
-          <%= f.submit "Remove Bookmark", class: "btn btn-primary" %>
+      <div>
+        <% if @note.is_bookmarked? %>
+          <%= simple_form_for @note do |f| %>
+            <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false } %>
+            <%= f.submit "Remove Bookmark", class: "btn btn-primary" %>
+          <% end %>
+        <% else %>
+          <%= simple_form_for @note do |f| %>
+            <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true } %>
+            <%= f.submit "Bookmark", class: "btn btn-primary" %>
+          <% end %>
         <% end %>
-      <% else %>
-        <%= simple_form_for @note do |f| %>
-          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true } %>
-          <%= f.submit "Bookmark", class: "btn btn-primary" %>
-        <% end %>
-      <% end %>
+      </div>
+      <div class="mt-3" data-controller="read-more" data-read-more-more-text-value="Read more" data-read-more-less-text-value="Read less">
+        <p class="my-content" data-read-more-target="content">
+          <%= @note.video_description %>
+        </p>
 
+        <button data-action="read-more#toggle" class="btn btn-light">Read more</button>
+      </div>
 
     </div>
     <div class="col-6">
