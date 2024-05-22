@@ -1,20 +1,10 @@
-<% def extract_video_id(url)
-  # Define the regular expression pattern for YouTube video IDs
-  regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
-
-  # Match the regular expression with the provided URL
-  match = url.match(regex)
-
-  # If a match is found, return the video ID, otherwise return nil
-  match ? match[1] : nil
-end %>
 <div class="container">
   <div class="row">
     <div class="col-6">
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= extract_video_id(@note.video_url) %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= @video_id %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
     <div class="col-6">
-      <%= raw(@note.memo) %>
+      <%= raw(@memo) %>
     </div>
   </div>
 </div>
