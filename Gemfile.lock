@@ -1,18 +1,18 @@
 GIT
-  remote: git@github.com:littlebobert/youtube-captions.git
-  revision: a297c7bf52c749bae5f87b0b90bbfb38f5069a3d
-  branch: main
-  specs:
-    youtube-captions (1.0.0)
-      httparty
-
-GIT
   remote: https://github.com/heartcombo/simple_form.git
   revision: ae12516978a07b75bb3f929829170b7f5716f53c
   specs:
     simple_form (5.3.0)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
+
+GIT
+  remote: https://github.com/littlebobert/youtube-captions.git
+  revision: a297c7bf52c749bae5f87b0b90bbfb38f5069a3d
+  branch: main
+  specs:
+    youtube-captions (1.0.0)
+      httparty
 
 GEM
   remote: https://rubygems.org/
@@ -223,7 +223,7 @@ GEM
     marcel (1.0.4)
     matrix (0.4.2)
     mini_mime (1.1.5)
-    minitest (5.23.0)
+    minitest (5.23.1)
     msgpack (1.7.2)
     multi_json (1.15.0)
     multi_xml (0.7.1)
