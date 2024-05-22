@@ -1,0 +1,25 @@
+/* app/assets/stylesheets/components/button_styles.css */
+
+/* app/assets/stylesheets/components/button_styles.css */
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* Adjust the size as needed */
+  height: 40px; /* Adjust the size as needed */
+  border-radius: 50%;
+  border: 2px solid black; /* Add a white border */
+  background-color: transparent;
+  color: black;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.btn-icon:hover {
+  transform: scale(1.1);
+}
+
+.btn-icon i {
+  font-size: 20px; /* Adjust the size as needed */
+}
