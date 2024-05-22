@@ -1,14 +1,18 @@
-<p>This is bookmark page</p>
+<p>This is the bookmark page</p>
 
-<div class="bookmark-list">
-<% @notes.each do |note| %>
-  <div class="video-card">
-    <div class="video-container">
-      <img src=<%= note.thumbnail_url %> alt="Thumbnail of the video">
-    </div>
-    <div class="video-info">
-      <h3><%= note.title %></h3>
-    </div>
+<div class="bookmark-page">
+  <div class="bookmark-list">
+    <% @notes.each do |note| %>
+      <%= link_to note_path(note), class: 'video-card-link' do %>
+        <div class="video-card">
+          <div class="video-container">
+            <img src="<%= note.thumbnail_url %>" alt="Thumbnail of the video">
+          </div>
+          <div class="video-info">
+            <h3><%= note.title %></h3>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
   </div>
-<% end %>
 </div>
