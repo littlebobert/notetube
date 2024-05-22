@@ -46,6 +46,7 @@ class NotesController < ApplicationController
       if video_details
         note.title = video_details[:title]
         note.thumbnail_url = video_details[:thumbnail]
+        note.video_description = video_details[:description]
       end
       transcript = TranscriptGenerator.new(video_url).call
       note.transcript = transcript
