@@ -7,12 +7,16 @@
         <% if @note.is_bookmarked? %>
           <%= simple_form_for @note do |f| %>
             <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false } %>
-            <%= f.submit "Remove Bookmark", class: "btn btn-primary" %>
+            <%= button_tag type: 'submit', class: "btn-icon" do%>
+              <i class="fas fa-check"></i>
+            <% end %>
           <% end %>
         <% else %>
           <%= simple_form_for @note do |f| %>
             <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true } %>
-            <%= f.submit "Bookmark", class: "btn btn-primary" %>
+            <%= button_tag type: 'submit', class: "btn-icon" do %>
+              <i class="fas fa-plus"></i>
+            <% end %>
           <% end %>
         <% end %>
       </div>
