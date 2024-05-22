@@ -6,12 +6,12 @@
       <% if @note.is_bookmarked? %>
         <%= simple_form_for @note do |f| %>
           <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false } %>
-          <%= f.submit "remove bookmark", class: "btn btn-primary" %>
+          <%= f.submit "Remove Bookmark", class: "btn btn-primary" %>
         <% end %>
       <% else %>
         <%= simple_form_for @note do |f| %>
           <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true } %>
-          <%= f.submit "bookmark", class: "btn btn-primary" %>
+          <%= f.submit "Bookmark", class: "btn btn-primary" %>
         <% end %>
       <% end %>
 
@@ -20,14 +20,14 @@
     <div class="col-6">
       <ul class="list-inline tabs-underlined mt-3">
         <li>
-          <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" ? "active" : ""}" %>
+          <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}" %>
         </li>
         <li>
           <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}" %>
         </li>
       </ul>
       <div>
-        <%= params[:show] == "notes" ? raw(@memo) : @note.transcript %>
+        <%= params[:show] == "notes" || params[:show].nil? ? raw(@memo) : @note.transcript %>
       </div>
     </div>
   </div>
