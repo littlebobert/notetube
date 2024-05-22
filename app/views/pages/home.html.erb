@@ -1,2 +1,37 @@
-<h1>Pages#home</h1>
-<form method="POST" action="/notes"><input type="text" id="v" name="v" placeholder="paste a YouTube link"><input type="submit"></form>
+<div id="container1">
+  <nav class="navbar">
+    <a>Sign up</a>
+    <a>Log in</a>
+    <a>Add to Chrome</a>
+  </nav>
+  <div id="background"></div>
+
+  <div class="section">
+   <h1 id="title" class="margin-top"> NoteTube </h1> <br> <br>
+   <h2 class="less-margin"> generate <span class="highlight">notes</span> from any <span class="highlight">YouTube</span> lecture </h2>
+
+    <br>
+
+    <form novalidate="novalidate" class="simple_form search" action="/notes" accept-charset="UTF-8" method="post">
+      <div class="search-form-control form-group">
+    <input class="form-control string required" type="text" name="v" id="v" placeholder="paste a YouTube link">
+    <button name="button" type="submit" class="btn btn-flat">
+      <i class="fas fa-search"></i> Search
+    </button>
+    </div>
+  </form>
+
+    <br>
+
+  </div>
+</div>
+
+<script>
+  let background = document.getElementById('background');
+  let title = document.getElementById('title');
+
+function fuschiaColor() {
+  background.style.backgroundColor = '#AEC6CF';
+  title.style.color= '#AEC6CF';
+}
+</script>
