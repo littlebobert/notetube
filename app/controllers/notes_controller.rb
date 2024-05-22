@@ -1,6 +1,17 @@
 require 'github/markup'
 # require 'youtube-captions'
 
+def extract_video_id(url)
+  # Define the regular expression pattern for YouTube video IDs
+  regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+
+  # Match the regular expression with the provided URL
+  match = url.match(regex)
+
+  # If a match is found, return the video ID, otherwise return nil
+  match ? match[1] : nil
+end
+
 def transform_bracketed_text(markdown)
   # Define a regex pattern to match text not inside brackets
   pattern = /([^\[]+)(?:\[[^\]]*?\])*/m
@@ -28,8 +39,9 @@ class NotesController < ApplicationController
     if note.nil?
       note = Note.new(video_url: video_url, user: current_user)
       transcript = TranscriptGenerator.new(video_url).call
+      note.transcript = transcript
       memo = NoteGenerator.new(transcript).call
-      note.memo = transform_bracketed_text(memo)
+      note.memo = memo
       # fix me: use save here, not save!
       note.save!
     end
@@ -38,5 +50,7 @@ class NotesController < ApplicationController
 
   def show
     @note = Note.find(params[:id])
+    @video_id = extract_video_id(@note.video_url)
+    @memo = transform_bracketed_text(@note.memo)
   end
 end
