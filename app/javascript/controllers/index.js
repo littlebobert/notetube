@@ -13,4 +13,5 @@ eagerLoadControllersFrom("controllers", application)
 import { Application } from '@hotwired/stimulus'
 import ReadMore from '@stimulus-components/read-more'
 
+
 application.register('read-more', ReadMore)

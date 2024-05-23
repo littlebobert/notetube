@@ -6,14 +6,14 @@
         <% if @note.is_bookmarked? %>
           <%= simple_form_for @note do |f| %>
             <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false } %>
-            <%= button_tag type: 'submit', class: "btn-icon" do%>
-              <i class="fas fa-check"></i>
+            <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Remove bookmark" do %>
+                <i class="fas fa-check"></i>
             <% end %>
           <% end %>
         <% else %>
           <%= simple_form_for @note do |f| %>
             <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true } %>
-            <%= button_tag type: 'submit', class: "btn-icon" do %>
+            <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Bookmark" do %>
               <i class="fas fa-plus"></i>
             <% end %>
           <% end %>
