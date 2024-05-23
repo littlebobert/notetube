@@ -1,7 +1,6 @@
-<p>This is the bookmark page</p>
-
-<div class="bookmark-page">
+<div class="bookmark-page mt-3">
   <div class="bookmark-list">
+    <%= "No Bookmarks" if @notes.count.zero? %>
     <% @notes.each do |note| %>
       <%= link_to note_path(note), class: 'video-card-link' do %>
         <div class="video-card">
