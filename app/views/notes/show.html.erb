@@ -42,8 +42,45 @@
         <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}" %>
       </li>
     </ul>
-    <div>
-      <%= params[:show] == "notes" || params[:show].nil? ? raw(@memo) : @note.transcript %>
-    </div>
+      <div>
+        <% if params[:show] == "notes" || params[:show].nil? %>
+        <strong class="h3" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Generate PDF"><i onclick="printElement(document.getElementById('notes-or-transcript'));" class="fa-solid fa-file-pdf"></i></strong>
+        <% end %>
+        <strong class="h3" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Copy"><i class="fa-solid fa-copy" onclick="copyElement(document.getElementById('notes-or-transcript'))"></i></strong>
+        <div id="notes-or-transcript">
+          <%= params[:show] == "notes" || params[:show].nil? ? raw(@memo) : @note.transcript %>
+        </div>
+      </div>
   </div>
 </div>
+
+<script>
+function copyElement(element) {
+  var selection = window.getSelection();
+  var range = document.createRange();
+  range.setStartBefore(element);
+  range.setEndAfter(element);
+  selection.removeAllRanges();
+  selection.addRange(range);
+
+  document.execCommand('copy');
+
+  selection.removeAllRanges();
+}
+
+function printElement(element) {
+    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write('<h1>' + document.title  + '</h1>');
+    mywindow.document.write(element.innerHTML);
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+    mywindow.print();
+    mywindow.close();
+}
+</script>
