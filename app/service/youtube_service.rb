@@ -17,7 +17,10 @@ class YoutubeService
         {
           title: video.snippet.title,
           description: video.snippet.description,
-          thumbnail: video.snippet.thumbnails.high.url
+          thumbnail: video.snippet.thumbnails.high.url,
+          view_count: video.statistics.view_count,
+          channel_title: video.snippet.channel_title,
+          published_at: video.snippet.published_at
         }
       else
         nil
