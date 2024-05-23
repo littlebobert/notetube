@@ -255,6 +255,7 @@ GEM
       racc (~> 1.4)
     orm_adapter (0.5.0)
     os (1.1.4)
+    pandoc-ruby (2.1.10)
     pg (1.5.6)
     popper_js (2.11.8)
     psych (5.1.2)
@@ -400,6 +401,7 @@ DEPENDENCIES
   http
   importmap-rails
   jbuilder
+  pandoc-ruby
   pg (~> 1.1)
   puma (>= 5.0)
   pundit

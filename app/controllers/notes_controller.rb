@@ -67,6 +67,12 @@ class NotesController < ApplicationController
   def show
     @note = Note.find(params[:id])
     authorize @note
+    if params.key?("convert_to_pdf")
+      @converter = PandocRuby.new(transform_bracketed_text(@note.memo), from: :markdown, to: :pdf)
+      foo = @converter.convert
+      send_data foo, type: 'application/pdf', disposition: 'inline'
+      return
+    end
     @video_id = extract_video_id(@note.video_url)
     @memo = transform_bracketed_text(@note.memo)
   end
