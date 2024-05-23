@@ -34,29 +34,21 @@ def transform_formulas(markdown)
 end
 
 def transform_bracketed_text(markdown)
-  puts "<<< before code conversion"
   code_matches = markdown.scan(/([^`]*)`{0,3}([^`]*)`{0,3}([^`]*)/m)
   html = ""
-  puts "code_matches: #{code_matches}"
   num_code_blocks = 0
   code_matches.each do |code_match|
-    puts "code_match: #{code_match}"
     if code_match[0].present?
-      puts "before code: #{code_match[0]}"
       html << transform_formulas(code_match[0])
     end
     if code_match[1].present?
       num_code_blocks += 1
-      puts "code block: #{code_match[1]}"
       html << "<div class='text-end code-wrapper'><div onclick=\"copyElement(document.getElementById('code-block-#{num_code_blocks}'));\" class='copy-code-button text-justify-right'><span data-controller='tooltip' data-bs-toggle='tooltip' data-bs-position='bottom' title='Copy'><i class='fa-solid fa-copy'></i> Copy<span></div><pre id='code-block-#{num_code_blocks}' class='code-block'>#{code_match[1]}</pre></div>"
     end
     if code_match[2].present?
-      puts "after code: #{code_match[2]}"
       html << transform_formulas(code_match[2])
     end
   end
-  puts "html: #{html}"
-
   return html
 end
 
