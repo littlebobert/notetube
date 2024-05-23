@@ -39,3 +39,28 @@
 #column2::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
+
+.code-wrapper {
+  color: white;
+  background-color: rgb(70, 70, 70);
+  border-radius: 8px;
+  margin: 4px;
+  padding-top: 8px;
+  margin-right: 8px;
+  padding-right: 0px;
+}
+
+.code-block {
+  background-color: black;
+  color: white;
+  padding: 16px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  text-align: left;
+}
+
+.copy-code-button {
+  padding-right: 8px;
+  padding-bottom: 4px;
+  color: lightgray;
+}

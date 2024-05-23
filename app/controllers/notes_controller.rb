@@ -21,7 +21,23 @@ def transform_bracketed_text(markdown)
     regular_markdown = match[0]
     # Hack to get rid of the \ that ChatGPT is adding before all opening brackets for formulas:
     regular_markdown = regular_markdown.gsub("\\", "")
-    html = GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, regular_markdown)
+    puts "<<< before code conversion"
+    code_matches = regular_markdown.scan(/([^`]*)`{1,3}([^`]+)`{1,3}([^`]+)/m)
+    html = ""
+    puts "code_matches: #{code_matches}"
+    num_code_blocks = 0
+    code_matches.each do |code_match|
+      puts "code_match: #{code_match}"
+      before_code = code_match[0]
+      html << before_code
+      html << "<div class='text-end code-wrapper'><div onclick=\"copyElement(document.getElementById('code-block-#{num_code_blocks}'));\" class='copy-code-button text-justify-right'><span data-controller='tooltip' data-bs-toggle='tooltip' data-bs-position='bottom' title='Copy'><i class='fa-solid fa-copy'></i> Copy<span></div><pre id='code-block-#{num_code_blocks}' class='code-block'>#{code_match[1]}</pre></div>"
+      if code_match[2].present?
+        html << code_match[2]
+      end
+      num_code_blocks += 1
+    end
+    puts "html: #{html}"
+    html = GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, html)
     result << html
     formula_with_brackets = match[1]
     if formula_with_brackets
@@ -67,6 +83,11 @@ class NotesController < ApplicationController
   def show
     @note = Note.find(params[:id])
     authorize @note
+    if params[:transcript_only]
+      transcript = TranscriptGenerator.new(video_url).beautify_transcript(@note.transcript)
+      render_text transcript
+      return
+    end
     @video_id = extract_video_id(@note.video_url)
     @memo = transform_bracketed_text(@note.memo)
   end
