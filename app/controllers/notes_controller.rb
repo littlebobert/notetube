@@ -38,7 +38,7 @@ class NotesController < ApplicationController
   def create
     video_url = params[:v]
     note = Note.where(video_url: video_url).first
-    puts TranscriptGenerator.new(video_url).call
+    authorize @note
     if note.nil?
       id = extract_video_id(video_url)
       note = Note.new(video_url: video_url, user: current_user)
@@ -61,19 +61,21 @@ class NotesController < ApplicationController
 
   def show
     @note = Note.find(params[:id])
+    authorize @note
     @video_id = extract_video_id(@note.video_url)
     @memo = transform_bracketed_text(@note.memo)
   end
 
   def update
     @note = Note.find(params[:id])
+    authorize @note
     @note.update(note_params)
     @note.save
     redirect_to note_path(@note)
   end
 
   def index
-    @notes = current_user.notes.where(is_bookmarked: true)
+    @notes = policy_scope(Note)
   end
 
   private
