@@ -51,11 +51,11 @@ class NotesController < ApplicationController
         note.channel_name = video_details[:channel_title]
         note.published_at = video_details[:published_at]
       end
-      transcript = TranscriptGenerator.new(video_url).call
-      note.transcript = transcript
-      note.video_id = id
-      memo = NoteGenerator.new(transcript).call
+      ugly_transcript = TranscriptGenerator.new(video_url).call
+      note.transcript = ugly_transcript
+      memo = NoteGenerator.new(ugly_transcript).call
       note.memo = memo
+      note.video_id = id
       # fix me: use save here, not save!
       note.save!
     else

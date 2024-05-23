@@ -22,7 +22,7 @@ class TranscriptGenerator
 
     # Set up the request body
     body = {
-      model: 'gpt-4o',
+      model: 'gpt-3.5-turbo',
       messages: [
         { "role": "user", "content": prompt }
       ],

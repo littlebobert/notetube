@@ -39,7 +39,7 @@
         <i class="fa-solid fa-copy" onclick="copyElement(document.getElementById('notes-or-transcript'))"></i>
       </strong>
       <div id="notes-or-transcript" data-tabs-target="content">
-        <%= params[:show] == "notes" || params[:show].nil? ? raw(@memo) : @note.transcript %>
+        <%= params[:show] == "notes" || params[:show].nil? ? raw(@memo) : simple_format(@note.transcript) %>
       </div>
     </div>
   </div>
