@@ -12,16 +12,16 @@ def extract_video_id(url)
   match ? match[1] : nil
 end
 
-def transform_bracketed_text(markdown)
+def transform_formulas(markdown)
   # Define a regex pattern to match text not inside brackets (first group) and text inside brackets (second group):
   pattern = /([^\[]+)(\[[^\]]*?\])*/m
   matches = markdown.scan(pattern)
   result = ""
   matches.each do |match|
-    regular_markdown = match[0]
+    not_a_formula = match[0]
     # Hack to get rid of the \ that ChatGPT is adding before all opening brackets for formulas:
-    regular_markdown = regular_markdown.gsub("\\", "")
-    html = GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, regular_markdown)
+    not_a_formula = not_a_formula.gsub("\\", "")
+    html = GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, not_a_formula)
     result << html
     formula_with_brackets = match[1]
     if formula_with_brackets
@@ -30,8 +30,26 @@ def transform_bracketed_text(markdown)
       result << formula_with_math_jax_directives
     end
   end
-
   return result
+end
+
+def transform_bracketed_text(markdown)
+  code_matches = markdown.scan(/([^`]*)`{0,3}([^`]*)`{0,3}([^`]*)/m)
+  html = ""
+  num_code_blocks = 0
+  code_matches.each do |code_match|
+    if code_match[0].present?
+      html << transform_formulas(code_match[0])
+    end
+    if code_match[1].present?
+      num_code_blocks += 1
+      html << "<div class='text-end code-wrapper'><div onclick=\"copyElement(document.getElementById('code-block-#{num_code_blocks}'));\" class='copy-code-button text-justify-right'><span data-controller='tooltip' data-bs-toggle='tooltip' data-bs-position='bottom' title='Copy'><i class='fa-solid fa-copy'></i> Copy<span></div><pre id='code-block-#{num_code_blocks}' class='code-block'>#{code_match[1]}</pre></div>"
+    end
+    if code_match[2].present?
+      html << transform_formulas(code_match[2])
+    end
+  end
+  return html
 end
 
 class NotesController < ApplicationController
