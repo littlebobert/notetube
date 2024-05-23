@@ -83,11 +83,6 @@ class NotesController < ApplicationController
   def show
     @note = Note.find(params[:id])
     authorize @note
-    if params[:transcript_only]
-      transcript = TranscriptGenerator.new(video_url).beautify_transcript(@note.transcript)
-      render_text transcript
-      return
-    end
     @video_id = extract_video_id(@note.video_url)
     @memo = transform_bracketed_text(@note.memo)
   end
