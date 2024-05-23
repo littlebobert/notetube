@@ -11,10 +11,9 @@ $green: #D1E8E2;
 $darkgray: #333333;
 $blue: #AEC6CF;
 
-@import url('https://fonts.googleapis.com/css?family=Work+Sans:800|Open+Sans&effect=anaglyph');
-
-$big: 'Work Sans', sans-serif;
-$regular: 'Open Sans', sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Montserrat:regular,medium,semibold,500,600,700,800');
+$big: 'Montserrat', sans-serif;
+$regular: 'Montserrat', sans-serif;
 
 body {
   background: $white;
@@ -23,12 +22,13 @@ body {
 a {
   cursor: pointer;
 }
+
 #container1{
   height: 600px;
   width: 900px;
   margin: 5% auto;
   position: relative;
-  box-shadow: 4px 10px 20px rgba($onyx, .4)
+  box-shadow: 4px 10px 20px rgba($onyx, .4);
 }
 
 #background {
@@ -116,27 +116,16 @@ a {
   text-transform: uppercase;
   font-size: 3.5em;
   text-shadow: 2px 1px 0px rgba($blue, .9);
-  transition: all 1s ease;
+  width: fit-content;
 }
 
 #subtitle {
   font-size: 1.2em;
   text-transform: uppercase;
-  margin-top: -20px;
   letter-spacing: 3px;
   font-family: $regular;
   color: $onyx;
-}
-
-.look {
-  position: absolute;
-  color: $white;
-  opacity: .4;
-  right: 5px;
-  top: 185px;
-  font-size: 2.3em;
-  white-space: nowrap;
-  transform: rotate(90deg);
+  width: fit-content;
 }
 
 .highlight {
@@ -145,10 +134,6 @@ a {
 
 .margin-top {
   margin-top: 135px;
-}
-
-.less-margin {
-  margin-top: -35px;
 }
 
 /*
@@ -185,4 +170,27 @@ a {
   border: 1px solid #1EDD88;
   outline: none !important;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.typing-demo {
+  width: 58ch;
+  animation: typing 2s steps(34), blink .5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+  letter-spacing: 3px;
+  font-family: $regular;
+  color: $onyx;
+}
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent
+  }
 }
