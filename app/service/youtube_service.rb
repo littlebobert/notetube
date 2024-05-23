@@ -11,7 +11,7 @@ class YoutubeService
     youtube = Google::Apis::YoutubeV3::YouTubeService.new
     youtube.key = YOUTUBE_API_KEY
     begin
-      response = youtube.list_videos('snippet', id: video_id)
+      response = youtube.list_videos('snippet,statistics', id: video_id)
       video = response.items.first
       if video
         {

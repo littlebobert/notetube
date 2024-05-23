@@ -38,10 +38,10 @@ class NotesController < ApplicationController
   def create
     video_url = params[:v]
     note = Note.where(video_url: video_url).first
-    puts TranscriptGenerator.new(video_url).call
     if note.nil?
       id = extract_video_id(video_url)
       note = Note.new(video_url: video_url, user: current_user)
+      authorize note
       video_details = YoutubeService.get_video_details(video_url)
       if video_details
         note.title = video_details[:title]
@@ -55,25 +55,29 @@ class NotesController < ApplicationController
       note.memo = memo
       # fix me: use save here, not save!
       note.save!
+    else
+      authorize note
     end
     redirect_to note_path(note, show: "notes")
   end
 
   def show
     @note = Note.find(params[:id])
+    authorize @note
     @video_id = extract_video_id(@note.video_url)
     @memo = transform_bracketed_text(@note.memo)
   end
 
   def update
     @note = Note.find(params[:id])
+    authorize @note
     @note.update(note_params)
     @note.save
     redirect_to note_path(@note)
   end
 
   def index
-    @notes = current_user.notes.where(is_bookmarked: true)
+    @notes = policy_scope(Note)
   end
 
   private
