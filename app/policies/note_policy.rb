@@ -20,7 +20,7 @@ class NotePolicy < ApplicationPolicy
     return true
   end
 
-  def update
+  def update?
     return true
   end
 end
