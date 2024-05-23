@@ -1,26 +1,41 @@
 .container2 {
   display: flex;
   flex-direction: row;
-  height: 100vh;
   margin: 20px;
+  height: 100vh;
 }
 
 #column1 {
   flex: 1;
   box-sizing: border-box;
-  border-bottom: 1px solid #ccc;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+#column1::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
 #column1 iframe {
   top: 0;
   left: 0;
   width: 100%;
-  height: 56.25%;
+  aspect-ratio: 16/9;
 }
 
 #column2 {
   flex: 1;
   box-sizing: border-box;
   padding-left: 16px;
-  overflow-y: auto;
+  overflow-y: scroll;
+  height: 100%;
+  position: sticky;
+  top: 0;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+#column2::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
