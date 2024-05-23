@@ -47,6 +47,9 @@ class NotesController < ApplicationController
         note.title = video_details[:title]
         note.thumbnail_url = video_details[:thumbnail]
         note.video_description = video_details[:description]
+        note.view_count = video_details[:view_count]
+        note.channel_name = video_details[:channel_title]
+        note.published_at = video_details[:published_at]
       end
       transcript = TranscriptGenerator.new(video_url).call
       note.transcript = transcript
