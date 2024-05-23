@@ -12,10 +12,9 @@
   <div id="background"></div>
 
   <div class="section">
-   <h1 id="title" class="margin-top"> NoteTube </h1> <br> <br>
-   <h2 id ="subtitle" class="less-margin"> generate <span class="highlight">notes</span> from any <span class="highlight">YouTube</span> lecture </h2>
-
-    <br>
+  <h1 id="title" class="margin-top"> NoteTube </h1> <br>
+  <div class="typing-demo"> <h2 id ="subtitle"> generate <span class="highlight">notes</span> from any <span class="highlight">YouTube</span> lecture </h2> </div>
+   <br>
 
     <form novalidate="novalidate" class="simple_form search" action="/notes" accept-charset="UTF-8" method="post">
       <div class="search-form-control form-group">
@@ -26,6 +25,7 @@
     </div>
   </form>
 
+
     <br>
 
   </div>
@@ -35,8 +35,8 @@
   let background = document.getElementById('background');
   let title = document.getElementById('title');
 
-function fuschiaColor() {
-  background.style.backgroundColor = '#AEC6CF';
-  title.style.color= '#AEC6CF';
+  function fuschiaColor() {
+    background.style.backgroundColor = '#AEC6CF';
+    title.style.color= '#AEC6CF';
 }
 </script>
