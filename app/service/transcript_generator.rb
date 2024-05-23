@@ -8,7 +8,7 @@ class TranscriptGenerator
     @url = url
   end
 
-  def beautify_transcript(ugly_transcript)
+  def self.beautify_transcript(ugly_transcript)
     api_key = ENV["OPEN_AI_API_KEY"]
     url = "https://api.openai.com/v1/chat/completions"
 

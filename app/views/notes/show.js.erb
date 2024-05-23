@@ -1,0 +1,2 @@
+<!-- app/views/notes/show.js.erb -->
+document.getElementById('notes-or-transcript').innerHTML = "<%= j(params[:show] == 'notes' || params[:show].nil? ? raw(@memo) : @note.transcript) %>";
