@@ -1,46 +1,49 @@
 <div class="container2">
   <div id="column1">
-      <iframe src="https://www.youtube.com/embed/<%= @video_id %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      <div class="mt-3"><h4><%= @note.title %></h4></div>
-      <div class="mt-3"><i class="fa-regular fa-eye"></i> <%= @note.view_count %> <i class="fa-solid fa-user-tie"></i> <%= @note.channel_name %></div>
-      <div class="mt-3"><i class="fa-solid fa-calendar-days"></i> <%= @note.published_at.strftime("%A, %b %d") %></div>
-      <div>
-        <% if @note.is_bookmarked? %>
-          <%= simple_form_for @note do |f| %>
-            <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false } %>
-            <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Remove bookmark" do %>
-                <i class="fas fa-check"></i>
-            <% end %>
-          <% end %>
-        <% else %>
-          <%= simple_form_for @note do |f| %>
-            <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true } %>
-            <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Bookmark" do %>
-              <i class="fas fa-plus"></i>
-            <% end %>
-          <% end %>
-        <% end %>
-      </div>
-      <div class="mt-3" data-controller="read-more" data-read-more-more-text-value="Read more" data-read-more-less-text-value="Read less">
-        <p class="my-content" data-read-more-target="content">
-          <%= @note.video_description %>
-        </p>
+    <iframe src="https://www.youtube.com/embed/<%= @video_id %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-        <button data-action="read-more#toggle" class="btn btn-light">Read more</button>
-      </div>
+    <div class="mt-2"><h4><%= @note.title %></h4></div>
+
+    <div class="text-muted"><%= number_with_delimiter(@note.view_count)%> views | <%= @note.published_at.strftime("%b %d, %Y") %> <br> <i class="fa-solid fa-user"></i> <%= @note.channel_name %>
     </div>
 
-    <div id = "column2" data-spy="scroll" data-target="#notes">
-      <ul class="list-inline tabs-underlined mt-3" id="notes">
-        <li>
-          <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}" %>
-        </li>
-        <li>
-          <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}" %>
-        </li>
-      </ul>
-      <div>
-        <%= params[:show] == "notes" || params[:show].nil? ? raw(@memo) : @note.transcript %>
-      </div>
+    <div>
+      <% if @note.is_bookmarked? %>
+        <%= simple_form_for @note do |f| %>
+          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false } %>
+          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Remove bookmark" do %>
+              <i class="fas fa-check"></i>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= simple_form_for @note do |f| %>
+          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true } %>
+          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Bookmark" do %>
+            <i class="fas fa-plus"></i>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="mt-3" data-controller="read-more" data-read-more-more-text-value="Read more" data-read-more-less-text-value="Read less" data-spy="scroll" data-target="desc" id="desc-scroll">
+      <p class="my-content" data-read-more-target="content" id="desc">
+        <%= @note.video_description %>
+      </p>
+
+      <button data-action="read-more#toggle" class="btn btn-light">Read more</button>
+    </div>
+  </div>
+
+  <div id = "column2" data-spy="scroll" data-target="#notes">
+    <ul class="list-inline tabs-underlined mt-3" id="notes">
+      <li>
+        <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}" %>
+      </li>
+      <li>
+        <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}" %>
+      </li>
+    </ul>
+    <div>
+      <%= params[:show] == "notes" || params[:show].nil? ? raw(@memo) : @note.transcript %>
+    </div>
   </div>
 </div>
