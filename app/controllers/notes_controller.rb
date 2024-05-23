@@ -52,6 +52,7 @@ class NotesController < ApplicationController
         note.published_at = video_details[:published_at]
       end
       transcript = TranscriptGenerator.new(video_url).call
+      puts "This is our jujutsu transcript #{transcript}"
       note.transcript = transcript
       note.video_id = id
       memo = NoteGenerator.new(transcript).call
