@@ -11,5 +11,5 @@ Rails.application.routes.draw do
 
   resources :notes, only: [:index, :show, :create, :update]
 
-  devise_for :users, controllers: { sessions: "sessions" }
+  devise_for :users, controllers: { sessions: "sessions", registrations: "registrations" }
 end
