@@ -64,3 +64,12 @@
   padding-bottom: 4px;
   color: lightgray;
 }
+
+.caption:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+.current-caption {
+  color: green;
+}
