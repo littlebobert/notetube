@@ -1,33 +1,36 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <div class="container-fluid">
-    NoteTube
+<div class="page-wrapper">
+ <div class="nav-wrapper">
+  <div class="grad-bar"></div>
+  <nav class="navbar">
+    <p> NoteTube </p>
+    <ul class="nav no-search">
+    <% if user_signed_in? %>
+      <li class="nav-item"><a href="/">Home</a></li>
+      <li class="nav-item"><a href="/notes">My Library</a></li>
+      <li class="nav-item"><a href="/users/sign_out" data-turbo-method="delete">Log out</a></li>
 
-    <form novalidate="novalidate" class="d-flex mx-auto" action = "/notes" accept-charset="UTF-8" method="post">
-      <input class="form-control me-2 string-required" type="text" name="v" id="v" placeholder="paste a YouTube link">
-      <button name="button" class="btn btn-flat" type="submit"><i class="fas fa-search"></i></button>
-    </form>
+      <li class = "nav-item">
+        <i class="fas fa-search" id="search-icon"></i>
+        <input class="search-input" type="text" placeholder="Paste a YouTube link">
+      </li>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
-        <% if user_signed_in? %>
-          <li class="nav-item active">
-            <%= link_to "Home", root_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-          <a href="#" class="nav-link" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa-solid fa-user fs-5"></i>
-          </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "My Library", notes_path, class: "dropdown-item" %>
-              <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %>
-            </div>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+    <% else %>
+      <li class="nav-item"><a href="/users/sign_in">Login</a></li>
+      <li class="nav-item">
+        <i class="fas fa-search" id="search-icon"></i>
+        <input class="search-input" type="text" placeholder="Paste a YouTube link">
+      </li>
+    <% end %>
+    </ul>
+  </nav>
   </div>
 </div>
+
+<script>
+  $("#search-icon").click(function() {
+  $(".nav").toggleClass("search");
+  $(".nav").toggleClass("no-search");
+  $(".search-input").toggleClass("search-active");
+});
+
+</script>
