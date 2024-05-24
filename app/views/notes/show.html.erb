@@ -1,6 +1,10 @@
 <div class="container2">
   <div id="column1">
-    <div id="player"></div>
+    <% if current_page?(note_path) && params[:show] == "transcript" %>
+      <div id="player"></div>
+    <% else %>
+      <iframe width="640" height="390" src="https://www.youtube.com/embed/<%= @video_id %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <% end %>
 
     <div class="mt-2"><h4><%= @note.title %></h4></div>
 
@@ -39,7 +43,7 @@
         <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}" %>
       </li>
       <li>
-        <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}" %>
+        <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}", data: { turbo: "false" } %>
       </li>
     </ul>
       <div>
@@ -64,10 +68,6 @@ var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-window.document.addEventListener("turbo:render", (event) => {
-  onYouTubeIframeAPIReady();
-});
 
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.

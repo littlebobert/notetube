@@ -89,9 +89,6 @@ class NotesController < ApplicationController
     @video_id = extract_video_id(@note.video_url)
     @memo = transform_bracketed_text(@note.memo)
     @timestamped_transcript = TranscriptGenerator.new(@note.video_url).timestamped_transcript
-    puts ">>>"
-    puts @timestamped_transcript
-    puts "<<<"
   end
 
   def update
