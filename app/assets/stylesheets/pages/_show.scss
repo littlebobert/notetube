@@ -60,8 +60,8 @@
 }
 
 .copy-code-button {
-  padding-right: 8px;
-  padding-bottom: 4px;
+  padding-right: 2px;
+  padding-bottom: 2px;
   color: lightgray;
 }
 
@@ -78,7 +78,7 @@
 .content-wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: flex-end;
 }
 
 .left-content {
@@ -88,6 +88,7 @@
 .right-content {
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-end;
   margin-left: 20px; /* Add some space between the left and right content */
+  flex-direction: row;
 }

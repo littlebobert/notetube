@@ -11,7 +11,7 @@
     <div class = "content-wrapper">
     <div class = "left-content">
 
-      <div class="text-muted"><%= number_with_delimiter(@note.view_count)%> views | <%= @note.published_at.strftime("%b %d, %Y") %> <br> <i class="fa-solid fa-user"></i> <%= @note.channel_name %>
+      <div class="text-muted text-nowrap"><%= number_with_delimiter(@note.view_count)%> views | <%= @note.published_at.strftime("%b %d, %Y") %> <br> <i class="fa-solid fa-user"></i> <%= @note.channel_name %>
       </div>
 
     </div>
@@ -19,19 +19,31 @@
     <div class = "right-content">
       <% if @note.is_bookmarked? %>
         <%= simple_form_for @note do |f| %>
-          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false } %>
+          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
           <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Remove from saved" do %>
-              <i class="fa-solid fa-bookmark"></i> Saved
+              <i class="fa-solid fa-bookmark"></i>
           <% end %>
         <% end %>
       <% else %>
         <%= simple_form_for @note do |f| %>
-          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true } %>
+          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
           <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Save" do %>
-            <i class="fa-regular fa-bookmark"></i> Save
+            <i class="fa-regular fa-bookmark"></i>
           <% end %>
         <% end %>
       <% end %>
+
+      <% if params[:show] == "notes" || params[:show].nil? %>
+        <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Generate PDF"><i onclick="printElement(document.getElementById('notes-or-transcript'));" class="fa-solid fa-file-pdf"></i> </strong>
+        <% end %>
+        <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Copy"><i class="fa-solid fa-copy" onclick="copyElement(document.getElementById('notes-or-transcript'))"></i></strong>
+        <% if params[:mode].nil? %>
+          <%= link_to note_path(@note, :mode => "edit"), data: { turbo: "false" } do %>
+            <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Edit"><i class="fa-solid fa-pen-to-square"></i></strong>
+          <% end %>
+        <% end %>
+
+
     </div>
     </div>
 
@@ -56,15 +68,6 @@
       </li>
     </ul>
       <div>
-        <% if params[:show] == "notes" || params[:show].nil? %>
-        <strong class="h3" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Generate PDF"><i onclick="printElement(document.getElementById('notes-or-transcript'));" class="fa-solid fa-file-pdf"></i></strong>
-        <% end %>
-        <strong class="h3" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Copy"><i class="fa-solid fa-copy" onclick="copyElement(document.getElementById('notes-or-transcript'))"></i></strong>
-        <% if params[:mode].nil? %>
-          <%= link_to note_path(@note, :mode => "edit"), data: { turbo: "false" } do %>
-            <strong class="h3" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Edit Mode"><i class="fa-solid fa-pen-to-square"></i></strong>
-          <% end %>
-        <% end %>
 
         <div id="notes-or-transcript">
           <% if params[:show] == "notes" || params[:show].nil? %>
