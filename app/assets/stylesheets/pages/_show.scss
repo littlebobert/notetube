@@ -74,3 +74,20 @@
   background-color: black;
   color: white;
 }
+
+.content-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.left-content {
+  flex: 1;
+}
+
+.right-content {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 20px; /* Add some space between the left and right content */
+}
