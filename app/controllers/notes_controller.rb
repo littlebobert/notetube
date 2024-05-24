@@ -75,6 +75,7 @@ class NotesController < ApplicationController
       note.video_id = id
       memo = NoteGenerator.new(transcript).call
       note.memo = memo
+      note.memo_html = transform_bracketed_text(memo)
       # fix me: use save here, not save!
       note.save!
     else
@@ -87,7 +88,6 @@ class NotesController < ApplicationController
     @note = Note.find(params[:id])
     authorize @note
     @video_id = extract_video_id(@note.video_url)
-    @memo = transform_bracketed_text(@note.memo)
     @timestamped_transcript = TranscriptGenerator.new(@note.video_url).timestamped_transcript
   end
 
@@ -106,6 +106,6 @@ class NotesController < ApplicationController
   private
 
   def note_params
-    params.require(:note).permit(:is_bookmarked)
+    params.require(:note).permit(:is_bookmarked, :memo_html)
   end
 end
