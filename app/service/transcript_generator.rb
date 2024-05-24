@@ -49,18 +49,4 @@ class TranscriptGenerator
 
     return result
   end
-  
-  def timestamped_transcript
-    video = YoutubeCaptions::Video.new(id: @url)
-    captions = video.captions(lang: "en")
-    result = []
-    captions.each do |caption|
-      result << { 
-        :caption => caption["__content__"].gsub(/^\p{Zs}*/, "").gsub(/\p{Zs}*$/, ""),
-        :start_time => caption["start"],
-        :duration => caption["dur"]
-      }
-    end
-    return result
-  end
 end
