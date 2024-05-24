@@ -8,26 +8,35 @@
 
     <div class="mt-2"><h4><%= @note.title %></h4></div>
 
-    <div class="text-muted"><%= number_with_delimiter(@note.view_count)%> views | <%= @note.published_at.strftime("%b %d, %Y") %> <br> <i class="fa-solid fa-user"></i> <%= @note.channel_name %>
+    <div class = "content-wrapper">
+    <div class = "left-content">
+
+      <div class="text-muted"><%= number_with_delimiter(@note.view_count)%> views | <%= @note.published_at.strftime("%b %d, %Y") %> <br> <i class="fa-solid fa-user"></i> <%= @note.channel_name %>
+      </div>
+
     </div>
 
-    <div>
+    <div class = "right-content">
       <% if @note.is_bookmarked? %>
         <%= simple_form_for @note do |f| %>
           <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false } %>
-          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Remove bookmark" do %>
-              <i class="fas fa-check"></i>
+          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Remove from saved" do %>
+              <i class="fa-solid fa-bookmark"></i> Saved
           <% end %>
         <% end %>
       <% else %>
         <%= simple_form_for @note do |f| %>
           <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true } %>
-          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Bookmark" do %>
-            <i class="fas fa-plus"></i>
+          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Save" do %>
+            <i class="fa-regular fa-bookmark"></i> Save
           <% end %>
         <% end %>
       <% end %>
     </div>
+    </div>
+
+    <hr>
+
     <div class="mt-3" data-controller="read-more" data-read-more-more-text-value="Read more" data-read-more-less-text-value="Read less" data-spy="scroll" data-target="desc" id="desc-scroll">
       <p class="my-content" data-read-more-target="content" id="desc">
         <%= @note.video_description %>
