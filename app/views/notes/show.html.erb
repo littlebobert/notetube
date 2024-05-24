@@ -1,28 +1,14 @@
 <div class="container2">
   <div id="column1">
-    <iframe src="https://www.youtube.com/embed/<%= @video_id %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <div id="player"></div>
 
     <div class="mt-2"><h4><%= @note.title %></h4></div>
 
     <div class="text-muted"><%= number_with_delimiter(@note.view_count)%> views | <%= @note.published_at.strftime("%b %d, %Y") %> <br> <i class="fa-solid fa-user"></i> <%= @note.channel_name %>
     </div>
 
-    <div>
-      <% if @note.is_bookmarked? %>
-        <%= simple_form_for @note do |f| %>
-          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false } %>
-          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Remove bookmark" do %>
-              <i class="fas fa-check"></i>
-          <% end %>
-        <% end %>
-      <% else %>
-        <%= simple_form_for @note do |f| %>
-          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true } %>
-          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Bookmark" do %>
-            <i class="fas fa-plus"></i>
-          <% end %>
-        <% end %>
-      <% end %>
+    <div class="bookmark-button">
+      <%= render 'bookmark_button', note: @note %>
     </div>
     <div class="mt-3" data-controller="read-more" data-read-more-more-text-value="Read more" data-read-more-less-text-value="Read less" data-spy="scroll" data-target="desc" id="desc-scroll">
       <p class="my-content" data-read-more-target="content" id="desc">
@@ -33,13 +19,14 @@
     </div>
   </div>
 
-  <div id = "column2" data-spy="scroll" data-target="#notes">
+  <!-- app/views/notes/show.html.erb -->
+  <div id="column2" data-controller="tabs">
     <ul class="list-inline tabs-underlined mt-3" id="notes">
       <li>
-        <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}" %>
+        <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}", data: { action: "tabs#switchTab", tabs_target: "tab" } %>
       </li>
       <li>
-        <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}" %>
+        <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}", data: { action: "tabs#switchTab", tabs_target: "tab" } %>
       </li>
     </ul>
       <div>
@@ -48,39 +35,108 @@
         <% end %>
         <strong class="h3" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Copy"><i class="fa-solid fa-copy" onclick="copyElement(document.getElementById('notes-or-transcript'))"></i></strong>
         <div id="notes-or-transcript">
-          <%= params[:show] == "notes" || params[:show].nil? ? raw(@memo) : @note.transcript %>
+          <% if params[:show] == "notes" || params[:show].nil? %>
+            <%= raw(@memo) %>
+          <% else %>
+            <% @timestamped_transcript.each do |timestamped| %><span class="caption" onclick="jumpTo(<%= timestamped[:start_time] %>)" data-start-time="<%= timestamped[:start_time] %>" data-duration="<%= timestamped[:duration] %>"><%= Rails::Html::FullSanitizer.new.sanitize(timestamped[:caption]) %></span> <% end %>
+          <% end %>
         </div>
       </div>
+    </div>
   </div>
+
 </div>
 
 <script>
-function copyElement(element) {
-  var selection = window.getSelection();
-  var range = document.createRange();
-  range.setStartBefore(element);
-  range.setEndAfter(element);
-  selection.removeAllRanges();
-  selection.addRange(range);
-
-  document.execCommand('copy');
-
-  selection.removeAllRanges();
-}
-
-function printElement(element) {
-    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
-
-    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-    mywindow.document.write('</head><body >');
-    mywindow.document.write('<h1>' + document.title  + '</h1>');
-    mywindow.document.write(element.innerHTML);
-    mywindow.document.write('</body></html>');
-
-    mywindow.document.close(); // necessary for IE >= 10
-    mywindow.focus(); // necessary for IE >= 10*/
-
-    mywindow.print();
-    mywindow.close();
-}
+  // 2. This code loads the IFrame Player API code asynchronously.
+  var tag = document.createElement('script');
+  
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  
+  window.document.addEventListener("turbo:render", (event) => {
+    onYouTubeIframeAPIReady();
+  });
+  
+  // 2. This code loads the IFrame Player API code asynchronously.
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  
+  // 3. This function creates an <iframe> (and YouTube player)
+  //    after the API code downloads.
+  var player;
+  window.onYouTubeIframeAPIReady = function() {
+    console.log("got onYouTubeIframeAPIReady")
+    player = new YT.Player('player', {
+      height: '390',
+      width: '640',
+      videoId: '<%= @video_id %>',
+      playerVars: {
+        'playsinline': 1
+      },
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+  
+  // 4. The API will call this function when the video player is ready.
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+  
+  // 5. The API calls this function when the player's state changes.
+  var stopped = true;
+  function onPlayerStateChange(event) {
+    stopped = event.data != 1;
+    setInterval(() => {
+      if (stopped) {
+        return;
+      }
+      captions = document.getElementsByClassName("caption");
+      Array.from(captions).forEach(function(caption) {
+        if (player.getCurrentTime() > Number(caption.dataset.startTime) && player.getCurrentTime() < Number(caption.dataset.startTime) + Number(caption.dataset.duration)) {
+          caption.classList.add("current-caption");
+        } else {
+          caption.classList.remove("current-caption");
+        }
+      })
+    }, 1000)
+  }
+  
+  function jumpTo(startTime) {
+    player.seekTo(startTime, true);
+  }
+  function copyElement(element) {
+    var selection = window.getSelection();
+    var range = document.createRange();
+    range.setStartBefore(element);
+    range.setEndAfter(element);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  
+    document.execCommand('copy');
+  
+    selection.removeAllRanges();
+  }
+  
+  function printElement(element) {
+      var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+  
+      mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+      mywindow.document.write('</head><body >');
+      mywindow.document.write('<h1>' + document.title  + '</h1>');
+      mywindow.document.write(element.innerHTML);
+      mywindow.document.write('</body></html>');
+  
+      mywindow.document.close(); // necessary for IE >= 10
+      mywindow.focus(); // necessary for IE >= 10*/
+  
+      mywindow.print();
+      mywindow.close();
+  }
 </script>

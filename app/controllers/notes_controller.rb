@@ -43,7 +43,8 @@ def transform_bracketed_text(markdown)
     end
     if code_match[1].present?
       num_code_blocks += 1
-      html << "<div class='text-end code-wrapper'><div onclick=\"copyElement(document.getElementById('code-block-#{num_code_blocks}'));\" class='copy-code-button text-justify-right'><span data-controller='tooltip' data-bs-toggle='tooltip' data-bs-position='bottom' title='Copy'><i class='fa-solid fa-copy'></i> Copy<span></div><pre id='code-block-#{num_code_blocks}' class='code-block'>#{code_match[1]}</pre></div>"
+      escaped = CGI::escapeHTML(code_match[1])
+      html << "<div class='text-end code-wrapper'><div onclick=\"copyElement(document.getElementById('code-block-#{num_code_blocks}'));\" class='copy-code-button text-justify-right'><span data-controller='tooltip' data-bs-toggle='tooltip' data-bs-position='bottom' title='Copy'><i class='fa-solid fa-copy'></i> Copy<span></div><pre id='code-block-#{num_code_blocks}' class='code-block'>#{escaped}</pre></div>"
     end
     if code_match[2].present?
       html << transform_formulas(code_match[2])
@@ -69,11 +70,11 @@ class NotesController < ApplicationController
         note.channel_name = video_details[:channel_title]
         note.published_at = video_details[:published_at]
       end
-      transcript = TranscriptGenerator.new(video_url).call
-      note.transcript = transcript
-      note.video_id = id
-      memo = NoteGenerator.new(transcript).call
+      ugly_transcript = TranscriptGenerator.new(video_url).call
+      note.transcript = ugly_transcript
+      memo = NoteGenerator.new(ugly_transcript).call
       note.memo = memo
+      note.video_id = id
       # fix me: use save here, not save!
       note.save!
     else
@@ -87,14 +88,28 @@ class NotesController < ApplicationController
     authorize @note
     @video_id = extract_video_id(@note.video_url)
     @memo = transform_bracketed_text(@note.memo)
+    @timestamped_transcript = TranscriptGenerator.new(@note.video_url).timestamped_transcript
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
+
 
   def update
     @note = Note.find(params[:id])
     authorize @note
-    @note.update(note_params)
-    @note.save
-    redirect_to note_path(@note)
+    if @note.update(note_params)
+      respond_to do |format|
+        format.html { redirect_to note_path(@note) }
+        format.turbo_stream
+      end
+    else
+      respond_to do |format|
+        format.html { render :edit }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(dom_id(@note, :bookmark), partial: "notes/bookmark_button", locals: { note: @note }), status: :unprocessable_entity }
+      end
+    end
   end
 
   def index

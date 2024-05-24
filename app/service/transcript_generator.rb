@@ -8,7 +8,7 @@ class TranscriptGenerator
     @url = url
   end
 
-  def beautify_transcript(ugly_transcript)
+  def self.beautify_transcript(ugly_transcript)
     api_key = ENV["OPEN_AI_API_KEY"]
     url = "https://api.openai.com/v1/chat/completions"
 
@@ -22,7 +22,7 @@ class TranscriptGenerator
 
     # Set up the request body
     body = {
-      model: 'gpt-4o',
+      model: 'gpt-3.5-turbo',
       messages: [
         { "role": "user", "content": prompt }
       ],
@@ -47,6 +47,20 @@ class TranscriptGenerator
       result = result + " " + caption["__content__"] unless caption["__content__"].nil?
     end
 
+    return result
+  end
+  
+  def timestamped_transcript
+    video = YoutubeCaptions::Video.new(id: @url)
+    captions = video.captions(lang: "en")
+    result = []
+    captions.each do |caption|
+      result << { 
+        :caption => caption["__content__"].gsub(/^\p{Zs}*/, "").gsub(/\p{Zs}*$/, ""),
+        :start_time => caption["start"],
+        :duration => caption["dur"]
+      }
+    end
     return result
   end
 end
