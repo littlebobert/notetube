@@ -150,6 +150,13 @@ function copyElement(element) {
   selection.removeAllRanges();
 }
 
+function changeText(copy_text) {
+  copy_text.textContent = 'Copied!'
+  setTimeout(() => {
+    copy_text.textContent = 'Copy';
+  }, 2000);
+}
+
 function printElement(element) {
     var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 

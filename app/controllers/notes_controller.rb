@@ -44,7 +44,16 @@ def transform_bracketed_text(markdown)
     if code_match[1].present?
       num_code_blocks += 1
       escaped = CGI::escapeHTML(code_match[1])
-      html << "<div class='text-end code-wrapper'><div onclick=\"copyElement(document.getElementById('code-block-#{num_code_blocks}'));\" class='copy-code-button text-justify-right'><span data-controller='tooltip' data-bs-toggle='tooltip' data-bs-position='bottom' title='Copy'><i class='fa-solid fa-copy'></i> Copy<span></div><pre id='code-block-#{num_code_blocks}' class='code-block'>#{escaped}</pre></div>"
+      html << "<div class='text-end code-wrapper'>
+  <div onclick=\"copyElement(document.getElementById('code-block-#{num_code_blocks}')); changeText(document.getElementById('copy-text-#{num_code_blocks}'));\" class='copy-code-button text-justify-right'>
+    <span data-controller='tooltip' data-bs-toggle='tooltip' data-bs-position='bottom' title='Copy'>
+      <i class='fa-solid fa-copy'></i>
+      <span id='copy-text-#{num_code_blocks}'>Copy</span>
+    </span>
+  </div>
+  <pre id='code-block-#{num_code_blocks}' class='code-block'>#{escaped}</pre>
+</div>"
+
     end
     if code_match[2].present?
       html << transform_formulas(code_match[2])
