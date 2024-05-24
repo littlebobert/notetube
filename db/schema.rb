@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_23_044850) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_24_043918) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,6 +29,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_23_044850) do
     t.integer "view_count"
     t.string "channel_name"
     t.datetime "published_at"
+    t.text "memo_html"
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
