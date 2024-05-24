@@ -7,6 +7,27 @@
   flex-grow: 0;
 }
 
-.navbar-lewagon .navbar-brand img {
-  width: 40px;
+.navbar-lewagon form {
+  margin: auto; /* Center the form horizontally */
+  display: flex;
+  align-items: center; /* Align items vertically */
+}
+
+.navbar-lewagon input[type="search"] {
+  width: 200px; /* Adjust the width of the search input */
+  margin-right: 10px; /* Add some spacing between input and button */
+}
+
+.navbar-lewagon button[type="submit"] {
+  background-color: #28a745; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* Remove button border */
+  padding: 8px 16px; /* Adjust button padding */
+  border-radius: 4px; /* Add border radius to button */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Hover effect for button */
+.navbar-lewagon button[type="submit"]:hover {
+  background-color: #218838; /* Darker shade of green */
 }
