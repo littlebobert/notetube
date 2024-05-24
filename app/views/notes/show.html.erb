@@ -7,8 +7,22 @@
     <div class="text-muted"><%= number_with_delimiter(@note.view_count)%> views | <%= @note.published_at.strftime("%b %d, %Y") %> <br> <i class="fa-solid fa-user"></i> <%= @note.channel_name %>
     </div>
 
-    <div class="bookmark-button">
-      <%= render 'bookmark_button', note: @note %>
+    <div>
+      <% if @note.is_bookmarked? %>
+        <%= simple_form_for @note do |f| %>
+          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false } %>
+          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Remove bookmark" do %>
+              <i class="fas fa-check"></i>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= simple_form_for @note do |f| %>
+          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true } %>
+          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Bookmark" do %>
+            <i class="fas fa-plus"></i>
+          <% end %>
+        <% end %>
+      <% end %>
     </div>
     <div class="mt-3" data-controller="read-more" data-read-more-more-text-value="Read more" data-read-more-less-text-value="Read less" data-spy="scroll" data-target="desc" id="desc-scroll">
       <p class="my-content" data-read-more-target="content" id="desc">
@@ -19,31 +33,25 @@
     </div>
   </div>
 
-  <!-- app/views/notes/show.html.erb -->
-  <div id="column2" data-controller="tabs">
+  <div id = "column2" data-spy="scroll" data-target="#notes">
     <ul class="list-inline tabs-underlined mt-3" id="notes">
       <li>
-        <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}", data: { action: "tabs#switchTab", tabs_target: "tab" } %>
+        <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}" %>
       </li>
       <li>
-        <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}", data: { action: "tabs#switchTab", tabs_target: "tab" } %>
+        <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}" %>
       </li>
     </ul>
-    <div>
-      <% if params[:show] == "notes" || params[:show].nil? %>
-      <strong class="h3" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Generate PDF">
-        <i onclick="printElement(document.getElementById('notes-or-transcript'));" class="fa-solid fa-file-pdf"></i>
-      </strong>
-      <% end %>
-      <strong class="h3" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Copy">
-        <i class="fa-solid fa-copy" onclick="copyElement(document.getElementById('notes-or-transcript'))"></i>
-      </strong>
-      <div id="notes-or-transcript" data-tabs-target="content">
-        <%= params[:show] == "notes" || params[:show].nil? ? raw(@memo) : simple_format(@note.transcript) %>
+      <div>
+        <% if params[:show] == "notes" || params[:show].nil? %>
+        <strong class="h3" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Generate PDF"><i onclick="printElement(document.getElementById('notes-or-transcript'));" class="fa-solid fa-file-pdf"></i></strong>
+        <% end %>
+        <strong class="h3" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Copy"><i class="fa-solid fa-copy" onclick="copyElement(document.getElementById('notes-or-transcript'))"></i></strong>
+        <div id="notes-or-transcript">
+          <%= params[:show] == "notes" || params[:show].nil? ? raw(@memo) : @note.transcript %>
+        </div>
       </div>
-    </div>
   </div>
-
 </div>
 
 <script>

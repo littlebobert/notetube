@@ -8,7 +8,7 @@ class TranscriptGenerator
     @url = url
   end
 
-  def self.beautify_transcript(ugly_transcript)
+  def beautify_transcript(ugly_transcript)
     api_key = ENV["OPEN_AI_API_KEY"]
     url = "https://api.openai.com/v1/chat/completions"
 
@@ -22,7 +22,7 @@ class TranscriptGenerator
 
     # Set up the request body
     body = {
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o',
       messages: [
         { "role": "user", "content": prompt }
       ],
