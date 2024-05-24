@@ -11,9 +11,9 @@ $green: #D1E8E2;
 $darkgray: #333333;
 $blue: #AEC6CF;
 
-@import url('https://fonts.googleapis.com/css?family=Montserrat:regular,medium,semibold,500,600,700,800');
-$big: 'Montserrat', sans-serif;
-$regular: 'Montserrat', sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:800|Open+Sans');
+$big: 'Work Sans', sans-serif;
+$regular: 'Open Sans', sans-serif;
 
 body {
   background: $white;
@@ -111,17 +111,16 @@ a {
 /* text-styling */
 
 #title {
-  font-family: $big;
   color: #2C3E50;
-  text-transform: uppercase;
   font-size: 3.5em;
-  text-shadow: 2px 1px 0px rgba($blue, .9);
+  font-weight: bolder;
   width: fit-content;
+  text-transform: uppercase;
+  font-family: $big;
 }
 
 #subtitle {
   font-size: 1.2em;
-  text-transform: uppercase;
   letter-spacing: 3px;
   font-family: $regular;
   color: $onyx;
@@ -173,7 +172,7 @@ a {
 }
 
 .typing-demo {
-  width: 58ch;
+  width: 54ch;
   animation: typing 2s steps(34), blink .5s step-end infinite alternate;
   white-space: nowrap;
   overflow: hidden;
