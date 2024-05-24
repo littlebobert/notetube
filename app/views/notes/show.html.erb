@@ -82,6 +82,7 @@ function onYouTubeIframeAPIReady() {
       'onStateChange': onPlayerStateChange
     }
   });
+  console.log(player);
 }
 
 // 4. The API will call this function when the video player is ready.
@@ -90,21 +91,22 @@ function onPlayerReady(event) {
 }
 
 // 5. The API calls this function when the player's state changes.
+var stopped = true;
 function onPlayerStateChange(event) {
-  console.log(event);
-  if (event.data == 1) {
-    setInterval(() => {
-      captions = document.getElementsByClassName("caption");
-      console.log(player.getCurrentTime());
-      Array.from(captions).forEach(function(caption) {
-       if (player.getCurrentTime() > Number(caption.dataset.startTime) && player.getCurrentTime() < Number(caption.dataset.startTime) + Number(caption.dataset.duration)) {
-         caption.classList.add("current-caption");
-       } else {
-         caption.classList.remove("current-caption");
-       }
-})
-    }, 1000) 
-  }
+  stopped = event.data != 1;
+  setInterval(() => {
+    if (stopped) {
+      return;
+    }
+    captions = document.getElementsByClassName("caption");
+    Array.from(captions).forEach(function(caption) {
+      if (player.getCurrentTime() > Number(caption.dataset.startTime) && player.getCurrentTime() < Number(caption.dataset.startTime) + Number(caption.dataset.duration)) {
+        caption.classList.add("current-caption");
+      } else {
+        caption.classList.remove("current-caption");
+      }
+    })
+  }, 1000)
 }
 
 function jumpTo(startTime) {
