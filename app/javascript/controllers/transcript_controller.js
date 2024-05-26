@@ -7,7 +7,6 @@ export default class extends Controller {
     noteId: String
   }
   connect() {
-    console.log("hello world");
   }
   
   fetch(event) {

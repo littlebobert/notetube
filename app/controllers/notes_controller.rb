@@ -63,8 +63,6 @@ def transform_bracketed_text(markdown)
 end
 
 class NotesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:show, :create]
-  
   def create
     video_url = params[:v]
     note = Note.where(video_url: video_url).first
