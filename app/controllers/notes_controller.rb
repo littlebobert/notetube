@@ -63,6 +63,8 @@ def transform_bracketed_text(markdown)
 end
 
 class NotesController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:show, :create]
+  
   def create
     video_url = params[:v]
     note = Note.where(video_url: video_url).first
@@ -110,6 +112,12 @@ class NotesController < ApplicationController
 
   def index
     @notes = policy_scope(Note)
+  end
+  
+  def beautiful_transcript
+    @note = Note.find(params[:id])
+    authorize @note
+    render plain: TranscriptGenerator::beautify_transcript(@note)
   end
 
   private

@@ -8,7 +8,10 @@ class TranscriptGenerator
     @url = url
   end
 
-  def beautify_transcript(ugly_transcript)
+  def self.beautify_transcript(note)
+    if note.beautiful_transcript.present?
+      return note.beautiful_transcript
+    end
     api_key = ENV["OPEN_AI_API_KEY"]
     url = "https://api.openai.com/v1/chat/completions"
 
@@ -16,13 +19,16 @@ class TranscriptGenerator
       'Content-Type' => 'application/json',
       'Authorization' => "Bearer #{api_key}"
     }
-
-    prompt = "Reformat the following transcript into paragraphs and add proper capitalization without changing the original words:\n\n#{ugly_transcript}"
+    
+    timestamped_transcript = TranscriptGenerator.new(note.video_url).timestamped_transcript
+    timestamped_transcript_as_json = timestamped_transcript.to_json
+    prompt = "Reformat the following JSON transcript into paragraphs and add proper capitalization without changing the original words. Send back paragraphs as JSON in the form {\"paragraphs\":[{\"paragraph\":\"paragraph one\",\"start_time\":0,\"duration\":30},{\"paragraph\":\"paragraph two\",\"start_time\":30,\"duration\":10}]}, etc. Here is the transcript:\n\n#{timestamped_transcript_as_json}"
     # puts "OpenAI prompt: #{prompt}"
 
     # Set up the request body
     body = {
       model: 'gpt-4o',
+      response_format: { "type": "json_object" },
       messages: [
         { "role": "user", "content": prompt }
       ],
@@ -34,6 +40,8 @@ class TranscriptGenerator
     puts response_data
     final = response_data["choices"].first["message"]["content"]
     puts "output: #{final}"
+    note.beautiful_transcript = final
+    note.save
     return final
   end
 
