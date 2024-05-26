@@ -12,26 +12,24 @@ export default class extends Controller {
   
   fetch(event) {
     event.preventDefault();
+    // Insert the player div, the default is an iframe, which doesn’t work with the YouTube API.
     this.playerOrIframeTarget.innerHTML = `<div id="player"></div>`;
+    
     // This code loads the YouTube IFrame Player API code asynchronously.
     var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = this.element.ownerDocument.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    console.log(this.transcriptTabTarget);
-    console.log(this.playerOrIframeTarget);
+    
     this.notesTabTarget.classList.remove("active");
     this.transcriptTabTarget.classList.add("active");
-    console.log(this.contentTarget);
-    console.log(this.noteIdValue);
+
     var url = `/notes/${this.noteIdValue}/beautiful_transcript`
     fetch(url)
       .then(response => response.text())
       .then((response) => {
         var json = JSON.parse(response);
-        console.log(json);
         var paragraphs = json["paragraphs"]
-        console.log(paragraphs);
         var html = "";
         Array.from(paragraphs).forEach((blob) => {
           var paragraph = blob["paragraph"];
