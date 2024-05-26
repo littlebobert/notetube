@@ -22,6 +22,7 @@ export default class extends Controller {
     
     this.notesTabTarget.classList.remove("active");
     this.transcriptTabTarget.classList.add("active");
+    this.contentTarget.innerHTML = "Loading…"
 
     var url = `/notes/${this.noteIdValue}/beautiful_transcript`
     fetch(url)
