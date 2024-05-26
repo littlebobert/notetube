@@ -63,7 +63,7 @@
   <div id = "column2" data-spy="scroll" data-target="#notes">
     <ul class="list-inline tabs-underlined mt-3" id="notes">
       <li>
-        <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}", data: { transcript_target: "notesTab" } %>
+        <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}", data: { transcript_target: "notesTab", turbo: "false" } %>
       </li>
       <li>
         <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}", data: { turbo: "false", action: "click->transcript#fetch", transcript_target: "transcriptTab" } %>
