@@ -57,10 +57,15 @@ end
 class NotesController < ApplicationController
   def create
     video_url = params[:v]
-    note = Note.where(video_url: video_url).first
+    video_id = extract_video_id(video_url)
+    if !video_id
+      authorize Note.new
+      redirect_to root_path, alert: "Invalid YouTube URL."
+      return
+    end
+    note = Note.where(video_id: video_id).first
     if note.nil?
-      id = extract_video_id(video_url)
-      note = Note.new(video_url: video_url, user: current_user)
+      note = Note.new(video_id: video_id, user: current_user)
       authorize note
       video_details = YoutubeService.get_video_details(video_url)
       if video_details
@@ -79,13 +84,13 @@ class NotesController < ApplicationController
     else
       authorize note
     end
-    redirect_to note_path(note, show: "notes")
+    redirect_to note_path(note)
   end
 
   def show
     @note = Note.find(params[:id])
     authorize @note
-    @video_id = extract_video_id(@note.video_url)
+    @video_id = @note.video_id
     @timestamped_transcript = TranscriptGenerator.new(@note.video_url).timestamped_transcript
   end
 

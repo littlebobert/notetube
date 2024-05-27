@@ -16,9 +16,3 @@ User.destroy_all
 user = User.create!(email: "test@gmail.com", password: "password")
 
 puts "created #{User.count} users and #{Note.count} notes"
-
-# video_url = "https://www.youtube.com/watch?v=2I8XMxMvWl0"
-
-# download_captions(video_url)
-
-# NoteGenerator.new("https://www.youtube.com/watch?v=3LPJfIKxwWc").call
