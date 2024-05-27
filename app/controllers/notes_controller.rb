@@ -75,7 +75,11 @@ class NotesController < ApplicationController
         note.view_count = video_details[:view_count]
         note.channel_name = video_details[:channel_title]
         note.published_at = video_details[:published_at]
+      else
+        redirect_to root_path, alert: "Invalid YouTube URL."
+        return
       end
+
       transcript = TranscriptGenerator.new(video_url).call
       note.transcript = transcript
       note.video_id = video_id
