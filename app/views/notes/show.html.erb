@@ -1,11 +1,7 @@
 <div class="container2" data-controller="transcript" data-transcript-note-id-value="<%= @note.id %>">
   <div id="column1">
     <div data-transcript-target="playerOrIframe">
-      <% if current_page?(note_path) && params[:show] == "transcript" %>
-        <div id="player"></div>
-      <% else %>
-        <iframe width="640" height="390" src="https://www.youtube.com/embed/<%= @video_id %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      <% end %>
+      <div id="player"></div>
     </div>
 
     <div class="mt-2"><h4><%= @note.title %></h4></div>
@@ -25,21 +21,7 @@
     </div>
 
     <div class = "right-content">
-      <% if @note.is_bookmarked? %>
-        <%= simple_form_for @note do |f| %>
-          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
-          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top", action:"click->tags#create" }, title: "Remove from saved" do %>
-              <i class="fa-solid fa-bookmark"></i>
-          <% end %>
-        <% end %>
-      <% else %>
-        <%= simple_form_for @note do |f| %>
-          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
-          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top", action:"click->tags#create" }, title: "Save" do %>
-            <i class="fa-regular fa-bookmark"></i>
-          <% end %>
-        <% end %>
-      <% end %>
+      <%= render "bookmark_button", note: @note %>
 
       <% if params[:show] == "notes" || params[:show].nil? %>
         <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Generate PDF"><i onclick="printElement(document.getElementById('notes-or-transcript'));" class="fa-solid fa-file-pdf"></i> </strong>
@@ -69,14 +51,13 @@
   <div id = "column2" data-spy="scroll" data-target="#notes">
     <ul class="list-inline tabs-underlined mt-3" id="notes">
       <li>
-        <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}", data: { transcript_target: "notesTab", turbo: "false" } %>
+        <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}", data: { turbo: "false", transcript_target: "notesTab", action: "click->transcript#switchToNotes", turbo: "false" } %>
       </li>
       <li>
         <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}", data: { turbo: "false", action: "click->transcript#fetch", transcript_target: "transcriptTab" } %>
       </li>
     </ul>
       <div>
-
         <div id="notes-or-transcript" data-transcript-target="content">
           <% if params[:show] == "notes" || params[:show].nil? %>
             <% if params[:mode] == "edit" %>
@@ -98,8 +79,14 @@
 
 
 <script>
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
+// This code loads the YouTube IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// This function creates an <iframe> (and YouTube player)
+// after the API code downloads.
 var player;
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
@@ -116,12 +103,12 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
-// 4. The API will call this function when the video player is ready.
+// The API will call this function when the video player is ready.
 function onPlayerReady(event) {
 
 }
 
-// 5. The API calls this function when the player's state changes.
+// The API calls this function when the player's state changes.
 var stopped = true;
 function onPlayerStateChange(event) {
   stopped = event.data != 1;
@@ -143,6 +130,7 @@ function onPlayerStateChange(event) {
 function jumpTo(startTime) {
   player.seekTo(startTime, true);
 }
+
 function copyElement(element) {
   var selection = window.getSelection();
   var range = document.createRange();

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :notes, only: [:index, :show, :create, :update] do
     member do
       get 'beautiful_transcript'
+      get 'raw_notes'
     end
     put "/tags", to: "notes#create_tag", as: "create_tag"
   end

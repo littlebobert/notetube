@@ -74,9 +74,6 @@ class NotesController < ApplicationController
       transcript = TranscriptGenerator.new(video_url).call
       note.transcript = transcript
       note.video_id = id
-      memo = NoteGenerator.new(transcript).call
-      note.memo = memo
-      note.memo_html = transform_bracketed_text(memo)
       # fix me: use save here, not save!
       note.save!
     else
@@ -95,9 +92,16 @@ class NotesController < ApplicationController
   def update
     @note = Note.find(params[:id])
     authorize @note
-    @note.update(note_params)
-    @note.save
-    redirect_to note_path(@note)
+
+    respond_to do |format|
+      if @note.update(note_params)
+        format.html { redirect_to @note, notice: 'Note was successfully updated.' }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace('bookmark-button', partial: 'bookmark_button', locals: { note: @note }) }
+      else
+        format.html { render :edit }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace('bookmark-button', partial: 'bookmark_button', locals: { note: @note }) }
+      end
+    end
   end
 
   def index
@@ -118,6 +122,20 @@ class NotesController < ApplicationController
     @note = Note.find(params[:id])
     authorize @note
     render plain: TranscriptGenerator::beautify_transcript(@note)
+  end
+  
+  def raw_notes
+    @note = Note.find(params[:id])
+    authorize @note
+    if @note.memo_html.present?
+      render plain: @note.memo_html
+      return
+    end
+    memo = NoteGenerator.new(@note.transcript).call
+    @note.memo = memo
+    @note.memo_html = transform_bracketed_text(memo)
+    @note.save
+    render plain: @note.memo_html
   end
 
   def create_tag
