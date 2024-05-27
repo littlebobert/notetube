@@ -19,21 +19,7 @@
     </div>
 
     <div class = "right-content">
-      <% if @note.is_bookmarked? %>
-        <%= simple_form_for @note do |f| %>
-          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
-          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Remove from saved" do %>
-              <i class="fa-solid fa-bookmark"></i>
-          <% end %>
-        <% end %>
-      <% else %>
-        <%= simple_form_for @note do |f| %>
-          <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
-          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Save" do %>
-            <i class="fa-regular fa-bookmark"></i>
-          <% end %>
-        <% end %>
-      <% end %>
+      <%= render "bookmark_button", note: @note %>
 
       <% if params[:show] == "notes" || params[:show].nil? %>
         <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Generate PDF"><i onclick="printElement(document.getElementById('notes-or-transcript'));" class="fa-solid fa-file-pdf"></i> </strong>
