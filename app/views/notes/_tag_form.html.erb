@@ -1,4 +1,4 @@
-<%= form_with(url: note_create_tag_path(@note), method: :put) do |f| %>
+<%= form_with(url: note_create_tag_path(@note), method: :put, data: {turbo: "false"}) do |f| %>
 
   <%#= f.input :tags %>
   <%= f.text_field :tag_list %>

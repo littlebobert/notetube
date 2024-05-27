@@ -1,5 +1,5 @@
 <!-- app/views/notes/_bookmark_button.html.erb -->
-<div id="bookmark-button" data-controller="bookmark">
+<div id="bookmark-button" data-controller="bookmark" data-bookmark-button-bookmarked-value = <%= note.is_bookmarked? %> >
   <% if note.is_bookmarked? %>
     <%= simple_form_for note do |f| %>
       <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false }, wrapper_html: { style: "margin-bottom: 0 !important"} %>

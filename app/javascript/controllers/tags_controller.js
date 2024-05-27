@@ -9,12 +9,12 @@ export default class extends Controller {
 
   create(e) {
     const bookmarkIcon = e.currentTarget.querySelector("i");
-    if (bookmarkIcon.classList.contain("fa-solid")) {
-      this.targetTagContainer.classList.remove("d-none");
+    if (bookmarkIcon.classList.contains("fa-solid")) {
+      this.tagContainerTarget.classList.add("d-none");
     }
     else
     {
-      this.targetTagContainer.classList.add("d-none");
+      this.tagContainerTarget.classList.remove("d-none");
     }
   }
 
