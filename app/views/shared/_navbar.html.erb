@@ -3,27 +3,20 @@
   <nav class="navbar">
     <p><strong> NoteTube  </strong></p>
     <ul class="nav no-search">
-    <% if user_signed_in? %>
-      <li class="nav-item"><a href="/">Home</a></li>
-      <li class="nav-item"><a href="/notes">My Library</a></li>
-      <li class="nav-item"><a href="/users/sign_out" data-turbo-method="delete">Log out</a></li>
-
-      <li class = "nav-item">
-        <i class="fas fa-search" id="search-icon"></i>
-        <form style="display: inline;" action="/notes" method="POST">
-          <input class="search-input" type="text" placeholder="Paste a YouTube link" id="v" name="v">
-        </form>
-      </li>
-
-    <% else %>
-      <li class="nav-item"><a href="/users/sign_in">Login</a></li>
+      <% if user_signed_in? %>
+        <li class="nav-item"><a href="/">Home</a></li>
+        <li class="nav-item"><a href="/notes">My Library</a></li>
+        <li class="nav-item"><a href="/users/sign_out" data-turbo-method="delete">Log out</a></li>
+      <% else %>
+        <li class="nav-item"><a href="/users/sign_in">Login</a></li>
+      <% end %>
       <li class="nav-item">
         <i class="fas fa-search" id="search-icon"></i>
-        <form style="display: inline;" action="/notes" method="POST">
-          <input class="search-input" type="text" placeholder="Paste a YouTube link">
+        <form style="display: inline;" action="/notes" method="POST" data-turbo="false">
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
+          <input class="search-input" type="text" id="v" name="v" placeholder="Paste a YouTube link">
         </form>
       </li>
-    <% end %>
     </ul>
   </nav>
   </div>
