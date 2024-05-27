@@ -18,6 +18,7 @@ export default class extends Controller {
       .then(response => response.text())
       .then((response) => {
         this.contentTarget.innerHTML = response;
+        MathJax.typeset();
       })
   }
   
