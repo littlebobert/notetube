@@ -1,3 +1,12 @@
+<h1>Bookmarks</h1>
+
+<%= form_with url: notes_path, method: :get, local: true do %>
+  <div>
+    <%= label_tag :tag, "Search by tag" %>
+    <%= text_field_tag :tag, params[:tag] %>
+  </div>
+<% end %>
+
 <div class="bookmark-page mt-3">
   <div class="bookmark-list">
     <%= "No Bookmarks" if @notes.count.zero? %>
@@ -9,6 +18,7 @@
           </div>
           <div class="video-info">
             <h3><%= note.title %></h3>
+            <p> <%= note.tag_list.join(", ") %> </p>
           </div>
         </div>
       <% end %>

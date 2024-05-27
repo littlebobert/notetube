@@ -6,11 +6,17 @@
 
     <div class="mt-2"><h4><%= @note.title %></h4></div>
 
-    <div class = "content-wrapper">
+    <div class = "content-wrapper" data-controller="tags">
     <div class = "left-content">
 
       <div class="text-muted text-nowrap"><%= number_with_delimiter(@note.view_count)%> views | <%= @note.published_at.strftime("%b %d, %Y") %> <br> <i class="fa-solid fa-user"></i> <%= @note.channel_name %>
       </div>
+
+    <div data-tags-target="tagContainer" class = "<%= "d-none" unless @note.is_bookmarked? %>" id="tagform">
+      <strong>Tags:</strong>
+      <%= @note.tag_list.join(", ") %>
+      <%= render "tag_form" %>
+    </div>
 
     </div>
 
@@ -70,6 +76,7 @@
       </div>
   </div>
 </div>
+
 
 <script>
 // This code loads the YouTube IFrame Player API code asynchronously.

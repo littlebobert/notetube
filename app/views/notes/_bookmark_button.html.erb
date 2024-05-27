@@ -1,16 +1,16 @@
 <!-- app/views/notes/_bookmark_button.html.erb -->
-<div id="bookmark-button" data-controller="bookmark">
+<div id="bookmark-button" data-controller="bookmark" data-bookmark-button-bookmarked-value = <%= note.is_bookmarked? %> >
   <% if note.is_bookmarked? %>
-    <%= simple_form_for note, remote: true, html: { method: :patch, data: { action: "submit->bookmark#handleSubmit" } } do |f| %>
+    <%= simple_form_for note do |f| %>
       <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
-      <%= button_tag type: 'submit', class: "btn-icon", data: { controller: "tooltip", bs_toggle: "tooltip", bs_placement: "top" }, title: "Remove from library" do %>
-        <i class="fa-solid fa-bookmark"></i>
+      <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top", action:"click->tags#create" }, title: "Remove from saved" do %>
+          <i class="fa-solid fa-bookmark"></i>
       <% end %>
     <% end %>
   <% else %>
-    <%= simple_form_for note, remote: true, html: { method: :patch, data: { action: "submit->bookmark#handleSubmit" } } do |f| %>
+    <%= simple_form_for note do |f| %>
       <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
-      <%= button_tag type: 'submit', class: "btn-icon", data: { controller: "tooltip", bs_toggle: "tooltip", bs_placement: "top" }, title: "Save to library" do %>
+      <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top", action:"click->tags#create" }, title: "Save" do %>
         <i class="fa-regular fa-bookmark"></i>
       <% end %>
     <% end %>

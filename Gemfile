@@ -83,3 +83,4 @@ gem "redcarpet"
 gem "youtube-captions", :git => "https://github.com/littlebobert/youtube-captions.git", branch: "main"
 gem "pundit"
 gem "tinymce-rails"
+gem 'acts-as-taggable-on', '~> 10.0'
