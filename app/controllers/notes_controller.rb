@@ -95,15 +95,22 @@ class NotesController < ApplicationController
   def update
     @note = Note.find(params[:id])
     authorize @note
-    @note.update(note_params)
-    @note.save
-    redirect_to note_path(@note)
+
+    respond_to do |format|
+      if @note.update(note_params)
+        format.html { redirect_to @note, notice: 'Note was successfully updated.' }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace('bookmark-button', partial: 'bookmark_button', locals: { note: @note }) }
+      else
+        format.html { render :edit }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace('bookmark-button', partial: 'bookmark_button', locals: { note: @note }) }
+      end
+    end
   end
 
   def index
     @notes = policy_scope(Note)
   end
-  
+
   def beautiful_transcript
     @note = Note.find(params[:id])
     authorize @note
