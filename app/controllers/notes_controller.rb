@@ -44,16 +44,8 @@ def transform_bracketed_text(markdown)
     if code_match[1].present?
       num_code_blocks += 1
       escaped = CGI::escapeHTML(code_match[1])
-      html << "<div class='text-end code-wrapper'>
-  <div onclick=\"copyElement(document.getElementById('code-block-#{num_code_blocks}')); changeText(document.getElementById('copy-text-#{num_code_blocks}'));\" class='copy-code-button text-justify-right'>
-    <span data-controller='tooltip' data-bs-toggle='tooltip' data-bs-position='bottom' title='Copy'>
-      <i class='fa-solid fa-copy'></i>
-      <span id='copy-text-#{num_code_blocks}'>Copy</span>
-    </span>
-  </div>
-  <pre id='code-block-#{num_code_blocks}' class='code-block'>#{escaped}</pre>
-</div>"
-
+      code_block = render_to_string partial: 'shared/code', locals: { num_code_blocks: num_code_blocks, code: escaped }
+      html << code_block
     end
     if code_match[2].present?
       html << transform_formulas(code_match[2])
@@ -110,6 +102,12 @@ class NotesController < ApplicationController
 
   def index
     @notes = policy_scope(Note)
+  end
+  
+  def beautiful_transcript
+    @note = Note.find(params[:id])
+    authorize @note
+    render plain: TranscriptGenerator::beautify_transcript(@note)
   end
 
   private

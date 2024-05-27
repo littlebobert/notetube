@@ -23,4 +23,8 @@ class NotePolicy < ApplicationPolicy
   def update?
     return true
   end
+  
+  def beautiful_transcript?
+    return true
+  end
 end
