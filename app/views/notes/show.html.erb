@@ -27,12 +27,9 @@
         <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Generate PDF"><i onclick="printElement(document.getElementById('notes-or-transcript'));" class="fa-solid fa-file-pdf"></i> </strong>
         <% end %>
         <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Copy"><i class="fa-solid fa-copy" onclick="copyElement(document.getElementById('notes-or-transcript'))"></i></strong>
-        <% if params[:mode].nil? %>
-          <%= link_to note_path(@note, :mode => "edit"), data: { turbo: "false" } do %>
-            <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Edit"><i class="fa-solid fa-pen-to-square"></i></strong>
-          <% end %>
-        <% end %>
-
+        <div data-turbo="false" data-transcript-target="edit" data-action="click->transcript#edit">
+          <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Edit"><i class="fa-solid fa-pen-to-square"></i></strong>
+        </div>
 
     </div>
     </div>
@@ -58,21 +55,7 @@
       </li>
     </ul>
       <div>
-        <div id="notes-or-transcript" data-transcript-target="content">
-          <% if params[:show] == "notes" || params[:show].nil? %>
-            <% if params[:mode] == "edit" %>
-              <%= simple_form_for @note do |f| %>
-                <%= f.submit label: "Save", class: "btn btn-primary mb-3 mt-3" %>
-                <%= f.text_area :memo_html, class: "tinymce", rows: 40, cols: 120 %>
-              <% end %>
-              <%= tinymce %>
-            <% else %>
-              <%= raw(@note.memo_html) %>
-            <% end %>
-          <% else %>
-            <% @timestamped_transcript.each do |timestamped| %><span class="caption" onclick="jumpTo(<%= timestamped[:start_time] %>)" data-start-time="<%= timestamped[:start_time] %>" data-duration="<%= timestamped[:duration] %>"><%= Rails::Html::FullSanitizer.new.sanitize(timestamped[:caption]) %></span> <% end %>
-          <% end %>
-        </div>
+        <div id="notes-or-transcript" data-transcript-target="content"></div>
       </div>
   </div>
 </div>
