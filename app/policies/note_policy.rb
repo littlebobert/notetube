@@ -23,8 +23,12 @@ class NotePolicy < ApplicationPolicy
   def update?
     return true
   end
-  
+
   def beautiful_transcript?
+    return true
+  end
+
+  def create_tag?
     return true
   end
 end

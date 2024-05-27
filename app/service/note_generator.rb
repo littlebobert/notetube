@@ -10,7 +10,7 @@ def fetch_notes(transcript)
     'Authorization' => "Bearer #{api_key}"
   }
 
-  prompt = "We're building a website for generating lecture notes from a YouTube lecture video transcript. Please generate lecture notes from the following transcript. Please surround all mathematical forumlas with square brackets only, for example: [\\int_{a}^{b} f(x) \\, dx]. Here is the transcript: #{transcript}"
+  prompt = "We are building a website for generating lecture notes from a YouTube lecture video transcript. Please generate lecture notes from the following transcript, without commentary. Please surround all mathematical forumlas with square brackets only, for example: [\\int_{a}^{b} f(x) \\, dx]. Do not use brackets anywhere else. Here is the transcript: #{transcript}"
 
   # puts "OpenAI prompt: #{prompt}"
 

@@ -10,11 +10,17 @@
 
     <div class="mt-2"><h4><%= @note.title %></h4></div>
 
-    <div class = "content-wrapper">
+    <div class = "content-wrapper" data-controller="tags">
     <div class = "left-content">
 
       <div class="text-muted text-nowrap"><%= number_with_delimiter(@note.view_count)%> views | <%= @note.published_at.strftime("%b %d, %Y") %> <br> <i class="fa-solid fa-user"></i> <%= @note.channel_name %>
       </div>
+
+    <div data-tags-target="tagContainer" class = "<%= "d-none" unless @note.is_bookmarked? %>">
+      <strong>Tags:</strong>
+      <%= @note.tag_list.join(", ") %>
+      <%= render "tag_form" %>
+    </div>
 
     </div>
 
@@ -22,14 +28,14 @@
       <% if @note.is_bookmarked? %>
         <%= simple_form_for @note do |f| %>
           <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
-          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Remove from saved" do %>
+          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top", action:"click->tags#create" }, title: "Remove from saved" do %>
               <i class="fa-solid fa-bookmark"></i>
           <% end %>
         <% end %>
       <% else %>
         <%= simple_form_for @note do |f| %>
           <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
-          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top" }, title: "Save" do %>
+          <%= button_tag type: 'submit', class: "btn-icon", data: {controller: "tooltip", bs_Toggle: "tooltip", bs_Placement: "top", action:"click->tags#create" }, title: "Save" do %>
             <i class="fa-regular fa-bookmark"></i>
           <% end %>
         <% end %>
@@ -89,6 +95,7 @@
       </div>
   </div>
 </div>
+
 
 <script>
 // 3. This function creates an <iframe> (and YouTube player)
