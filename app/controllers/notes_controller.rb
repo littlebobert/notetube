@@ -78,7 +78,8 @@ class NotesController < ApplicationController
       end
       transcript = TranscriptGenerator.new(video_url).call
       note.transcript = transcript
-      note.video_id = id
+      note.video_id = video_id
+      note.video_url = video_url
       # fix me: use save here, not save!
       note.save!
     else
@@ -128,7 +129,7 @@ class NotesController < ApplicationController
     authorize @note
     render plain: TranscriptGenerator::beautify_transcript(@note)
   end
-  
+
   def raw_notes
     @note = Note.find(params[:id])
     authorize @note
