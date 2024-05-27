@@ -2,6 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="bookmark-button"
 export default class extends Controller {
+  static values = {
+    bookmarked: Boolean
+  }
+
 
   connect() {
     console.log("Bookmark controller connected")
@@ -12,6 +16,15 @@ export default class extends Controller {
     event.preventDefault() // Prevent the default form submission
     const form = event.currentTarget  //assgin the form element to the variable form
     const url = form.action    // assign the action URL of the form (where the form will be submitted to), to url
+
+    const tagform = form.ownerDocument.getElementById("tagform");
+    if (this.bookmarkedValue) {
+      tagform.classList.remove("d-none");
+     }
+     else
+     {
+      tagform.classList.add("d-none");
+    }
 
     fetch(url, {
       method: "PATCH",

@@ -106,6 +106,16 @@ class NotesController < ApplicationController
 
   def index
     @notes = policy_scope(Note)
+    @notes = Note.all
+
+    if params[:tag].present?
+      @notes = @notes.tagged_with(params[:tag])
+    end
+
+    if params[:sort_by] == "tag"
+      @notes = @notes.joins(:tags).order('tags.name ASC')
+    end
+
   end
 
   def beautiful_transcript
@@ -128,9 +138,20 @@ class NotesController < ApplicationController
     render plain: @note.memo_html
   end
 
+  def create_tag
+    @note = Note.find(params[:note_id])
+    @note.tag_list.add(params[:tag_list])
+    authorize @note
+    if @note.save
+      redirect_to @note, notice: 'Added to your library'
+    else
+      render :show, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def note_params
-    params.require(:note).permit(:is_bookmarked, :memo_html)
+    params.require(:note).permit(:is_bookmarked, :memo_html, :tag_list)
   end
 end

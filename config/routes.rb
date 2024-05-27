@@ -10,9 +10,10 @@ Rails.application.routes.draw do
       get 'beautiful_transcript'
       get 'raw_notes'
     end
+    put "/tags", to: "notes#create_tag", as: "create_tag"
   end
 
   devise_for :users, controllers: { sessions: "sessions", registrations: "registrations" }
-  
+
   get "/generate", to: "notes#create"
 end
