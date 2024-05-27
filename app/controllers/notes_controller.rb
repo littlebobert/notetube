@@ -74,9 +74,6 @@ class NotesController < ApplicationController
       transcript = TranscriptGenerator.new(video_url).call
       note.transcript = transcript
       note.video_id = id
-      memo = NoteGenerator.new(transcript).call
-      note.memo = memo
-      note.memo_html = transform_bracketed_text(memo)
       # fix me: use save here, not save!
       note.save!
     else
@@ -115,6 +112,20 @@ class NotesController < ApplicationController
     @note = Note.find(params[:id])
     authorize @note
     render plain: TranscriptGenerator::beautify_transcript(@note)
+  end
+  
+  def raw_notes
+    @note = Note.find(params[:id])
+    authorize @note
+    if @note.memo_html.present?
+      render plain: @note.memo_html
+      return
+    end
+    memo = NoteGenerator.new(@note.transcript).call
+    @note.memo = memo
+    @note.memo_html = transform_bracketed_text(memo)
+    @note.save
+    render plain: @note.memo_html
   end
 
   private

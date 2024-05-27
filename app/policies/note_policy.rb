@@ -27,4 +27,8 @@ class NotePolicy < ApplicationPolicy
   def beautiful_transcript?
     return true
   end
+  
+  def raw_notes?
+    return true
+  end
 end

@@ -2,7 +2,7 @@
   <div class="bookmark-list">
     <%= "No Bookmarks" if @notes.count.zero? %>
     <% @notes.each do |note| %>
-      <%= link_to note_path(note), class: 'video-card-link' do %>
+      <%= link_to note_path(note), class: 'video-card-link', data: { turbo: "false" } do %>
         <div class="video-card">
           <div class="video-container">
             <img src="<%= note.thumbnail_url %>" alt="Thumbnail of the video">
