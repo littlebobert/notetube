@@ -35,7 +35,7 @@ export default class extends Controller {
           var paragraph = blob["paragraph"];
           var start_time = blob["start_time"];
           var duration = blob["duration"];
-          html += `<div class="caption" onclick="jumpTo(${start_time})" data-start-time="${start_time}" data-duration="${duration}">${paragraph}</div>`
+          html += `<div class="caption mb-3" onclick="jumpTo(${start_time})" data-start-time="${start_time}" data-duration="${duration}">${paragraph}</div>`
         });
         this.contentTarget.innerHTML = html;
       })
