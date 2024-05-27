@@ -1,24 +1,37 @@
 import { Controller } from "@hotwired/stimulus"
 
+
 // Connects to data-controller="transcript"
 export default class extends Controller {
   static targets = ["content", "transcriptTab", "notesTab", "playerOrIframe"];
   static values = {
     noteId: String
   }
+  
+  loadNotesAsync() {
+    this.transcriptTabTarget.classList.remove("active");
+    this.notesTabTarget.classList.add("active");
+    this.contentTarget.innerHTML = "Loading…"
+    
+    var url = `/notes/${this.noteIdValue}/raw_notes`
+    fetch(url)
+      .then(response => response.text())
+      .then((response) => {
+        this.contentTarget.innerHTML = response;
+      })
+  }
+  
   connect() {
+    this.loadNotesAsync();
+  }
+  
+  switchToNotes(event) {
+    event.preventDefault();
+    this.loadNotesAsync();
   }
   
   fetch(event) {
     event.preventDefault();
-    // Insert the player div, the default is an iframe, which doesn’t work with the YouTube API.
-    this.playerOrIframeTarget.innerHTML = `<div id="player"></div>`;
-    
-    // This code loads the YouTube IFrame Player API code asynchronously.
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = this.element.ownerDocument.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     
     this.notesTabTarget.classList.remove("active");
     this.transcriptTabTarget.classList.add("active");
