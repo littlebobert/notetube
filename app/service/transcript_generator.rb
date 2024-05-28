@@ -1,6 +1,10 @@
 require 'youtube-captions'
 require 'json'
 
+module Exceptions
+  class NoCaptions < StandardError; end
+end
+
 # Method 1: Use `youtube-captions` gem, which crawls the page looking for a caption URL
 
 class TranscriptGenerator
@@ -46,7 +50,11 @@ class TranscriptGenerator
   end
 
   def call
-    video = YoutubeCaptions::Video.new(id: @url)
+    begin
+      video = YoutubeCaptions::Video.new(id: @url)
+    rescue
+      raise Exceptions::NoCaptions
+    end
     p video.info
     captions = video.captions(lang: "en")
     p video.captions
