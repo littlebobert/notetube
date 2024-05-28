@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { tips } from "../tips";
+
 
 // Connects to data-controller="transcript"
 export default class extends Controller {
@@ -178,3 +178,37 @@ export default class extends Controller {
       })
   }
 }
+
+
+const tips = [
+  "Why do programmers prefer dark mode? Because the light attracts bugs!",
+  "To understand recursion, you must first understand recursion.",
+  "Debugging: Being the detective in a crime movie where you are also the murderer.",
+  "There are 10 types of people in the world: those who understand binary, and those who don't.",
+  "I would love to change the world, but they won’t give me the source code.",
+  "Programming is like writing a book... except if you miss a single comma on page 126 the whole thing makes no sense.",
+  "In order to understand recursion, one must first understand recursion.",
+  "Real programmers count from 0.",
+  "A SQL query walks into a bar, walks up to two tables and asks: 'Can I join you?'",
+  "Why do Java developers wear glasses? Because they can't C#.",
+  "How many programmers does it take to change a light bulb? None, that's a hardware problem.",
+  "A programmer's wife tells him: 'While you're at the store, get some milk.' He never comes back.",
+  "Why do programmers always mix up Christmas and Halloween? Because Oct 31 == Dec 25.",
+  "Knock, knock. Who’s there? Broken recursion. Broken recu... Knock, knock.",
+  "What's a programmer's favorite place to hang out? Foo Bar.",
+  "Why was the JavaScript developer sad? Because he didn't know how to 'null' his feelings.",
+  "Why was the developer unhappy at their job? They wanted arrays.",
+  "Algorithm: A word used by programmers when they don't want to explain what they did.",
+  "How do you comfort a JavaScript bug? You console it.",
+  "Why do Python programmers have low self-esteem? Because they're constantly comparing their self to others.",
+  "What is the most used language in programming? Profanity.",
+  "Why did the functions stop calling each other? Because they had constant arguments.",
+  "What's the object-oriented way to become wealthy? Inheritance.",
+  "Why don’t programmers like nature? It has too many bugs.",
+  "What’s a computer’s favorite beat? An algo-rhythm.",
+  "I would tell you a joke about UDP, but you might not get it.",
+  "A byte walks into a bar and orders a pint. Bartender asks, 'What's wrong?' Byte says, 'Parity error.' Bartender nods and says, 'Yeah, I thought you looked a bit off.'",
+  "What’s the best way to catch a runaway computer? Use the Inter-net.",
+  "Why do programmers prefer iOS development? Because it doesn’t allow garbage collection.",
+  "Why don't bachelors like Git? Because they are afraid to commit."
+];
