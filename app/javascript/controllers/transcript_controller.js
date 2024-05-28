@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { tips } from "../tips";
 
 // Connects to data-controller="transcript"
 export default class extends Controller {
@@ -6,18 +7,60 @@ export default class extends Controller {
   static values = {
     noteId: String
   }
+
+  showLoadingAnimation() {
+    const loadingHTML = `
+      <div id="loading-container" style="text-align: center;">
+        <div id="loading-animation" style="
+          width: 50px;
+          height: 50px;
+          border: 5px solid #ccc;
+          border-top: 5px solid #1d72b8;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin: 0 auto;
+        "></div>
+        <div id="loading-text" style="
+          margin-top: 10px;
+          font-size: 20px;
+          font-weight: bold;
+        ">Loading…</div>
+        <div id="loading-tip" style="
+          margin-top: 20px;
+          font-size: 16px;
+          color: #666;
+          text-align: left;
+          padding: 0 20px;
+        ">Fetching notes, please wait...</div>
+      </div>
+    `;
+
+    this.contentTarget.innerHTML = loadingHTML;
+
+    let tipIndex = 0;
+
+    const loadingTip = this.contentTarget.querySelector("#loading-tip");
+
+    function showNextTip() {
+      const randomTip = tips[Math.floor(Math.random() * tips.length)];
+      loadingTip.innerText = randomTip;
+    }
+
+    setInterval(showNextTip, 5000); // Change tip every 3 seconds
+    showNextTip();
+  }
   
   decodeHTML(html) {
     var txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
   }
-  
+
   loadNotesAsync() {
     this.transcriptTabTarget.classList.remove("active");
     this.notesTabTarget.classList.add("active");
-    this.contentTarget.innerHTML = "Loading…"
-    
+    this.showLoadingAnimation();
+
     var url = `/notes/${this.noteIdValue}/raw_notes`
     fetch(url)
       .then(response => response.text())
@@ -26,20 +69,32 @@ export default class extends Controller {
         MathJax.typeset();
       })
   }
-  
+
   connect() {
     this.loadNotesAsync();
+    if (!document.getElementById('loading-animation-styles')) {
+      const styleSheet = document.createElement("style");
+      styleSheet.type = "text/css";
+      styleSheet.id = 'loading-animation-styles';
+      styleSheet.innerText = `
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `;
+      document.head.appendChild(styleSheet);
+    }
   }
-  
+
   edit(event) {
     this.editTarget.innerHTML = `<strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Save"><i class="fa-solid fa-floppy-disk"></i></strong>`
     this.editTarget.dataset.action = "click->transcript#save"
     this.contentTarget.contentEditable = "true";
   }
-  
+
   save(event) {
     var url = `/notes/${this.noteIdValue}`
-    var formData = new FormData(); 
+    var formData = new FormData();
     formData.append("note", JSON.stringify({ "memo_html": this.contentTarget.innerHTML }));
 
     fetch(url, {
@@ -60,12 +115,12 @@ export default class extends Controller {
         console.log("successful save");
       })
       .catch(error => console.error('Error:', error))
-    
+
     this.editTarget.innerHTML = `<strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Edit"><i class="fa-solid fa-pen-to-square"></i></strong>`
     this.editTarget.dataset.action = "click->transcript#edit"
     this.contentTarget.contentEditable = "false";
   }
-  
+
   switchToNotes(event) {
     event.preventDefault();
     this.loadNotesAsync();
@@ -101,10 +156,10 @@ export default class extends Controller {
   
   fetch(event) {
     event.preventDefault();
-    
+
     this.notesTabTarget.classList.remove("active");
     this.transcriptTabTarget.classList.add("active");
-    this.contentTarget.innerHTML = "Loading…"
+    this.showLoadingAnimation();
 
     var url = `/notes/${this.noteIdValue}/beautiful_transcript`
     fetch(url)
