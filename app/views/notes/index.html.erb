@@ -35,7 +35,6 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
     // Handle clicking on tag pills
     document.querySelectorAll('.tag-pill, .tag-pill-active').forEach(tagPill => {
       tagPill.addEventListener('click', (event) => {
@@ -62,5 +61,4 @@
         window.location.search = urlParams.toString();
       });
     });
-  });
 </script>
