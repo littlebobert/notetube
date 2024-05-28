@@ -1,17 +1,21 @@
 <h1>Bookmarks</h1>
 
 <div class="tags">
-  <p> Sort by: </p>
+  <p> <%= "Sort by" if @notes %> </p>
   <%= form_with url: notes_path, method: :get, local: true, id: 'filter-form' do %>
+  <% all_tags = [] %>
     <% @notes.each do |note| %>
-      <% note.tags.each do |tag| %>
+      <% note.tags.each do |t| %>
+        <% all_tags << t%>
+      <% end %>
+    <% end %>
+      <% all_tags.uniq.each do |tag| %>
         <% if params[:tags]&.include?(tag.name) %>
           <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill-active' %>
         <% else %>
           <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill' %>
         <% end %>
       <% end %>
-    <% end %>
   <% end %>
 </div>
 
