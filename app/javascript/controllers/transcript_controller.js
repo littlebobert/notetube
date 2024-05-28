@@ -1,11 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
 
-
 // Connects to data-controller="transcript"
 export default class extends Controller {
   static targets = ["content", "transcriptTab", "notesTab", "playerOrIframe", "edit"];
   static values = {
     noteId: String
+  }
+  
+  decodeHTML(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
   }
   
   loadNotesAsync() {
@@ -17,7 +22,7 @@ export default class extends Controller {
     fetch(url)
       .then(response => response.text())
       .then((response) => {
-        this.contentTarget.innerHTML = response;
+        this.contentTarget.innerHTML = this.decodeHTML(response);
         MathJax.typeset();
       })
   }
