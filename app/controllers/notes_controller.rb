@@ -143,7 +143,7 @@ class NotesController < ApplicationController
     authorize @note
     render plain: TranscriptGenerator::beautify_transcript(@note)
   end
-  
+
   def raw_transcript
     @note = Note.find(params[:id])
     authorize @note
