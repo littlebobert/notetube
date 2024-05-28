@@ -1,11 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
 
-
 // Connects to data-controller="transcript"
 export default class extends Controller {
   static targets = ["content", "transcriptTab", "notesTab", "playerOrIframe", "edit"];
   static values = {
     noteId: String
+  }
+  
+  decodeHTML(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
   }
   
   loadNotesAsync() {
@@ -17,7 +22,7 @@ export default class extends Controller {
     fetch(url)
       .then(response => response.text())
       .then((response) => {
-        this.contentTarget.innerHTML = response;
+        this.contentTarget.innerHTML = this.decodeHTML(response);
         MathJax.typeset();
       })
   }
@@ -64,6 +69,34 @@ export default class extends Controller {
   switchToNotes(event) {
     event.preventDefault();
     this.loadNotesAsync();
+  }
+  
+  fetchRawTranscript(event) {
+    event.preventDefault();
+    
+    this.notesTabTarget.classList.remove("active");
+    this.transcriptTabTarget.classList.add("active");
+    this.contentTarget.innerHTML = "Loading…"
+  
+    var url = `/notes/${this.noteIdValue}/raw_transcript`
+    fetch(url)
+      .then(response => response.text())
+      .then((response) => {
+        var json = JSON.parse(response);
+        var html = "";
+        var number_of_captions = 0;
+        Array.from(json).forEach((blob) => {
+          var paragraph = blob["caption"];
+          var start_time = blob["start_time"];
+          var duration = blob["duration"];
+          html += `<span class="caption" onclick="jumpTo(${start_time})" data-start-time="${start_time}" data-duration="${duration}">${paragraph}</span> `
+          number_of_captions += 1;
+          if (number_of_captions % 5 == 0) {
+            html += "<br><br>";
+          }
+        });
+        this.contentTarget.innerHTML = html;
+      })
   }
   
   fetch(event) {

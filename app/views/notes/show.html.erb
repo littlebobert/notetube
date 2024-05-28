@@ -51,7 +51,7 @@
         <%= link_to "Notes", note_path(@note, :show => "notes"), class: "tab-underlined #{params[:show] == "notes" || params[:show].nil? ? "active" : ""}", data: { turbo: "false", transcript_target: "notesTab", action: "click->transcript#switchToNotes", turbo: "false" } %>
       </li>
       <li>
-        <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}", data: { turbo: "false", action: "click->transcript#fetch", transcript_target: "transcriptTab" } %>
+        <%= link_to "Transcript", note_path(@note, :show => "transcript"), class: "tab-underlined #{params[:show] == "transcript" ? "active" : ""}", data: { turbo: "false", action: "click->transcript#fetchRawTranscript", transcript_target: "transcriptTab" } %>
       </li>
     </ul>
       <div>
