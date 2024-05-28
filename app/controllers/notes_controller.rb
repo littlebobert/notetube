@@ -83,7 +83,8 @@ class NotesController < ApplicationController
       begin
         transcript = TranscriptGenerator.new(video_url).call
       rescue Exceptions::NoCaptions
-        redirect_to root_path, alert: "No captions available."
+        flash[:error] = "No captions available."
+        redirect_to root_path
         return
       end
       note.transcript = transcript
