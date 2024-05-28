@@ -139,7 +139,6 @@ class NotesController < ApplicationController
     @note = Note.find(params[:id])
     authorize @note
     result = TranscriptGenerator.new(@note.video_url).timestamped_transcript.to_json
-    puts "result: #{result}"
     render plain: result
   end
 
