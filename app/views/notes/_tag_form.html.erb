@@ -1,7 +1,7 @@
 <%= form_with(url: note_create_tag_path(@note), method: :put, data: {turbo: "false"}) do |f| %>
 
   <%#= f.input :tags %>
-  <%= f.text_field :tag_list %>
+  <%= f.text_field :tag_list, value: @note.tag_list.join(", "), placeholder: "Add tags"%>
 
-  <%= f.submit 'Add tags' %>
+  <%= f.submit %>
 <% end %>
