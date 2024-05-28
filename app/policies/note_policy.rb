@@ -35,4 +35,8 @@ class NotePolicy < ApplicationPolicy
   def raw_notes?
     return true
   end
+  
+  def raw_transcript?
+    return true
+  end
 end

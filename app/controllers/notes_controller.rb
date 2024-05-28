@@ -134,6 +134,13 @@ class NotesController < ApplicationController
     authorize @note
     render plain: TranscriptGenerator::beautify_transcript(@note)
   end
+  
+  def raw_transcript
+    @note = Note.find(params[:id])
+    authorize @note
+    result = TranscriptGenerator.new(@note.video_url).timestamped_transcript.to_json
+    render plain: result
+  end
 
   def raw_notes
     @note = Note.find(params[:id])
