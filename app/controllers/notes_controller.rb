@@ -102,14 +102,15 @@ class NotesController < ApplicationController
   def update
     @note = Note.find(params[:id])
     authorize @note
-
     respond_to do |format|
       if @note.update(note_params)
         format.html { redirect_to @note, notice: 'Note was successfully updated.' }
         format.turbo_stream { render turbo_stream: turbo_stream.replace('bookmark-button', partial: 'bookmark_button', locals: { note: @note }) }
+        format.json { render json: { status: 'success' } }
       else
         format.html { render :edit }
         format.turbo_stream { render turbo_stream: turbo_stream.replace('bookmark-button', partial: 'bookmark_button', locals: { note: @note }) }
+        format.json { render json: { status: 'failure', errors: note.errors.full_messages }, status: :unprocessable_entity }
       end
     end
   end

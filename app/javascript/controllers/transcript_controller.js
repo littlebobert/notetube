@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="transcript"
 export default class extends Controller {
-  static targets = ["content", "transcriptTab", "notesTab", "playerOrIframe"];
+  static targets = ["content", "transcriptTab", "notesTab", "playerOrIframe", "edit"];
   static values = {
     noteId: String
   }
@@ -24,6 +24,41 @@ export default class extends Controller {
   
   connect() {
     this.loadNotesAsync();
+  }
+  
+  edit(event) {
+    this.editTarget.innerHTML = `<strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Save"><i class="fa-solid fa-floppy-disk"></i></strong>`
+    this.editTarget.dataset.action = "click->transcript#save"
+    this.contentTarget.contentEditable = "true";
+  }
+  
+  save(event) {
+    var url = `/notes/${this.noteIdValue}`
+    var formData = new FormData(); 
+    formData.append("note", JSON.stringify({ "memo_html": this.contentTarget.innerHTML }));
+
+    fetch(url, {
+      method: "PATCH",
+      headers: {
+        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").getAttribute("content"),
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        note: {
+          memo_html: this.contentTarget.innerHTML
+        }
+      })
+    })
+      .then(response => response.json())
+      .then(html => {
+        console.log("successful save");
+      })
+      .catch(error => console.error('Error:', error))
+    
+    this.editTarget.innerHTML = `<strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Edit"><i class="fa-solid fa-pen-to-square"></i></strong>`
+    this.editTarget.dataset.action = "click->transcript#edit"
+    this.contentTarget.contentEditable = "false";
   }
   
   switchToNotes(event) {
