@@ -1,11 +1,19 @@
 <h1>Bookmarks</h1>
 
-<%= form_with url: notes_path, method: :get, local: true do %>
-  <div>
-    <%= label_tag :tag, "Search by tag" %>
-    <%= text_field_tag :tag, params[:tag] %>
-  </div>
-<% end %>
+<div class="tags">
+  <p> Sort by: </p>
+  <%= form_with url: notes_path, method: :get, local: true, id: 'filter-form' do %>
+    <% @notes.each do |note| %>
+      <% note.tags.each do |tag| %>
+        <% if params[:tags]&.include?(tag.name) %>
+          <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill-active' %>
+        <% else %>
+          <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill' %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
 
 <div class="bookmark-page mt-3">
   <div class="bookmark-list">
@@ -25,3 +33,34 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Handle clicking on tag pills
+    document.querySelectorAll('.tag-pill, .tag-pill-active').forEach(tagPill => {
+      tagPill.addEventListener('click', (event) => {
+        event.preventDefault();
+        const tag = event.target.textContent.trim();
+        const urlParams = new URLSearchParams(window.location.search);
+        let tags = urlParams.get('tags') ? urlParams.get('tags').split(',') : [];
+
+        // Toggle tag in the tags array
+        if (tags.includes(tag)) {
+          tags = tags.filter(t => t !== tag);
+        } else {
+          tags.push(tag);
+        }
+
+        // Update the URL parameters
+        if (tags.length > 0) {
+          urlParams.set('tags', tags.join(','));
+        } else {
+          urlParams.delete('tags');
+        }
+
+        // Update the page URL
+        window.location.search = urlParams.toString();
+      });
+    });
+  });
+</script>
