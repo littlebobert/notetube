@@ -49,7 +49,7 @@ export default class extends Controller {
     setInterval(showNextTip, 5000); // Change tip every 3 seconds
     showNextTip();
   }
-  
+
   decodeHTML(html) {
     var txt = document.createElement("textarea");
     txt.innerHTML = html;
@@ -125,14 +125,14 @@ export default class extends Controller {
     event.preventDefault();
     this.loadNotesAsync();
   }
-  
+
   fetchRawTranscript(event) {
     event.preventDefault();
-    
+
     this.notesTabTarget.classList.remove("active");
     this.transcriptTabTarget.classList.add("active");
-    this.contentTarget.innerHTML = "Loading…"
-  
+    this.showLoadingAnimation();
+
     var url = `/notes/${this.noteIdValue}/raw_transcript`
     fetch(url)
       .then(response => response.text())
@@ -153,7 +153,7 @@ export default class extends Controller {
         this.contentTarget.innerHTML = html;
       })
   }
-  
+
   fetch(event) {
     event.preventDefault();
 
