@@ -123,13 +123,10 @@ class NotesController < ApplicationController
 
   def index
     @notes = policy_scope(Note)
-    @notes = Note.all
 
     if params[:tags].present?
       tags = params[:tags].split(',')
-      @notes = Note.tagged_with(tags, any: true)
-    else
-      @notes = Note.all
+      @notes = @notes.tagged_with(tags, any: true)
     end
 
     if params[:sort_by] == "tag"
