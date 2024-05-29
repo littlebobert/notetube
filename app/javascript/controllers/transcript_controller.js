@@ -91,6 +91,143 @@ export default class extends Controller {
     this.editTarget.innerHTML = `<strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Save"><i class="fa-solid fa-floppy-disk"></i></strong>`
     this.editTarget.dataset.action = "click->transcript#save"
     this.contentTarget.contentEditable = "true";
+    const bubble = document.createElement('div');
+    bubble.classList.add('floating-bubble');
+    bubble.innerHTML = `
+      <button onclick="document.execCommand('bold', false, null)"><i class="fa-solid fa-bold"></i></button>
+      <button onclick="document.execCommand('italic', false, null)"><i class="fa-solid fa-italic"></i></button>
+      <button onclick="document.execCommand('underline', false, null)"><i class="fa-solid fa-underline"></i></button>
+      <button id="highlight-button"><i class="fa-solid fa-highlighter"></i></button>
+      <button id="remove-format-button"><i class="fa-solid fa-eraser"></i></button>
+
+    `;
+    document.body.appendChild(bubble);
+
+    // Add CSS styles for the floating bubble
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .floating-bubble {
+        display: none;
+        position: absolute;
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        display: flex;
+        gap: 15px;
+        z-index: 1000;
+        box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+        border-radius: 8px;
+      }
+      .floating-bubble button {
+        background: none;
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      .floating-bubble button:hover {
+        background-color: #f0f0f0;
+        color: #000;
+        border-radius: 4px;
+      }
+      .editable-content {
+        border: 1px solid #ccc;
+        padding: 10px;
+        min-height: 200px;
+        border-radius: 4px;
+      }
+      .highlight {
+        background-color: yellow;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Add event listener for text selection
+    this.contentTarget.addEventListener('mouseup', () => this.showBubble(bubble));
+    this.contentTarget.addEventListener('keyup', () => this.showBubble(bubble));
+    document.getElementById('highlight-button').addEventListener('click', () => this.highlightText());
+    document.addEventListener('scroll', () => {
+      bubble.style.visibility = 'hidden';
+    }, true);
+    document.getElementById('remove-format-button').addEventListener('click', function() {
+      const selection = window.getSelection();
+      if (!selection.isCollapsed) {
+        const range = selection.getRangeAt(0);
+        const content = range.extractContents();  // Extracts the content of the range
+
+        // Create a new text node from the content
+        const textNode = document.createTextNode(content.textContent);
+
+        // Insert the plain text node back into the document
+        range.insertNode(textNode);
+
+        // Remove any leftover empty elements
+        cleanUpEmptyElements(range.commonAncestorContainer);
+
+        // Clear the selection
+        selection.removeAllRanges();
+      }
+    });
+  }
+
+  cleanUpEmptyElements(element) {
+    // Recursive function to remove empty elements
+    for (let i = 0; i < element.childNodes.length; i++) {
+        const child = element.childNodes[i];
+        if (child.nodeType === 1 && !child.textContent.trim()) {
+            element.removeChild(child);
+            i--;  // Adjust the loop index after removing a child
+        } else if (child.nodeType === 1) {
+            cleanUpEmptyElements(child);  // Recursive clean up for non-empty children
+        }
+    }
+  }
+
+  showBubble(bubble) {
+    const selection = window.getSelection();
+    if (!selection.isCollapsed) {
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+
+      // Adjust bubble position to stay within viewport
+      const bubbleWidth = bubble.offsetWidth;
+      const bubbleHeight = bubble.offsetHeight;
+
+      let top = rect.top - bubbleHeight - 10 + window.scrollY; // Adding a small margin to avoid covering text
+      let left = rect.left + window.scrollX;
+
+      // Ensure the bubble is fully visible within the viewport
+      if (top < window.scrollY) {
+        top = rect.bottom + 10 + window.scrollY; // Move below the selection if above is out of view
+      }
+      if (left + bubbleWidth > window.innerWidth + window.scrollX) {
+        left = window.innerWidth + window.scrollX - bubbleWidth - 5; // Move left if right edge is out of view
+      }
+      if (left < window.scrollX) {
+        left = window.scrollX + 5; // Ensure it doesn't go off the left edge
+      }
+
+      bubble.style.visibility = 'visible';
+      bubble.style.top = `${top}px`;
+      bubble.style.left = `${left}px`;
+    } else {
+      bubble.style.display = 'hidden';
+    }
+  }
+
+
+
+
+  highlightText() {
+    const selection = window.getSelection();
+    if (!selection.isCollapsed) {
+      const range = selection.getRangeAt(0);
+      const span = document.createElement('span');
+      span.classList.add('highlight');
+      range.surroundContents(span);
+    }
   }
 
   save(event) {
@@ -120,6 +257,11 @@ export default class extends Controller {
     this.editTarget.innerHTML = `<strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Edit"><i class="fa-solid fa-pen-to-square"></i></strong>`
     this.editTarget.dataset.action = "click->transcript#edit"
     this.contentTarget.contentEditable = "false";
+
+    const bubble = document.querySelector('.floating-bubble');
+    if (bubble) {
+      bubble.remove();
+    }
   }
 
   switchToNotes(event) {
@@ -229,7 +371,7 @@ export default class extends Controller {
         this.contentTarget.innerHTML = html;
       })
   }
-  
+
   share(event) {
     // Copies the current URL to the clipboard. Copied from https://stackoverflow.com/questions/49618618/copy-current-url-to-clipboard
     var dummy = document.createElement('input'),
