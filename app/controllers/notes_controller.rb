@@ -102,7 +102,6 @@ class NotesController < ApplicationController
     @note = Note.find(params[:id])
     authorize @note
     @video_id = @note.video_id
-    @timestamped_transcript = TranscriptGenerator.new(@note.video_url).timestamped_transcript
   end
 
   def update
@@ -144,7 +143,7 @@ class NotesController < ApplicationController
   def raw_transcript
     @note = Note.find(params[:id])
     authorize @note
-    result = TranscriptGenerator.new(@note.video_url).timestamped_transcript.to_json
+    result = TranscriptGenerator::timestamped_transcript_json(@note)
     render plain: result
   end
 
