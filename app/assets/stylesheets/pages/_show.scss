@@ -107,12 +107,24 @@ code {
 
 .right-content {
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+  justify-content: flex-start;
+  align-items: flex-start;
   margin-left: 20px; /* Add some space between the left and right content */
   flex-direction: row;
 }
 
 #player {
   border-radius: 12px;
+}
+
+.list-tags {
+  display: inline-block;
+  text-decoration: none;
+  background: #EFF4FF;
+  color: hsl(223, 71%, 49%);
+  border: none;
+  font-size: .9em;
+  padding: 2px 4px;
+  border-radius: 20px;
+  text-align: center;
 }
