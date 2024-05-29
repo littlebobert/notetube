@@ -97,6 +97,8 @@ export default class extends Controller {
       <button onclick="document.execCommand('italic', false, null)"><i class="fa-solid fa-italic"></i></button>
       <button onclick="document.execCommand('underline', false, null)"><i class="fa-solid fa-underline"></i></button>
       <button id="highlight-button"><i class="fa-solid fa-highlighter"></i></button>
+      <button id="remove-format-button"><i class="fa-solid fa-eraser"></i></button>
+
     `;
     document.body.appendChild(bubble);
 
@@ -148,6 +150,38 @@ export default class extends Controller {
     document.addEventListener('scroll', () => {
       bubble.style.visibility = 'hidden';
     }, true);
+    document.getElementById('remove-format-button').addEventListener('click', function() {
+      const selection = window.getSelection();
+      if (!selection.isCollapsed) {
+        const range = selection.getRangeAt(0);
+        const content = range.extractContents();  // Extracts the content of the range
+
+        // Create a new text node from the content
+        const textNode = document.createTextNode(content.textContent);
+
+        // Insert the plain text node back into the document
+        range.insertNode(textNode);
+
+        // Remove any leftover empty elements
+        cleanUpEmptyElements(range.commonAncestorContainer);
+
+        // Clear the selection
+        selection.removeAllRanges();
+      }
+    });
+  }
+
+  cleanUpEmptyElements(element) {
+    // Recursive function to remove empty elements
+    for (let i = 0; i < element.childNodes.length; i++) {
+        const child = element.childNodes[i];
+        if (child.nodeType === 1 && !child.textContent.trim()) {
+            element.removeChild(child);
+            i--;  // Adjust the loop index after removing a child
+        } else if (child.nodeType === 1) {
+            cleanUpEmptyElements(child);  // Recursive clean up for non-empty children
+        }
+    }
   }
 
   showBubble(bubble) {
