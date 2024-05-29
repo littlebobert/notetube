@@ -3,7 +3,7 @@
   <h1> My Library </h1>
   
   <div class="tag-pills">
-    <p> <%= "Sort by" unless @notes.count.zero? %> </p>
+    <p> <%= "Filter by" unless @notes.count.zero? %> </p>
     <%= form_with url: notes_path, method: :get, local: true, id: 'filter-form' do %>
     <% all_tags = [] %>
       <% @notes.each do |note| %>
@@ -13,7 +13,7 @@
       <% end %>
         <% all_tags.uniq.each do |tag| %>
           <% if params[:tags]&.include?(tag.name) %>
-            <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill-active' %>
+            <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill active' %>
           <% else %>
             <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill' %>
           <% end %>
