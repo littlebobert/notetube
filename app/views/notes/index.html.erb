@@ -13,7 +13,7 @@
       <% end %>
         <% all_tags.uniq.each do |tag| %>
           <% if params[:tags]&.include?(tag.name) %>
-            <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill-active' %>
+            <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill active' %>
           <% else %>
             <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill' %>
           <% end %>

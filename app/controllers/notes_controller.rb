@@ -125,7 +125,7 @@ class NotesController < ApplicationController
 
     if params[:tags].present?
       tags = params[:tags].split(',')
-      @notes = @notes.tagged_with(tags, any: true)
+      @notes = @notes.tagged_with(tags, any: false)
     end
 
     if params[:sort_by] == "tag"

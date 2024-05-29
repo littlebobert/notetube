@@ -26,17 +26,11 @@
   color: #EFF4FF;
 }
 
-.tag-pill-active {
+.tag-pill.active {
   display: inline-block;
   background-color: hsl(223, 71%, 49%);
   color: #EFF4FF;
-  border-radius: 20px;
   text-decoration: none;
-  border: none;
   padding: 10px 20px;
   text-align: center;
-  margin-right: 13px;
-  margin-left: -1px;
-  margin-bottom: 10px;
-  border-radius: 100px;
 }
