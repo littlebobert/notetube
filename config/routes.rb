@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get 'beautiful_transcript'
       get 'raw_notes'
       get 'raw_transcript'
+      get 'quiz'
     end
     put "/tags", to: "notes#create_tag", as: "create_tag"
   end

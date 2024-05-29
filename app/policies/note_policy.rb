@@ -39,4 +39,8 @@ class NotePolicy < ApplicationPolicy
   def raw_transcript?
     return true
   end
+  
+  def quiz?
+    return true
+  end
 end
