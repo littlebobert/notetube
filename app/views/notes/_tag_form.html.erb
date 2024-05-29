@@ -1,7 +1,6 @@
-<%= form_with(url: note_create_tag_path(@note), method: :put, data: {turbo: "false"}) do |f| %>
-
-  <%#= f.input :tags %>
-  <%= f.text_field :tag_list, value: @note.tag_list.join(", "), placeholder: "Add tag"%>
-
-  <%= f.submit %>
-<% end %>
+<div id="tag-form">
+  <%= form_with(url: note_create_tag_path(@note), method: :put, data: {turbo: "false"}, class: "modern-form") do |f| %>
+    <%= f.text_field :tag_list, placeholder: "Add tags", class: "tag-input w-50" %>
+    <%= f.submit "Submit", value: "Save", class: "submit-button" %>
+  <% end %>
+</div>

@@ -163,7 +163,7 @@ class NotesController < ApplicationController
 
   def create_tag
     @note = Note.find(params[:note_id])
-    @note.tag_list.add(params[:tag_list])
+    @note.tag_list.add(params[:tag_list].split(", "))
     authorize @note
     if @note.save
       redirect_to @note, notice: 'Added to your library'
@@ -171,7 +171,7 @@ class NotesController < ApplicationController
       render :show, status: :unprocessable_entity
     end
   end
-  
+
   def quiz
     @note = Note.find(params[:id])
     authorize @note

@@ -1,0 +1,42 @@
+/* General form styles */
+#tag-form {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+}
+
+/* Modern form styling */
+.modern-form {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  width: 50%;
+  margin-top: 10px;
+  margin-bottom: 2px;
+  border-radius: 5px;
+}
+
+.tag-input {
+  flex: 1;
+  padding: 2px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.tag-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.submit-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
