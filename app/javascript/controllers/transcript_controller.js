@@ -177,6 +177,17 @@ export default class extends Controller {
         this.contentTarget.innerHTML = html;
       })
   }
+  
+  share(event) {
+    // Copies the current URL to the clipboard. Copied from https://stackoverflow.com/questions/49618618/copy-current-url-to-clipboard
+    var dummy = document.createElement('input'),
+    text = window.location.href;
+    document.body.appendChild(dummy);
+    dummy.value = text;
+    dummy.select();
+    document.execCommand('copy');
+    document.body.removeChild(dummy);
+  }
 }
 
 
