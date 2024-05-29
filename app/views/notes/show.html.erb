@@ -1,5 +1,5 @@
 <% content_for :title, "NoteTube: #{@note.title}" %>
-<div class="container2" data-controller="transcript" data-transcript-note-id-value="<%= @note.id %>">
+<div class="show-container" data-controller="transcript" data-transcript-note-id-value="<%= @note.id %>">
   <div id="column1">
     <div data-transcript-target="playerOrIframe">
       <div id="player"></div>
