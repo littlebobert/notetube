@@ -9,7 +9,7 @@
       <% else %>
         <li class="nav-item"><a href="/users/sign_in">Login</a></li>
       <% end %>
-      <li class="nav-item">
+      <li class="nav-item search">
         <i class="fas fa-search" id="search-icon"></i>
         <form style="display: inline;" action="/notes" method="POST" data-turbo="false">
           <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
@@ -26,6 +26,7 @@
   $(".nav").toggleClass("search");
   $(".nav").toggleClass("no-search");
   $(".search-input").toggleClass("search-active");
+  $(".search-input").focus();
 });
 
 </script>
