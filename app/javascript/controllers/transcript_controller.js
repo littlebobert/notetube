@@ -137,10 +137,13 @@ export default class extends Controller {
     fetch(url)
       .then(response => response.text())
       .then((response) => {
+        console.log(typeof response);
         var json = JSON.parse(response);
+        console.log(typeof json);
         var html = "";
         var number_of_captions = 0;
         Array.from(json).forEach((blob) => {
+          // console.log(blob);
           var paragraph = blob["caption"];
           var start_time = blob["start_time"];
           var duration = blob["duration"];

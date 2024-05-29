@@ -24,8 +24,7 @@ class TranscriptGenerator
       'Authorization' => "Bearer #{api_key}"
     }
     
-    timestamped_transcript = TranscriptGenerator.new(note.video_url).timestamped_transcript
-    timestamped_transcript_as_json = timestamped_transcript.to_json
+    timestamped_transcript_as_json = TranscriptGenerator::timestamped_transcript_json(note)
     prompt = "Reformat the following JSON transcript into paragraphs and add proper capitalization without changing the original words. Send back paragraphs as JSON in the form {\"paragraphs\":[{\"paragraph\":\"paragraph one\",\"start_time\":0,\"duration\":30},{\"paragraph\":\"paragraph two\",\"start_time\":30,\"duration\":10}]}, etc. Here is the transcript:\n\n#{timestamped_transcript_as_json}"
     # puts "OpenAI prompt: #{prompt}"
 
@@ -66,8 +65,12 @@ class TranscriptGenerator
     return result
   end
   
-  def timestamped_transcript
-    video = YoutubeCaptions::Video.new(id: @url)
+  def self.timestamped_transcript_json(note)
+    if note.transcript_json.present?
+      puts "cached"
+      return note.transcript_json
+    end
+    video = YoutubeCaptions::Video.new(id: "https://www.youtube.com/watch?v=#{note.video_id}")
     captions = video.captions(lang: "en")
     result = []
     captions.each do |caption|
@@ -77,6 +80,9 @@ class TranscriptGenerator
         :duration => caption["dur"]
       }
     end
-    return result
+    json = result.to_json
+    note.transcript_json = json
+    note.save
+    return json
   end
 end
