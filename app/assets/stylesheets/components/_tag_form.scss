@@ -1,16 +1,16 @@
 /* General form styles */
 #tag-form {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
+  align-items: start;
 }
 
 /* Modern form styling */
 .modern-form {
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: 10px;
-  width: 100%;
+  width: 50%;
   margin-top: 10px;
   margin-bottom: 2px;
   border-radius: 5px;

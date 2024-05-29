@@ -1,27 +1,17 @@
 <% content_for :title, "NoteTube: #{@note.title}" %>
 <div class="show-container" data-controller="transcript" data-transcript-note-id-value="<%= @note.id %>">
-  <div id="column1">
+  <div id="column1" data-controller="tags">
     <div data-transcript-target="playerOrIframe">
       <div id="player"></div>
     </div>
 
     <div class="mt-2"><h4><%= @note.title %></h4></div>
 
-    <div class = "content-wrapper" data-controller="tags">
+    <div class = "content-wrapper">
     <div class = "left-content">
 
       <div class="text-muted text-nowrap"><%= number_with_delimiter(@note.view_count)%> views | <%= @note.published_at.strftime("%b %d, %Y") %> <br> <i class="fa-solid fa-user"></i> <%= @note.channel_name %>
       </div>
-
-    <div data-tags-target="tagContainer" class = "<%= "d-none" unless @note.is_bookmarked? %>" id="tagform">
-      <strong>Tags:</strong>
-      <% @note.tag_list.each do |tag| %>
-      <div class = "list-tags">
-        <%= tag %>
-      </div>
-      <% end %>
-      <%= render "tag_form" %>
-    </div>
 
     </div>
 
@@ -35,6 +25,16 @@
       </div>
 
     </div>
+    </div>
+    
+    <div data-tags-target="tagContainer" class = "<%= "d-none" unless @note.is_bookmarked? %>" id="tagform">
+      <strong>Tags:</strong>
+      <% @note.tag_list.each do |tag| %>
+      <div class = "list-tags">
+        <%= tag %>
+      </div>
+      <% end %>
+      <%= render "tag_form" %>
     </div>
 
     <hr>
