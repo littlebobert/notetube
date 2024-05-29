@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="transcript"
 export default class extends Controller {
-  static targets = ["content", "transcriptTab", "notesTab", "playerOrIframe", "edit"];
+  static targets = ["content", "transcriptTab", "notesTab", "quizTab", "playerOrIframe", "edit"];
   static values = {
     noteId: String
   }
@@ -58,6 +58,7 @@ export default class extends Controller {
 
   loadNotesAsync() {
     this.transcriptTabTarget.classList.remove("active");
+    this.quizTabTarget.classList.remove("active");
     this.notesTabTarget.classList.add("active");
     this.showLoadingAnimation();
 
@@ -153,11 +154,61 @@ export default class extends Controller {
         this.contentTarget.innerHTML = html;
       })
   }
+  
+  fetchQuiz(event) {
+    event.preventDefault();
+  
+    this.notesTabTarget.classList.remove("active");
+    this.transcriptTabTarget.classList.remove("active");
+    this.quizTabTarget.classList.add("active");
+    this.showLoadingAnimation();
+    
+    var url = `/notes/${this.noteIdValue}/quiz`
+    fetch(url)
+      .then(response => response.text())
+      .then((response) => {
+        var json = JSON.parse(response);
+        var quiz = json["quiz"];
+        var html = "";
+        var num_questions = 0;
+        Array.from(quiz).forEach((blob) => {
+          num_questions += 1;
+          html += `<div>${blob["question"]}</div>`;
+          var options = blob["options"];
+          var answer = blob["answer"];
+          var num_options = 0;
+          Array.from(options).forEach((option) => {
+            num_options += 1;
+            const correct = option == answer;
+            html += `<div class="mb-3 mt-3"><button data-action="click->transcript#select" data-question="${num_questions}" class="btn btn-light ${correct ? "correct" : ""}">${num_options}</button> <span>${option}</span></div>`;
+          });
+        });
+        this.contentTarget.innerHTML = html;
+    })
+  }
+  
+  select(event) {
+    const element = event.target;
+    const question_id = element.dataset.question;
+    const allAnswers = document.querySelectorAll(`[data-question='${question_id}']`);
+    Array.from(allAnswers).forEach((answer) => {
+      answer.classList.remove("btn-success");
+      answer.classList.remove("btn-danger");
+    });
+    if (element.classList.contains("correct")) {
+      element.classList.remove("btn-light");
+      element.classList.add("btn-success");
+    } else {
+      element.classList.remove("btn-light");
+      element.classList.add("btn-danger");
+    }
+  }
 
   fetch(event) {
     event.preventDefault();
 
     this.notesTabTarget.classList.remove("active");
+    this.quizTabTarget.classList.remove("active");
     this.transcriptTabTarget.classList.add("active");
     this.showLoadingAnimation();
 

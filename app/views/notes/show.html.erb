@@ -52,6 +52,9 @@
       <li>
         <%= link_to "Transcript", note_path(@note), class: "tab-underlined", data: { turbo: "false", action: "click->transcript#fetchRawTranscript", transcript_target: "transcriptTab" } %>
       </li>
+      <li>
+        <%= link_to "Quiz", note_path(@note), class: "tab-underlined", data: { turbo: "false", action: "click->transcript#fetchQuiz", transcript_target: "quizTab" } %>
+      </li>
     </ul>
       <div>
         <div id="notes-or-transcript" data-transcript-target="content"></div>

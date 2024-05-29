@@ -171,6 +171,13 @@ class NotesController < ApplicationController
       render :show, status: :unprocessable_entity
     end
   end
+  
+  def quiz
+    @note = Note.find(params[:id])
+    authorize @note
+    quiz_json = QuizGenerator.new(@note).call
+    render plain: quiz_json
+  end
 
   private
 
