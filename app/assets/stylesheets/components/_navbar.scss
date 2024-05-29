@@ -1,8 +1,10 @@
 /* BASIC SETUP */
+$onyx: #373449;
 
 .nav-item {
   padding-left: 8px;
   padding-right: 8px;
+  font-family: "Work Sans", sans-serif;
 }
 
 
@@ -27,13 +29,16 @@
   align-items: center;
   height: 50px;
   overflow: hidden;
+  align-items: center;
+  justify-content: center;
 }
 
 .navbar p {
-  height: 16px;
   width: auto;
   justify-self: start;
   margin-left: 20px;
+  font-family: "Work Sans", sans-serif;
+  text-transform: uppercase;
 }
 
 .navbar ul {
@@ -43,8 +48,18 @@
 
 }
 
+#nav-logo a {
+  color: $onyx;
+  text-decoration: none;
+  transition: color 0.3s ease-out;
+}
+
+#nav-logo a:hover {
+  color: #3498db;
+}
+
 .nav-item a {
-  color: #000;
+  color: $onyx;
   font-size: 0.9rem;
   font-weight: 400;
   text-decoration: none;

@@ -1,10 +1,9 @@
 <div class="page-wrapper">
  <div class="nav-wrapper">
   <nav class="navbar">
-    <p><strong> NoteTube  </strong></p>
+    <p id="nav-logo"> <a href="/"> <strong> <i class="fa-solid fa-pen"></i> NoteTube </a> </strong> </p>
     <ul class="nav no-search">
       <% if user_signed_in? %>
-        <li class="nav-item"><a href="/">Home</a></li>
         <li class="nav-item"><a href="/notes">My Library</a></li>
         <li class="nav-item"><a href="/users/sign_out" data-turbo-method="delete">Log out</a></li>
       <% else %>
