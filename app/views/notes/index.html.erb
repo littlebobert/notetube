@@ -1,7 +1,8 @@
-<% content_for :title, "NoteTube: Bookmarks" %>
-<h1>Bookmarks</h1>
+<% content_for :title, "NoteTube: My Library" %>
 
-<div class="tags">
+<h1> My Library </h1>
+
+<div class="tag-pills">
   <p> <%= "Sort by" unless @notes.count.zero? %> </p>
   <%= form_with url: notes_path, method: :get, local: true, id: 'filter-form' do %>
   <% all_tags = [] %>
@@ -31,7 +32,7 @@
           </div>
           <div class="video-info">
             <h3><%= note.title %></h3>
-            <p> <%= note.tag_list.join(", ") %> </p>
+            <div class="card-tags"> <span> <%= note.tag_list.join(", ") %> </span> </div>
           </div>
         </div>
       <% end %>
