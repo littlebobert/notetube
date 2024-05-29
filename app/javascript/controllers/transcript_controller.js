@@ -88,18 +88,18 @@ export default class extends Controller {
   }
 
   edit(event) {
-    this.editTarget.innerHTML = `<strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Save"><i class="fa-solid fa-floppy-disk"></i></strong>`
+    this.editTarget.innerHTML = `<strong class="btn-icon text-primary" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Save"><i class="fa-solid fa-floppy-disk"></i></strong>`
     this.editTarget.dataset.action = "click->transcript#save"
     this.contentTarget.contentEditable = "true";
+    this.contentTarget.focus();
     const bubble = document.createElement('div');
     bubble.classList.add('floating-bubble');
     bubble.innerHTML = `
       <button onclick="document.execCommand('bold', false, null)"><i class="fa-solid fa-bold"></i></button>
       <button onclick="document.execCommand('italic', false, null)"><i class="fa-solid fa-italic"></i></button>
-      <button onclick="document.execCommand('underline', false, null)"><i class="fa-solid fa-underline"></i></button>
+      <button onclick="document.execCommand('underline', false, null)"><i class="fa-solid fa-underline ${document.queryCommandState('underline') ? "active" : ""}"></i></button>
       <button id="highlight-button"><i class="fa-solid fa-highlighter"></i></button>
       <button id="remove-format-button"><i class="fa-solid fa-eraser"></i></button>
-
     `;
     document.body.appendChild(bubble);
 
@@ -127,6 +127,10 @@ export default class extends Controller {
         color: #333;
         transition: background-color 0.3s, color 0.3s;
       }
+      .floating-bubble button.active {
+        background: lightgrey;
+        border-radius: 4px;
+      }
       .floating-bubble button:hover {
         background-color: #f0f0f0;
         color: #000;
@@ -147,47 +151,25 @@ export default class extends Controller {
     // Add event listener for text selection
     this.contentTarget.addEventListener('mouseup', () => this.showBubble(bubble));
     this.contentTarget.addEventListener('keyup', () => this.showBubble(bubble));
-    document.getElementById('highlight-button').addEventListener('click', () => this.highlightText());
+    document.addEventListener('selectionchange', () => {
+      this.showBubble(bubble);
+    });
     document.addEventListener('scroll', () => {
       bubble.style.visibility = 'hidden';
     }, true);
-    document.getElementById('remove-format-button').addEventListener('click', function() {
-      const selection = window.getSelection();
-      if (!selection.isCollapsed) {
-        const range = selection.getRangeAt(0);
-        const content = range.extractContents();  // Extracts the content of the range
-
-        // Create a new text node from the content
-        const textNode = document.createTextNode(content.textContent);
-
-        // Insert the plain text node back into the document
-        range.insertNode(textNode);
-
-        // Remove any leftover empty elements
-        cleanUpEmptyElements(range.commonAncestorContainer);
-
-        // Clear the selection
-        selection.removeAllRanges();
-      }
-    });
-  }
-
-  cleanUpEmptyElements(element) {
-    // Recursive function to remove empty elements
-    for (let i = 0; i < element.childNodes.length; i++) {
-        const child = element.childNodes[i];
-        if (child.nodeType === 1 && !child.textContent.trim()) {
-            element.removeChild(child);
-            i--;  // Adjust the loop index after removing a child
-        } else if (child.nodeType === 1) {
-            cleanUpEmptyElements(child);  // Recursive clean up for non-empty children
-        }
-    }
   }
 
   showBubble(bubble) {
     const selection = window.getSelection();
     if (!selection.isCollapsed) {
+      bubble.innerHTML = `
+        <button class="${document.queryCommandState('bold') ? "active" : ""}" onclick="document.execCommand('bold', false, null)"><i class="fa-solid fa-bold"></i></button>
+        <button class="${document.queryCommandState('italic') ? "active" : ""}" onclick="document.execCommand('italic', false, null)"><i class="fa-solid fa-italic"></i></button>
+        <button class="${document.queryCommandState('underline') ? "active" : ""}" onclick="document.execCommand('underline', false, null)"><i class="fa-solid fa-underline"></i></button>
+        <button class="${document.queryCommandValue('BackColor') == "rgb(255, 255, 0)" ? "active" : ""}" onclick="document.execCommand('BackColor', false, '#FFFF00')"><i class="fa-solid fa-highlighter"></i></button>
+        <button onclick="document.execCommand('removeformat')"><i class="fa-solid fa-eraser"></i></button>
+      `;
+      console.log(document.queryCommandValue('BackColor'));
       const range = selection.getRangeAt(0);
       const rect = range.getBoundingClientRect();
 
@@ -213,20 +195,8 @@ export default class extends Controller {
       bubble.style.top = `${top}px`;
       bubble.style.left = `${left}px`;
     } else {
-      bubble.style.display = 'hidden';
-    }
-  }
-
-
-
-
-  highlightText() {
-    const selection = window.getSelection();
-    if (!selection.isCollapsed) {
-      const range = selection.getRangeAt(0);
-      const span = document.createElement('span');
-      span.classList.add('highlight');
-      range.surroundContents(span);
+      console.log("hiding bubble");
+      bubble.style.visibility = 'hidden';
     }
   }
 
