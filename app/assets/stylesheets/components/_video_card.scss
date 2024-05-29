@@ -33,6 +33,23 @@
   transition: transform 0.3s, box-shadow 0.3s;
   transform-style: preserve-3d;
   perspective: 1000px;
+  position: relative;
+}
+
+.card-tags {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+
+  span {
+    background: #EFF4FF;
+    color: hsl(223, 71%, 49%);
+    border: none;
+    font-size: .7em;
+    padding: 2px 4px;
+    border-radius: 20px;
+    text-align: center;
+  }
 }
 
 .video-card:hover {

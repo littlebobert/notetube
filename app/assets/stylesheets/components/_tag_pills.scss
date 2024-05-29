@@ -1,10 +1,10 @@
-.tags {
+.tag-pills {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
   gap: 8px;
-  
+
   p {
     margin: 0;
   }
@@ -19,7 +19,6 @@
   color: hsl(223, 71%, 49%);
   padding: 10px 20px;
   text-align: center;
-  border-radius: 100px;
 }
 
 .tag-pill:hover {
