@@ -94,13 +94,6 @@ export default class extends Controller {
     this.contentTarget.focus();
     const bubble = document.createElement('div');
     bubble.classList.add('floating-bubble');
-    bubble.innerHTML = `
-      <button onclick="document.execCommand('bold', false, null)"><i class="fa-solid fa-bold"></i></button>
-      <button onclick="document.execCommand('italic', false, null)"><i class="fa-solid fa-italic"></i></button>
-      <button onclick="document.execCommand('underline', false, null)"><i class="fa-solid fa-underline ${document.queryCommandState('underline') ? "active" : ""}"></i></button>
-      <button id="highlight-button"><i class="fa-solid fa-highlighter"></i></button>
-      <button id="remove-format-button"><i class="fa-solid fa-eraser"></i></button>
-    `;
     document.body.appendChild(bubble);
 
     // Add CSS styles for the floating bubble
