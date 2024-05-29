@@ -32,7 +32,7 @@
           </div>
           <div class="video-info">
             <h3><%= note.title %></h3>
-            <div class="card-tags"> <span> <%= note.tag_list.join(", ") %> </span> </div>
+            <div class="card-tags"> <% note.tag_list.each do |tag| %> <span> <%= tag %> </span> <% end %> </div>
           </div>
         </div>
       <% end %>

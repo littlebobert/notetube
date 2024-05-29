@@ -15,7 +15,11 @@
 
     <div data-tags-target="tagContainer" class = "<%= "d-none" unless @note.is_bookmarked? %>" id="tagform">
       <strong>Tags:</strong>
-      <%= @note.tag_list.join(", ") %>
+      <% @note.tag_list.each do |tag| %>
+      <div class = "list-tags">
+        <%= tag %>
+      </div>
+      <% end %>
       <%= render "tag_form" %>
     </div>
 
