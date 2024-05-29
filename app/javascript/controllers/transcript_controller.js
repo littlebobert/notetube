@@ -145,6 +145,9 @@ export default class extends Controller {
     this.contentTarget.addEventListener('mouseup', () => this.showBubble(bubble));
     this.contentTarget.addEventListener('keyup', () => this.showBubble(bubble));
     document.getElementById('highlight-button').addEventListener('click', () => this.highlightText());
+    document.addEventListener('scroll', () => {
+      bubble.style.visibility = 'hidden';
+    }, true);
   }
 
   showBubble(bubble) {
@@ -171,11 +174,11 @@ export default class extends Controller {
         left = window.scrollX + 5; // Ensure it doesn't go off the left edge
       }
 
-      bubble.style.display = 'flex';
+      bubble.style.visibility = 'visible';
       bubble.style.top = `${top}px`;
       bubble.style.left = `${left}px`;
     } else {
-      bubble.style.display = 'none';
+      bubble.style.display = 'hidden';
     }
   }
 
