@@ -55,6 +55,9 @@
       <li>
         <%= link_to "Quiz", note_path(@note), class: "tab-underlined", data: { turbo: "false", action: "click->transcript#fetchQuiz", transcript_target: "quizTab" } %>
       </li>
+      <li>
+        <%= link_to "Comments", note_path(@note), class: "tab-underlined", data: { turbo: "false", action: "click->transcript#fetchComments", transcript_target: "commentsTab" } %>
+      </li>
     </ul>
       <div>
         <div id="notes-or-transcript" data-transcript-target="content"></div>

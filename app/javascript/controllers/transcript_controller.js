@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="transcript"
 export default class extends Controller {
-  static targets = ["content", "transcriptTab", "notesTab", "quizTab", "playerOrIframe", "edit"];
+  static targets = ["content", "transcriptTab", "notesTab", "quizTab", "commentsTab", "playerOrIframe", "edit"];
   static values = {
     noteId: String
   }
@@ -59,6 +59,7 @@ export default class extends Controller {
   loadNotesAsync() {
     this.transcriptTabTarget.classList.remove("active");
     this.quizTabTarget.classList.remove("active");
+    this.commentsTabTarget.classList.remove("active");
     this.notesTabTarget.classList.add("active");
     this.showLoadingAnimation();
 
@@ -121,6 +122,30 @@ export default class extends Controller {
     this.editTarget.dataset.action = "click->transcript#edit"
     this.contentTarget.contentEditable = "false";
   }
+  
+  fetchComments(event) {
+    event.preventDefault();
+    
+    this.notesTabTarget.classList.remove("active");
+    this.quizTabTarget.classList.remove("active");
+    this.transcriptTabTarget.classList.remove("active");
+    this.commentsTabTarget.classList.add("active");
+    this.showLoadingAnimation();
+    
+    var url = `/notes/${this.noteIdValue}/comments`
+    fetch(url)
+      .then(response => response.text())
+      .then((response) => {
+        var json = JSON.parse(response);
+        var html = "";
+        Array.from(json).forEach((blob) => {
+          const author = blob["author"];
+          const comment = blob["comment"];
+          html += `<div class="mb-3"><strong>${author}:</strong> ${comment}</div>`
+        });
+        this.contentTarget.innerHTML = html;
+      })
+  }
 
   switchToNotes(event) {
     event.preventDefault();
@@ -132,6 +157,7 @@ export default class extends Controller {
 
     this.notesTabTarget.classList.remove("active");
     this.quizTabTarget.classList.remove("active");
+    this.commentsTabTarget.classList.remove("active");
     this.transcriptTabTarget.classList.add("active");
     this.showLoadingAnimation();
 
@@ -161,6 +187,7 @@ export default class extends Controller {
   
     this.notesTabTarget.classList.remove("active");
     this.transcriptTabTarget.classList.remove("active");
+    this.commentsTabTarget.classList.remove("active");
     this.quizTabTarget.classList.add("active");
     this.showLoadingAnimation();
     

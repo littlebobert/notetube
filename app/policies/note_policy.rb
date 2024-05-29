@@ -43,4 +43,8 @@ class NotePolicy < ApplicationPolicy
   def quiz?
     return true
   end
+  
+  def comments?
+    return true
+  end
 end

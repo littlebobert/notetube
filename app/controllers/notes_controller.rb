@@ -178,7 +178,14 @@ class NotesController < ApplicationController
     quiz_json = QuizGenerator.new(@note).call
     render plain: quiz_json
   end
-
+  
+  def comments
+    @note = Note.find(params[:id])
+    authorize @note
+    @comments = YoutubeService::comments(@note.video_id)
+    render plain: @comments
+  end
+  
   private
 
   def note_params

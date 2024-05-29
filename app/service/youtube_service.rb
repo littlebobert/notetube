@@ -30,6 +30,24 @@ class YoutubeService
       nil
     end
   end
-
+  
+  def self.comments(video_id)
+    youtube = Google::Apis::YoutubeV3::YouTubeService.new
+    youtube.key = YOUTUBE_API_KEY
+    comments =  youtube.list_comment_threads(
+      'snippet',
+      video_id: video_id,
+      max_results: 5,
+      page_token: nil
+    )
+    results = []
+    comments.items.each do |item|
+      blob = {}
+      blob["author"] = item.snippet.top_level_comment.snippet.author_display_name
+      blob["comment"] = item.snippet.top_level_comment.snippet.text_display
+      results << blob
+    end
+    return results.to_json
+  end
 
 end
