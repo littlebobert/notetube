@@ -131,6 +131,7 @@ export default class extends Controller {
     event.preventDefault();
 
     this.notesTabTarget.classList.remove("active");
+    this.quizTabTarget.classList.remove("active");
     this.transcriptTabTarget.classList.add("active");
     this.showLoadingAnimation();
 
