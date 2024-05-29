@@ -6,7 +6,6 @@
     </div>
 
     <div class="mt-2"><h4><%= @note.title %></h4></div>
-
     <div class = "content-wrapper">
     <div class = "left-content">
 
@@ -26,7 +25,7 @@
 
     </div>
     </div>
-    
+
     <div data-tags-target="tagContainer" class = "<%= "d-none" unless @note.is_bookmarked? %>" id="tagform">
       <strong>Tags:</strong>
       <% @note.tag_list.each do |tag| %>
