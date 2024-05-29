@@ -1,45 +1,45 @@
 <% content_for :title, "NoteTube: My Library" %>
-
-<h1> My Library </h1>
-
-<div class="tag-pills">
-  <p> <%= "Sort by" unless @notes.count.zero? %> </p>
-  <%= form_with url: notes_path, method: :get, local: true, id: 'filter-form' do %>
-  <% all_tags = [] %>
-    <% @notes.each do |note| %>
-      <% note.tags.each do |t| %>
-        <% all_tags << t%>
-      <% end %>
-    <% end %>
-      <% all_tags.uniq.each do |tag| %>
-        <% if params[:tags]&.include?(tag.name) %>
-          <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill-active' %>
-        <% else %>
-          <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill' %>
+<div class="bookmark-container m-3">
+  <h1> My Library </h1>
+  
+  <div class="tag-pills">
+    <p> <%= "Sort by" unless @notes.count.zero? %> </p>
+    <%= form_with url: notes_path, method: :get, local: true, id: 'filter-form' do %>
+    <% all_tags = [] %>
+      <% @notes.each do |note| %>
+        <% note.tags.each do |t| %>
+          <% all_tags << t%>
         <% end %>
       <% end %>
-  <% end %>
-</div>
-
-<div class="bookmark-page mt-3">
-  <div class="bookmark-list">
-    <%= "No Bookmarks" if @notes.count.zero? %>
-    <% @notes.each do |note| %>
-      <%= link_to note_path(note), class: 'video-card-link', data: { turbo: "false" } do %>
-        <div class="video-card">
-          <div class="video-container">
-            <img src="<%= note.thumbnail_url %>" alt="Thumbnail of the video">
-          </div>
-          <div class="video-info">
-            <h3><%= note.title %></h3>
-            <div class="card-tags"> <% note.tag_list.each do |tag| %> <span> <%= tag %> </span> <% end %> </div>
-          </div>
-        </div>
-      <% end %>
+        <% all_tags.uniq.each do |tag| %>
+          <% if params[:tags]&.include?(tag.name) %>
+            <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill-active' %>
+          <% else %>
+            <%= link_to tag.name, notes_path(tag: tag.name), class: 'tag-pill' %>
+          <% end %>
+        <% end %>
     <% end %>
   </div>
+  
+  <div class="bookmark-page mt-3">
+    <div class="bookmark-list">
+      <%= "No Bookmarks" if @notes.count.zero? %>
+      <% @notes.each do |note| %>
+        <%= link_to note_path(note), class: 'video-card-link', data: { turbo: "false" } do %>
+          <div class="video-card">
+            <div class="video-container">
+              <img src="<%= note.thumbnail_url %>" alt="Thumbnail of the video">
+            </div>
+            <div class="video-info">
+              <h3><%= note.title %></h3>
+              <div class="card-tags"> <% note.tag_list.each do |tag| %> <span> <%= tag %> </span> <% end %> </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>
-
 <script>
     // Handle clicking on tag pills
     document.querySelectorAll('.tag-pill, .tag-pill-active').forEach(tagPill => {
