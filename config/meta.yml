@@ -1,0 +1,6 @@
+# config/meta.yml
+meta_product_name: "NoteTube"
+meta_title: "NoteTube - Generate notes from any YouTube lecture"
+meta_description: "Enhance your YouTube learning with NoteTube! Our Chrome extension and website work together to generate insightful notes and interactive quizzes from any YouTube video at the click of a button. Perfect for students, educators, and curious minds eager to maximize their learning experience. Explore a smarter way to learn with NoteTube today"
+meta_image: "cover.png" # should exist in `app/assets/images/`
+#twitter_account: "@product_twitter_account" # required for Twitter Cards
