@@ -1,5 +1,5 @@
 <div class = "container">
-  <h2 class="text-center my-4 fs-2">Sign up to <mark><i class="fa-solid fa-pen"></i>NoteTube</mark></h2>
+  <h2 class="text-center text-info my-4 fs-2">Sign up to <mark><i class="fa-solid fa-pen"></i>NoteTube</mark></h2>
 
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= f.error_notification %>
@@ -27,8 +27,7 @@
     </div>
 
     <div class="form-actions">
-      <%= f.button :submit, "Sign up", class: "btn btn-primary" %>
+      <%= f.button :submit, "Sign up", class: "btn btn-primary text-white" %>
     </div>
   <% end %>
 </div>
-<%= render "devise/shared/links" %>
