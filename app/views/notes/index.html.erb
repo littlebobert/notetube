@@ -31,7 +31,8 @@
               <img src="<%= note.thumbnail_url %>" alt="Thumbnail of the video">
             </div>
             <div class="video-info">
-              <h3><%= note.title %></h3>
+              <h3> <%= note.title %> </h3>
+              <p class = "mt-2"> <i class="fa-solid fa-user"></i> <%= note.channel_name %> </p>
               <div class="card-tags"> <% note.tag_list.each do |tag| %> <span> <%= tag %> </span> <% end %> </div>
             </div>
           </div>
