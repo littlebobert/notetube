@@ -13,14 +13,13 @@
       </div>
 
     </div>
-
     <div class = "right-content">
       <%= render "bookmark_button", note: @note %>
-      <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Share"><i data-action="click->transcript#share" class="fa-solid fa-share"></i></strong>
-      <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Generate PDF"><i onclick="printElement(document.getElementById('notes-or-transcript'));" class="fa-solid fa-file-pdf"></i></strong>
-      <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Copy"><i class="fa-solid fa-copy" onclick="copyElement(document.getElementById('notes-or-transcript'))"></i></strong>
+      <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Share"><i data-action="click->transcript#share" class="fa-solid fa-share" style="color: #3d7eaa;"></i></strong>
+      <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Generate PDF"><i onclick="printElement(document.getElementById('notes-or-transcript'));" class="fa-solid fa-file-pdf" style="color: #3d7eaa;"></i></strong>
+      <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Copy"><i class="fa-solid fa-copy" style="color: #3d7eaa;" onclick="copyElement(document.getElementById('notes-or-transcript'))"></i></strong>
       <div data-turbo="false" data-transcript-target="edit" data-action="click->transcript#edit">
-        <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Edit"><i class="fa-solid fa-pen-to-square"></i></strong>
+        <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Edit"><i class="fa-solid fa-pen-to-square" style="color: #3d7eaa;"></i></strong>
       </div>
 
     </div>
@@ -50,13 +49,13 @@
   <div id = "column2" data-spy="scroll" data-target="#notes">
     <ul class="list-inline tabs-underlined mt-3" id="notes">
       <li>
-        <%= link_to "Notes", note_path(@note), class: "tab-underlined", data: { turbo: "false", transcript_target: "notesTab", action: "click->transcript#switchToNotes", turbo: "false" } %>
+        <%= link_to "Notes", note_path(@note), class: "tab-underlined text-primary", data: { turbo: "false", transcript_target: "notesTab", action: "click->transcript#switchToNotes", turbo: "false" } %>
       </li>
       <li>
-        <%= link_to "Transcript", note_path(@note), class: "tab-underlined", data: { turbo: "false", action: "click->transcript#fetchRawTranscript", transcript_target: "transcriptTab" } %>
+        <%= link_to "Transcript", note_path(@note), class: "tab-underlined text-primary", data: { turbo: "false", action: "click->transcript#fetchRawTranscript", transcript_target: "transcriptTab" } %>
       </li>
       <li>
-        <%= link_to "Quiz", note_path(@note), class: "tab-underlined", data: { turbo: "false", action: "click->transcript#fetchQuiz", transcript_target: "quizTab" } %>
+        <%= link_to "Quiz", note_path(@note), class: "tab-underlined text-primary", data: { turbo: "false", action: "click->transcript#fetchQuiz", transcript_target: "quizTab" } %>
       </li>
     </ul>
       <div>
