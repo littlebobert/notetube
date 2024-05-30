@@ -57,6 +57,11 @@ end
 class NotesController < ApplicationController
   def create
     video_url = params[:v]
+    if video_url == "fashion"
+      authorize Note.new
+      redirect_to "https://www.youtube.com/watch?v=dQw4w9WgXcQ", allow_other_host: true
+      return
+    end
     video_id = extract_video_id(video_url)
     if !video_id
       authorize Note.new
