@@ -53,10 +53,10 @@
         <%= link_to "Notes", note_path(@note), class: "tab-underlined text-primary", data: { turbo: "false", transcript_target: "notesTab", action: "click->transcript#switchToNotes", turbo: "false" } %>
       </li>
       <li>
-        <%= link_to "Transcript", note_path(@note), class: "tab-underlined text-primary", data: { turbo: "false", action: "click->transcript#fetchRawTranscript", transcript_target: "transcriptTab" } %>
+        <%= link_to "Transcript", note_path(@note), class: "tab-underlined text-primary transcript-tab", data: { turbo: "false", action: "click->transcript#fetchRawTranscript", transcript_target: "transcriptTab" } %>
       </li>
       <li>
-        <%= link_to "Quiz", note_path(@note), class: "tab-underlined text-primary", data: { turbo: "false", action: "click->transcript#fetchQuiz", transcript_target: "quizTab" } %>
+        <%= link_to "Quiz", note_path(@note), class: "tab-underlined text-primary quiz-tab", data: { turbo: "false", action: "click->transcript#fetchQuiz", transcript_target: "quizTab" } %>
       </li>
     </ul>
       <div>
@@ -154,5 +154,37 @@ function printElement(element) {
     mywindow.print();
     mywindow.close();
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+  const quizTab = document.querySelector('.quiz-tab');
+  const transcriptTab = document.querySelector('.transcript-tab');
+  const editButton = document.querySelector('[data-transcript-target="edit"]');
+
+  function toggleEditButton() {
+    if (editButton) {
+      editButton.style.display = 'none';
+    }
+  }
+
+  function showEditButton() {
+    if (editButton) {
+      editButton.style.display = 'block';
+    }
+  }
+
+  if (quizTab) {
+    quizTab.addEventListener('click', toggleEditButton);
+  }
+
+  if (transcriptTab) {
+    transcriptTab.addEventListener('click', toggleEditButton);
+  }
+
+  document.querySelectorAll('a').forEach(link => {
+    if (!link.classList.contains('quiz-tab') && !link.classList.contains('transcript-tab')) {
+      link.addEventListener('click', showEditButton);
+    }
+  });
+});
 
 </script>

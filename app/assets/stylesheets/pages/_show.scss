@@ -136,3 +136,8 @@ code {
 [contenteditable]:focus {
    outline: 3px solid #3d7eaa;
 }
+
+/* Edit button hidden*/
+[data-transcript-target="edit"].hidden {
+  display: none;
+}
