@@ -1,6 +1,6 @@
 <% content_for :title, "NoteTube: #{@note.title}" %>
 <div class="show-container" data-controller="transcript" data-transcript-note-id-value="<%= @note.id %>">
-  <div id="column1" data-controller="tags">
+  <div id="column1" class = "column" data-controller="tags">
     <div data-transcript-target="playerOrIframe">
       <div id="player"></div>
     </div>
@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <div id = "column2" data-spy="scroll" data-target="#notes">
+  <div id = "column2" class = "column" data-spy="scroll" data-target="#notes">
     <ul class="list-inline tabs-underlined mt-3 sticky-top bg-white" id="notes">
       <li>
         <%= link_to "Notes", note_path(@note), class: "tab-underlined text-primary", data: { turbo: "false", transcript_target: "notesTab", action: "click->transcript#switchToNotes", turbo: "false" } %>
@@ -65,7 +65,7 @@
 </div>
 
 
-<script>
+<script type>
 // This code loads the YouTube IFrame Player API code asynchronously.
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
@@ -153,4 +153,5 @@ function printElement(element) {
     mywindow.print();
     mywindow.close();
 }
+
 </script>

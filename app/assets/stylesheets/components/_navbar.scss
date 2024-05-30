@@ -1,5 +1,6 @@
 /* BASIC SETUP */
 $onyx: #3d7eaa;
+$yellow: #FFDC7B;
 
 .nav-item:not(.search) {
   padding-left: 8px;
@@ -60,7 +61,12 @@ $onyx: #3d7eaa;
 }
 
 #nav-logo a:hover {
-  color: #3498db;
+  color: #2C3E50;
+  background-color: $yellow;
+  padding: 10px;
+  border-radius: 25px;
+  transition: all .5s ease;
+
 }
 
 .nav-item a {
@@ -72,7 +78,8 @@ $onyx: #3d7eaa;
 }
 
 .nav-item a:hover {
-  color: #3498db;
+  color: #2C3E50;
+  background-color: $yellow;
 }
 
 /* SEARCH FUNCTION */
@@ -85,7 +92,7 @@ $onyx: #3d7eaa;
   }
 
   #search-icon:hover {
-    color: #3498db;
+    color: #2C3E50;
     cursor: pointer;
   }
 

@@ -85,6 +85,16 @@ a {
   }
 }
 
+.navbar-home i {
+  color: $yellow;
+  &:hover {
+    background: $yellow;
+    padding: 1px;
+    transition: all .5s ease;
+  }
+}
+
+
 .navbar-home a:last-child {
   background: $onyx;
   color: $yellow;
