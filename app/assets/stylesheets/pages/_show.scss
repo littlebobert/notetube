@@ -36,7 +36,6 @@
   flex: 1;
   box-sizing: border-box;
   padding-left: 16px;
-  padding-right: 4px;
   overflow-y: scroll;
   height: 100%;
   position: sticky;
@@ -93,7 +92,7 @@ code {
 }
 
 .current-caption {
-  background: yellow;
+  color: green;
 }
 
 .content-wrapper {
@@ -118,15 +117,11 @@ code {
   border-radius: 12px;
 }
 
-.cursor-pointer:hover {
-  cursor: pointer;
-}
-
 .list-tags {
   display: inline-block;
   text-decoration: none;
   background: #EFF4FF;
-  color: #3d7eaa;
+  color: hsl(223, 71%, 49%);
   border: none;
   font-size: .9em;
   padding: 2px 4px;
