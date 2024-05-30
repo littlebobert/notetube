@@ -138,6 +138,6 @@ code {
   padding: 4px;
 }
 
-[contenteditable] {
+[contenteditable]:focus {
    outline: 3px solid #3d7eaa;
 }
