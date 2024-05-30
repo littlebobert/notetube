@@ -93,7 +93,7 @@ code {
 }
 
 .current-caption {
-  color: green;
+  background: yellow;
 }
 
 .content-wrapper {
@@ -136,4 +136,8 @@ code {
 
 #notes-or-transcript {
   padding: 4px;
+}
+
+[contenteditable] {
+   outline: 3px solid #3d7eaa;
 }

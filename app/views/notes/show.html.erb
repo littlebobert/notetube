@@ -105,7 +105,7 @@ function onPlayerStateChange(event) {
     }
     captions = document.getElementsByClassName("caption");
     Array.from(captions).forEach(function(caption) {
-      if (player.getCurrentTime() > Number(caption.dataset.startTime) && player.getCurrentTime() < Number(caption.dataset.startTime) + Number(caption.dataset.duration)) {
+      if (player.getCurrentTime() > parseFloat(caption.dataset.startTime) && player.getCurrentTime() < parseFloat(caption.dataset.startTime) + parseFloat(caption.dataset.duration)) {
         caption.classList.add("current-caption");
       } else {
         caption.classList.remove("current-caption");
