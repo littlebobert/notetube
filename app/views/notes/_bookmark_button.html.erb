@@ -2,14 +2,14 @@
 <div>
   <% if note.is_bookmarked? %>
     <%= simple_form_for note, data: { bookmark_button_target: "form" } do |f| %>
-      <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
+      <%= f.input :is_bookmarked, as: :hidden, input_html: { value: false, data: { bookmark_button_target: "hidden" } }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
       <%= button_tag type: 'submit', class: "btn-icon", data: { bookmark_button_target:"button", bs_Toggle: "tooltip", bs_Placement: "top", action:"click->bookmark-button#handleSubmit" }, title: "Remove from saved" do %>
           <i data-bookmark-button-target="icon" class="fa-solid fa-bookmark" style="color: #3d7eaa;"></i>
       <% end %>
     <% end %>
   <% else %>
     <%= simple_form_for note, data: { bookmark_button_target: "form" } do |f| %>
-      <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
+      <%= f.input :is_bookmarked, as: :hidden, input_html: { value: true, data: { bookmark_button_target: "hidden" } }, wrapper_html: { style: "margin-bottom: 0 !important"} %>
       <%= button_tag type: 'submit', class: "btn-icon", data: { bookmark_button_target:"button", bs_Toggle: "tooltip", bs_Placement: "top", action:"click->bookmark-button#handleSubmit" }, title: "Save" do %>
         <i data-bookmark-button-target="icon" class="fa-regular fa-bookmark" style="color: #3d7eaa;"></i>
       <% end %>

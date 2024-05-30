@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="bookmark-button"
 export default class extends Controller {
-  static targets = ["form", "button", "icon", "tagContainer"]
+  static targets = ["form", "button", "icon", "tagContainer", "hidden"]
   static values = {
     bookmarked: Boolean
   }
@@ -42,10 +42,12 @@ export default class extends Controller {
         this.iconTarget.classList.remove("fa-solid");
         this.iconTarget.classList.add("fa-regular");
         this.buttonTarget.title = "Save";
+        this.hiddenTarget.value = true;
       } else {
         this.iconTarget.classList.remove("fa-regular");
         this.iconTarget.classList.add("fa-solid");
         this.buttonTarget.title = "Remove from saved";
+        this.hiddenTarget.value = false;
       }
       if (this.tooltip) {
         this.tooltip = new bootstrap.Tooltip(this.buttonTarget);
