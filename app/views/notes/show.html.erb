@@ -168,12 +168,14 @@ right.addEventListener("mousedown", function(e){
   if (e.offsetX < BORDER_SIZE) {
     m_pos = e.x;
     document.body.style.userSelect = "none";
+    document.body.style.webkitUserSelect = "none";
     document.addEventListener("mousemove", resize, false);
   }
 }, false);
 
 document.addEventListener("mouseup", function(){
   document.body.style.userSelect = "auto";
+  document.body.style.webkitUserSelect = "auto";
   document.removeEventListener("mousemove", resize, false);
 }, false);
 
