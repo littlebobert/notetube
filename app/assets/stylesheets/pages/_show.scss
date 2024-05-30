@@ -51,6 +51,25 @@
   display: none; /* Safari and Chrome */
 }
 
+#column2 {
+  position: relative;
+}
+
+#column2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    cursor: col-resize;
+}
+
+#column2 {
+  margin-left: 2px;
+  border-left: 2px dashed lightgray;
+}
+
 .code-wrapper {
   color: white;
   background-color: rgb(70, 70, 70);
