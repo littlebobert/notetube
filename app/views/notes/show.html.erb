@@ -14,9 +14,8 @@
 
     </div>
     <div class = "right-content">
-      <div>
-        <%= render "bookmark_button", note: @note %>
-      </div>
+      <%= render "bookmark_button", note: @note %>
+      
       <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Share"><i data-action="click->transcript#share" class="fa-solid fa-share" style="color: #3d7eaa;"></i></strong>
       <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Generate PDF"><i onclick="printElement(document.getElementById('notes-or-transcript'));" class="fa-solid fa-file-pdf" style="color: #3d7eaa;"></i></strong>
       <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Copy"><i class="fa-solid fa-copy" style="color: #3d7eaa;" onclick="copyElement(document.getElementById('notes-or-transcript'))"></i></strong>
