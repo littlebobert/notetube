@@ -1,6 +1,6 @@
 <% content_for :title, "NoteTube: #{@note.title}" %>
 <div class="show-container" data-controller="transcript" data-transcript-note-id-value="<%= @note.id %>">
-  <div id="column1" class = "column" data-controller="tags">
+  <div id="column1" data-controller="bookmark-button" data-bookmark-button-bookmarked-value=<%= @note.is_bookmarked? %>>
     <div data-transcript-target="playerOrIframe">
       <div id="player"></div>
     </div>
@@ -15,17 +15,18 @@
     </div>
     <div class = "right-content">
       <%= render "bookmark_button", note: @note %>
+      
       <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Share"><i data-action="click->transcript#share" class="fa-solid fa-share" style="color: #3d7eaa;"></i></strong>
       <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Generate PDF"><i onclick="printElement(document.getElementById('notes-or-transcript'));" class="fa-solid fa-file-pdf" style="color: #3d7eaa;"></i></strong>
       <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Copy"><i class="fa-solid fa-copy" style="color: #3d7eaa;" onclick="copyElement(document.getElementById('notes-or-transcript'))"></i></strong>
-      <div data-turbo="false" data-transcript-target="edit" data-action="click->transcript#edit">
-        <strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Edit"><i class="fa-solid fa-pen-to-square" style="color: #3d7eaa;"></i></strong>
+      <div data-turbo="false" data-transcript-target="edit" data-action="click->transcript#edit" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Edit">
+        <strong class="btn-icon"><i class="fa-solid fa-pen-to-square" style="color: #3d7eaa;"></i></strong>
       </div>
 
     </div>
     </div>
 
-    <div data-tags-target="tagContainer" class = "<%= "d-none" unless @note.is_bookmarked? %>" id="tagform">
+    <div data-bookmark-button-target="tagContainer" class = "<%= "d-none" unless @note.is_bookmarked? %>" id="tagform">
       <strong>Tags:</strong>
       <% @note.tag_list.each do |tag| %>
       <div class = "list-tags">

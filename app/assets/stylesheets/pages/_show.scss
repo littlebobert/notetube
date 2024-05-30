@@ -128,3 +128,11 @@ code {
   border-radius: 20px;
   text-align: center;
 }
+
+#notes-or-transcript {
+  padding: 4px;
+}
+
+[contenteditable]:focus {
+   outline: 3px solid #3d7eaa;
+}

@@ -72,6 +72,7 @@ export default class extends Controller {
   }
 
   connect() {
+    this.editTooltip = new bootstrap.Tooltip(this.editTarget);
     this.loadNotesAsync();
     if (!document.getElementById('loading-animation-styles')) {
       const styleSheet = document.createElement("style");
@@ -88,7 +89,11 @@ export default class extends Controller {
   }
 
   edit(event) {
-    this.editTarget.innerHTML = `<strong class="btn-icon text-primary" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Save"><i class="fa-solid fa-floppy-disk"></i></strong>`
+    this.editTooltip.hide();
+    this.editTarget.title = "Save";
+    this.editTarget.innerHTML = `<strong class="btn-icon text-primary"><i class="fa-solid fa-floppy-disk"></i></strong>`;
+    this.editTooltip = new bootstrap.Tooltip(this.editTarget);
+    this.editTooltip.show();
     this.editTarget.dataset.action = "click->transcript#save"
     this.contentTarget.contentEditable = "true";
     this.contentTarget.focus();
@@ -194,6 +199,11 @@ export default class extends Controller {
   }
 
   save(event) {
+    this.editTooltip.hide();
+    this.editTarget.title = "Edit";
+    this.editTarget.innerHTML = `<strong class="btn-icon"><i class="fa-solid fa-pen-to-square"></i></strong>`;
+    this.editTooltip = new bootstrap.Tooltip(this.editTarget);
+    this.editTooltip.show();
     var url = `/notes/${this.noteIdValue}`
     var formData = new FormData();
     formData.append("note", JSON.stringify({ "memo_html": this.contentTarget.innerHTML }));
@@ -217,9 +227,10 @@ export default class extends Controller {
       })
       .catch(error => console.error('Error:', error))
 
-    this.editTarget.innerHTML = `<strong class="btn-icon" data-controller="tooltip" data-bs-toggle="tooltip" data-bs-position="bottom" title="Edit"><i class="fa-solid fa-pen-to-square"></i></strong>`
     this.editTarget.dataset.action = "click->transcript#edit"
     this.contentTarget.contentEditable = "false";
+    window.getSelection().removeAllRanges();
+    this.contentTarget.blur();
 
     const bubble = document.querySelector('.floating-bubble');
     if (bubble) {
