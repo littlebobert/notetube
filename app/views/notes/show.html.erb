@@ -158,9 +158,7 @@ function printElement(element) {
 const BORDER_SIZE = 6;
 const left = document.getElementById("column1");
 const right = document.getElementById("column2");
-function resize(e){
-  e.preventDefault();
-  e.stopPropagation();
+function resize(e) {
   const dx = (window.innerWidth / 2.0 - e.x) / window.innerWidth;
   right.style.flexBasis = `${50 + 100 * dx}%`;
   left.style.flexBasis = `${50 - 100 * dx}%`;
@@ -169,12 +167,14 @@ function resize(e){
 right.addEventListener("mousedown", function(e){
   if (e.offsetX < BORDER_SIZE) {
     m_pos = e.x;
+    document.body.style.userSelect = "none";
     document.addEventListener("mousemove", resize, false);
   }
 }, false);
 
 document.addEventListener("mouseup", function(){
-    document.removeEventListener("mousemove", resize, false);
+  document.body.style.userSelect = "auto";
+  document.removeEventListener("mousemove", resize, false);
 }, false);
 
 </script>
