@@ -36,6 +36,7 @@
   flex: 1;
   box-sizing: border-box;
   padding-left: 16px;
+  padding-right: 4px;
   overflow-y: scroll;
   height: 100%;
   position: sticky;
@@ -117,6 +118,10 @@ code {
   border-radius: 12px;
 }
 
+.cursor-pointer:hover {
+  cursor: pointer;
+}
+
 .list-tags {
   display: inline-block;
   text-decoration: none;
@@ -127,4 +132,8 @@ code {
   padding: 2px 4px;
   border-radius: 20px;
   text-align: center;
+}
+
+#notes-or-transcript {
+  padding: 4px;
 }
