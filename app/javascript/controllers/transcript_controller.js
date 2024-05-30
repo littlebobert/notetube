@@ -231,6 +231,29 @@ export default class extends Controller {
     event.preventDefault();
     this.loadNotesAsync();
   }
+  
+  capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  
+  fancyTimeFormat(duration) {
+    // Hours, minutes and seconds
+    const hrs = ~~(duration / 3600);
+    const mins = ~~((duration % 3600) / 60);
+    const secs = ~~duration % 60;
+  
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    let ret = "";
+  
+    if (hrs > 0) {
+      ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+  
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+  
+    return ret;
+  }
 
   fetchRawTranscript(event) {
     event.preventDefault();
@@ -248,13 +271,21 @@ export default class extends Controller {
         var html = "";
         var number_of_captions = 0;
         Array.from(json).forEach((blob) => {
-          var paragraph = blob["caption"];
+          var caption = blob["caption"];
           var start_time = blob["start_time"];
           var duration = blob["duration"];
-          html += `<span class="caption" onclick="jumpTo(${start_time})" data-start-time="${start_time}" data-duration="${duration}">${paragraph}</span> `
+          if ((number_of_captions) % 5 == 0) {
+            html += `<span class="me-1">${this.fancyTimeFormat(start_time)}:</span>`;
+          }
+          if ((number_of_captions) % 5 == 0) {
+            caption = this.capitalizeFirstLetter(caption);
+          }
+          html += `<span class="caption" onclick="jumpTo(${start_time})" data-start-time="${start_time}" data-duration="${duration}">${caption}</span>`
           number_of_captions += 1;
           if (number_of_captions % 5 == 0) {
-            html += "<br><br>";
+            html += ".<br><br>";
+          } else {
+            html += " ";
           }
         });
         this.contentTarget.innerHTML = html;
@@ -286,7 +317,7 @@ export default class extends Controller {
           Array.from(options).forEach((option) => {
             num_options += 1;
             const correct = option == answer;
-            html += `<div class="mb-3 mt-3"><button data-action="click->transcript#select" data-question="${num_questions}" class="btn btn-light ${correct ? "correct" : ""}">${num_options}</button> <span>${option}</span></div>`;
+            html += `<div class="mb-3 mt-3"><button data-action="click->transcript#select" data-question="${num_questions}" class="me-2 btn btn-outline-dark ${correct ? "correct" : ""}">${num_options}</button><span>${option}</span></div>`;
           });
         });
         this.contentTarget.innerHTML = html;
