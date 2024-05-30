@@ -16,19 +16,19 @@
   text-decoration: none;
   background-color: #EFF4FF;
   border: none;
-  color: hsl(223, 71%, 49%);
+  color: #3d7eaa;
   padding: 10px 20px;
   text-align: center;
 }
 
 .tag-pill:hover {
-  background-color: hsl(223, 71%, 49%);
+  background-color:#3d7eaa;
   color: #EFF4FF;
 }
 
 .tag-pill.active {
   display: inline-block;
-  background-color: hsl(223, 71%, 49%);
+  background-color: #3d7eaa;
   color: #EFF4FF;
   text-decoration: none;
   padding: 10px 20px;

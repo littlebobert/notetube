@@ -1,9 +1,9 @@
 <% content_for :title, "NoteTube: My Library" %>
 <div class="bookmark-container m-3">
-  <h1> My Library </h1>
-  
+  <h1 class = "text-primary"> <strong> My Library </strong> </h1>
+
   <div class="tag-pills">
-    <p> <%= "Filter by" unless @notes.count.zero? %> </p>
+    <p class = "text-primary"> <%= "Filter by" unless @notes.count.zero? %> </p>
     <%= form_with url: notes_path, method: :get, local: true, id: 'filter-form' do %>
     <% all_tags = [] %>
       <% @notes.each do |note| %>
@@ -20,7 +20,7 @@
         <% end %>
     <% end %>
   </div>
-  
+
   <div class="bookmark-page mt-3">
     <div class="bookmark-list">
       <%= "No Bookmarks" if @notes.count.zero? %>
@@ -31,7 +31,8 @@
               <img src="<%= note.thumbnail_url %>" alt="Thumbnail of the video">
             </div>
             <div class="video-info">
-              <h3><%= note.title %></h3>
+              <h3> <%= note.title %> </h3>
+              <p class = "mt-2"> <i class="fa-solid fa-user"></i> <%= note.channel_name %> </p>
               <div class="card-tags"> <% note.tag_list.each do |tag| %> <span> <%= tag %> </span> <% end %> </div>
             </div>
           </div>

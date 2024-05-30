@@ -10,7 +10,7 @@
         <li class="nav-item"><a href="/users/sign_in">Login</a></li>
       <% end %>
       <li class="nav-item search">
-        <i class="fas fa-search" id="search-icon"></i>
+        <i class="fas fa-search" style="color: #3d7eaa;" id="search-icon"></i>
         <form style="display: inline;" action="/notes" method="POST" data-turbo="false">
           <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
           <input class="search-input" type="text" id="v" name="v" placeholder="Paste a YouTube link">

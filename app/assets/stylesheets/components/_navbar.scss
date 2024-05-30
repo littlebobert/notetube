@@ -1,5 +1,5 @@
 /* BASIC SETUP */
-$onyx: #373449;
+$onyx: #3d7eaa;
 
 .nav-item:not(.search) {
   padding-left: 8px;
@@ -22,7 +22,7 @@ $onyx: #373449;
   position: -webkit-sticky; /* Safari */
   position: sticky;
   top: 0;
-  background-color: #ededed;
+  background-color: white;
 }
 
 /* NAVIGATION */
@@ -35,6 +35,7 @@ $onyx: #373449;
   justify-content: space-between;
   align-content: center;
   align-items: center;
+  border-bottom: 2px solid #ededed;
 }
 
 .navbar p {
