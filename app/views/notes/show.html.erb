@@ -47,7 +47,7 @@
   </div>
 
   <div id = "column2" data-spy="scroll" data-target="#notes">
-    <ul class="list-inline tabs-underlined mt-3" id="notes">
+    <ul class="list-inline tabs-underlined mt-3 sticky-top bg-white" id="notes">
       <li>
         <%= link_to "Notes", note_path(@note), class: "tab-underlined text-primary", data: { turbo: "false", transcript_target: "notesTab", action: "click->transcript#switchToNotes", turbo: "false" } %>
       </li>
