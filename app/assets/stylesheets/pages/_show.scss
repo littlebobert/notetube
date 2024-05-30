@@ -56,13 +56,13 @@
 }
 
 #column2::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 6px;
-    height: 100%;
-    cursor: col-resize;
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
 }
 
 #column2 {
