@@ -23,7 +23,7 @@ class TranscriptGenerator
       'Content-Type' => 'application/json',
       'Authorization' => "Bearer #{api_key}"
     }
-    
+
     timestamped_transcript_as_json = TranscriptGenerator::timestamped_transcript_json(note)
     prompt = "Reformat the following JSON transcript into paragraphs and add proper capitalization without changing the original words. Send back paragraphs as JSON in the form {\"paragraphs\":[{\"paragraph\":\"paragraph one\",\"start_time\":0,\"duration\":30},{\"paragraph\":\"paragraph two\",\"start_time\":30,\"duration\":10}]}, etc. Here is the transcript:\n\n#{timestamped_transcript_as_json}"
 
@@ -51,7 +51,12 @@ class TranscriptGenerator
     rescue
       raise Exceptions::NoCaptions
     end
-    captions = video.captions(lang: "en")
+    begin
+      captions = video.captions(lang: "en")
+    rescue
+      raise Exceptions::NoCaptions
+    end
+
     result = ""
     captions.each do |caption|
       result = result + " " + caption["__content__"] unless caption["__content__"].nil?
@@ -59,7 +64,7 @@ class TranscriptGenerator
 
     return result
   end
-  
+
   def self.timestamped_transcript_json(note)
     if note.transcript_json.present?
       return note.transcript_json
@@ -68,7 +73,7 @@ class TranscriptGenerator
     captions = video.captions(lang: "en")
     result = []
     captions.each do |caption|
-      result << { 
+      result << {
         :caption => caption["__content__"].gsub(/^\p{Zs}*/, "").gsub(/\p{Zs}*$/, ""),
         :start_time => caption["start"],
         :duration => caption["dur"]
