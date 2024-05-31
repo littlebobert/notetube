@@ -171,7 +171,7 @@ class NotesController < ApplicationController
     @note.tag_list.add(params[:tag_list].split(", "))
     authorize @note
     if @note.save
-      redirect_to @note, notice: 'Added to your library'
+      redirect_to note_path(@note), notice: 'Added to your library'
     else
       render :show, status: :unprocessable_entity
     end
