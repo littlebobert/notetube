@@ -23,7 +23,7 @@ a {
   cursor: pointer;
 }
 
-#home-container{
+.home-container{
   height: 600px;
   width: 900px;
   margin: 5% auto;
@@ -99,7 +99,7 @@ a {
 
 /* sections */
 
-.section {
+#first-section {
   position: absolute;
   margin-top: 5%;
   margin-left: 5%;
@@ -209,4 +209,218 @@ a {
   50% {
     border-color: transparent
   }
+}
+
+#second-section {
+  position: relative;
+  text-align: center;
+  height: 100%;
+}
+
+.headers {
+  color: #2C3E50;
+  font-size: 2.5em;
+  font-weight: bolder;
+  text-transform: uppercase;
+  font-family: $big;
+}
+
+/* ================ The Timeline ================ */
+
+.timeline {
+  position: relative;
+  width: 660px;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 1em 0;
+  list-style-type: none;
+}
+
+.timeline:before {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  content: ' ';
+  display: block;
+  width: 6px;
+  height: 100%;
+  margin-left: -3px;
+  background: rgb(80,80,80);
+  background: -moz-linear-gradient(top, rgba(44,62,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(44,62,80,0) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(30,87,153,1)), color-stop(100%,rgba(125,185,232,1)));
+  background: -webkit-linear-gradient(top, rgba(44,62,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(44,62,80,0) 100%);
+  background: -o-linear-gradient(top, rgba(44,62,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(44,62,80,0) 100%);
+  background: -ms-linear-gradient(top, rgba(44,62,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(44,62,80,0) 100%);
+  background: linear-gradient(to bottom, rgba(44,62,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(44,62,80,0) 100%);
+  z-index: 5;
+}
+
+.timeline li {
+  padding: 1em 0;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.5s forwards;
+  transition: opacity 0.5s, transform 0.5s; /* Added transition for smooth animation */
+}
+
+.timeline li:nth-child(even) {
+  animation-delay: 0.5s;
+}
+
+.timeline li:nth-child(odd) {
+  animation-delay: 1s;
+}
+
+.timeline li:after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.timeline li.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.direction-l {
+  position: relative;
+  width: 300px;
+  float: left;
+  text-align: right;
+}
+
+.direction-r {
+  position: relative;
+  width: 300px;
+  float: right;
+  text-align: left;
+}
+
+.flag-wrapper {
+  position: relative;
+  display: inline-block;
+
+  text-align: center;
+}
+
+.flag {
+  position: relative;
+  display: inline;
+  background: rgb(248,248,248);
+  padding: 6px 10px;
+  border-radius: 5px;
+  color: #2C3E50;
+  font: $big;
+
+  font-weight: 600;
+  text-align: left;
+}
+
+.direction-l .flag {
+  -webkit-box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+}
+
+.direction-r .flag {
+  -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+}
+
+.direction-l .flag:before,
+.direction-r .flag:before {
+  position: absolute;
+  top: 50%;
+  right: -40px;
+  content: ' ';
+  display: block;
+  width: 12px;
+  height: 12px;
+  margin-top: -10px;
+  background: #fff;
+  border-radius: 10px;
+  border: 4px solid #3d7eaa;
+  z-index: 10;
+}
+
+.direction-r .flag:before {
+  left: -36px;
+}
+
+.direction-l .flag:before {
+  right: -36px;
+}
+
+
+.direction-l .flag:after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  height: 0;
+  width: 0;
+  margin-top: -8px;
+  border: solid transparent;
+  border-left-color: rgb(248,248,248);
+  border-width: 8px;
+  pointer-events: none;
+}
+
+.direction-r .flag:after {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  height: 0;
+  width: 0;
+  margin-top: -8px;
+  border: solid transparent;
+  border-right-color: rgb(248,248,248);
+  border-width: 8px;
+  pointer-events: none;
+}
+
+.time-wrapper {
+  display: inline;
+  line-height: 1em;
+  font-size: 0.66666em;
+  color: #3d7eaa;
+  vertical-align: middle;
+}
+
+.direction-l .time-wrapper {
+  float: left;
+}
+
+.direction-r .time-wrapper {
+  float: right;
+}
+
+.time {
+  display: inline-block;
+  padding: 4px 6px;
+  background: rgb(248,248,248);
+}
+
+.desc {
+  margin: 1em 0.75em 0 0;
+  color: #2C3E50;
+  font: $regular;
+  font-size: 0.77777em;
+  font-style: italic;
+  line-height: 1.5em;
+}
+
+.direction-r .desc {
+  margin: 1em 0 0 0.75em;
 }
