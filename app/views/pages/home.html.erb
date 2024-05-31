@@ -1,5 +1,5 @@
 <% content_for :title, "NoteTube" %>
-<div id="home-container">
+<div class="home-container">
   <nav class="navbar-home">
     <% if current_user.nil? %>
       <%= link_to "Sign Up", new_user_registration_path %>
@@ -12,7 +12,7 @@
   </nav>
   <div id="background"></div>
 
-  <div class="section">
+  <div id="first-section">
   <h1 id="title" class="margin-top"> NoteTube </h1> <br>
   <div class="typing-demo"> <h2 id ="subtitle"> Generate <span class="highlight">notes</span> from any <span class="highlight">YouTube</span> lecture </h2> </div>
   <br>
@@ -32,6 +32,59 @@
   </div>
 </div>
 
+<div class="home-container">
+  <div id="second-section"> <br>
+  <h3 class = "headers"> Steps </h3>
+
+  <!-- The Timeline -->
+
+  <ul class="timeline">
+
+    <!-- Item 1 -->
+    <li>
+      <div class="direction-r">
+        <div class="flag-wrapper">
+          <span class="flag">Paste a YouTube link!</span>
+        </div>
+        <div class="desc"> Paste the URL of the YouTube video you want to learn from. NoteTube analyzes the video content and generates notes and quizzes.</div>
+      </div>
+    </li>
+
+    <!-- Item 2 -->
+    <li>
+      <div class="direction-l">
+        <div class="flag-wrapper">
+          <span class="flag"> Learn with editable notes! </span>
+        </div>
+        <div class="desc"> Review or print the generated notes. You can edit, add, or remove content to tailor the notes to your learning style. </div>
+      </div>
+    </li>
+
+    <!-- Item 3 -->
+    <li>
+      <div class="direction-r">
+        <div class="flag-wrapper">
+          <span class="flag"> Test yourself with a quiz!</span>
+        </div>
+        <div class="desc"> Complete the quiz to test your understanding of the material covered in the video. </div>
+      </div>
+    </li>
+
+    <!-- Item 4 -->
+    <li>
+      <div class="direction-l">
+        <div class="flag-wrapper">
+          <span class="flag"> Bookmark for later! </span>
+        </div>
+        <div class="desc"> Click the bookmark icon or save button to store your notes and quiz results in your account. </div>
+      </div>
+    </li>
+
+  </ul>
+
+  </div>
+</div>
+
 <script>
   let background = document.getElementById('background');
   let title = document.getElementById('title');
@@ -39,5 +92,6 @@
   function fuschiaColor() {
     background.style.backgroundColor = '#AEC6CF';
     title.style.color= '#AEC6CF';
-}
+  }
+  
 </script>
