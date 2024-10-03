@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/littlebobert/youtube-captions.git
-  revision: 41ebe1e224ee0c5ccbbe8d0f6ae9f90a9dadd90a
+  revision: c4ff75ca04953da4767e8f29df6bf64733f5267e
   branch: main
   specs:
     youtube-captions (1.0.0)
